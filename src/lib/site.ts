@@ -18,10 +18,10 @@ export const site = {
 
   contact: {
     email: "info@zimdigital.rs", // PLACEHOLDER
-    phone: "+381 60 000 0000", // PLACEHOLDER
+    phone: "+381 63 342 380",
     // E.164 format bez razmaka i plusa — za wa.me i viber linkove
-    phoneRaw: "381600000000", // PLACEHOLDER
-    whatsapp: "381600000000", // PLACEHOLDER
+    phoneRaw: "38163342380",
+    whatsapp: "38163342380",
     address: {
       street: "Ulica i broj", // PLACEHOLDER
       city: "Beograd", // PLACEHOLDER
