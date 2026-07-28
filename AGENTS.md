@@ -17,6 +17,8 @@ There is no test runner configured.
 
 `npm run dev` runs on Node, `npm run preview` runs on workerd. Anything touching Cloudflare bindings, `global_fetch_strictly_public`, or Node-API compatibility must be verified with `preview`, not `dev`.
 
+**Stop `next dev` before `npm run build`/`npm run deploy`.** A running dev server keeps `.next/dev/types/routes.d.ts` in a state the production type check rejects (`File ... is not a module`). If the build fails there, kill the dev server, `rm -rf .next`, and rebuild.
+
 **Do not verify with bare `wrangler dev`.** SSG pages are served from the incremental cache, which only lands in `.open-next/assets/cdn-cgi/` after `opennextjs-cloudflare populateCache`. `npm run preview` runs that step; `wrangler dev` alone does not, and every `generateStaticParams` route 404s.
 
 ## Architecture
