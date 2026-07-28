@@ -17,7 +17,7 @@ export const site = {
   founded: "2018", // PLACEHOLDER
 
   contact: {
-    email: "info@zimdigital.rs", // PLACEHOLDER
+    email: "zimstudioonline@gmail.com",
     phone: "+381 63 342 380",
     // E.164 format bez razmaka i plusa — za wa.me i viber linkove
     phoneRaw: "38163342380",
