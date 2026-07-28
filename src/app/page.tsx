@@ -5,6 +5,7 @@ import { PostCard, ProjectCard, ServiceCard } from "@/components/cards";
 import { CtaSection } from "@/components/cta-section";
 import { Icon, type IconName } from "@/components/icons";
 import { Reveal } from "@/components/reveal";
+import { TeamCards } from "@/components/team";
 import {
   Button,
   Container,
@@ -25,24 +26,24 @@ export const metadata: Metadata = {
 
 const reasons: { icon: IconName; title: string; body: string }[] = [
   {
-    icon: "chart",
-    title: "Merimo prihod, ne klikove",
-    body: "Svaka kampanja i svaki tekst imaju cilj koji se vidi u brojkama. Izveštaj ti pokazuje koliko je uloženo i šta se vratilo, bez marketinškog magljenja.",
+    icon: "users",
+    title: "Radiš sa nama, ne sa posrednikom",
+    body: "Nema account managera koji prenosi poruke. Osoba koja ti se javi na telefon je ista ona koja radi na tvom sajtu.",
   },
   {
-    icon: "bolt",
-    title: "Brzina izrade",
-    body: "Prezentacioni sajt za 2–4 nedelje, kampanje žive za nedelju dana. Ne držimo projekte u fioci mesecima.",
+    icon: "chart",
+    title: "Merimo prihod, ne klikove",
+    body: "Svaka kampanja i svaki tekst imaju cilj koji se vidi u brojkama. Izveštaj pokazuje koliko je uloženo i šta se vratilo, bez marketinškog magljenja.",
   },
   {
     icon: "compass",
-    title: "Jedan tim za sve kanale",
-    body: "SEO, sajt i oglasi rade zajedno umesto da se preklapaju. Ne moraš da usklađuješ tri izvođača koji krive jedan drugog.",
+    title: "Sve kod jednih ruku",
+    body: "Sajt, SEO i oglasi rade zajedno umesto da se preklapaju. Ne moraš da usklađuješ tri izvođača koji krive jedan drugog.",
   },
   {
-    icon: "users",
-    title: "Znanje ostaje kod tebe",
-    body: "Svi nalozi, domen i hosting glase na tvoje ime. Dobijaš obuku i dokumentaciju — nisi zaključan kod nas.",
+    icon: "shield",
+    title: "Sve glasi na tvoje ime",
+    body: "Domen, hosting i svi nalozi vode se na tebe. Dobijaš obuku i pristupe — nisi zaključan kod nas.",
   },
 ];
 
@@ -114,23 +115,23 @@ export default function HomePage() {
                   <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-500 opacity-75" />
                   <span className="relative inline-flex size-1.5 rounded-full bg-brand-500" />
                 </span>
-                Digitalna agencija iz Srbije
+                Zvezdana i Milan · ZIM Digital
               </Eyebrow>
             </Reveal>
 
             <Reveal delay={80}>
               <h1 className="mt-7 text-balance text-4xl font-semibold leading-[1.08] tracking-[-0.03em] text-ink-900 sm:text-6xl md:text-[4.25rem]">
-                Digitalna agencija koja{" "}
-                <span className="text-gradient">povećava prodaju</span>, a ne
+                Sajtovi koji{" "}
+                <span className="text-gradient">povećavaju prodaju</span>, a ne
                 samo broj poseta.
               </h1>
             </Reveal>
 
             <Reveal delay={160}>
               <p className="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-8 text-ink-500 sm:text-xl sm:leading-9">
-                Gradimo sajtove koji konvertuju i dovodimo klijente kroz Google
-                pretragu i oglase. Bez praznih obećanja — sa brojkama koje se
-                mogu proveriti.
+                Nismo agencija sa tri odeljenja — dvoje smo ljudi sa deset
+                godina prakse i preko sto izrađenih sajtova. Radiš direktno sa
+                onima koji ti diraju sajt.
               </p>
             </Reveal>
 
@@ -230,7 +231,7 @@ export default function HomePage() {
             <SectionHeading
               eyebrow="Usluge"
               title="Sve što ti treba da te ljudi nađu i da kupe"
-              description="Devet usluga koje se nadovezuju jedna na drugu. Kreni od jedne ili uzmi ceo paket — savet dobijaš prema tome šta ti se u ovom trenutku najviše isplati."
+              description="Deset usluga koje se nadovezuju jedna na drugu. Kreni od jedne ili uzmi ceo paket — savet dobijaš prema tome šta ti se u ovom trenutku najviše isplati."
             />
           </Reveal>
 
@@ -252,16 +253,16 @@ export default function HomePage() {
               <Reveal>
                 <SectionHeading
                   align="left"
-                  eyebrow="Zašto ZIM Digital"
-                  title="Radimo sa firmama kojima treba rezultat, ne izveštaj o aktivnostima"
+                  eyebrow="Zašto baš mi"
+                  title="Mali smo, i to je razlog da nas izabereš"
                   description="Većina agencija ti proda paket. Mi prvo pogledamo brojke i kažemo šta ti se ne isplati — čak i kada to znači manji posao za nas."
                 />
               </Reveal>
 
               <Reveal delay={120}>
                 <div className="mt-8">
-                  <Button href="/portfolio" variant="secondary" arrow>
-                    Pogledaj rezultate
+                  <Button href="/o-nama" variant="secondary" arrow>
+                    Upoznaj nas
                   </Button>
                 </div>
               </Reveal>
@@ -287,6 +288,37 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+        </Container>
+      </Section>
+
+      {/* -------------------------------------------------------- O NAMA */}
+      <Section>
+        <Container size="wide">
+          <Reveal>
+            <SectionHeading
+              eyebrow="O nama"
+              title={
+                <>
+                  <span className="text-gradient">Z</span>vezdana{" "}
+                  <span className="text-gradient">i</span>{" "}
+                  <span className="text-gradient">M</span>ilan
+                </>
+              }
+              description="Odatle ime. Dvoje ljudi koji zajedno rade svaki projekat — bez posrednika i bez prosleđivanja."
+            />
+          </Reveal>
+
+          <div className="mt-14">
+            <TeamCards withBio={false} />
+          </div>
+
+          <Reveal delay={200}>
+            <div className="mt-10 text-center">
+              <Button href="/o-nama" variant="secondary" arrow>
+                Cela priča
+              </Button>
+            </div>
+          </Reveal>
         </Container>
       </Section>
 

@@ -8,6 +8,19 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
+  // Rezervna adresa *.workers.dev — ostaje uključena da uvek postoji
+  // način da se sajt otvori i kada je nešto sa domenom u kvaru.
+  "workers_dev": true,
+  // Custom domains — wrangler sam pravi i održava DNS zapise za njih.
+  // Kanonska adresa je apex; www postoji da ne pukne kome je u obeleživačima,
+  // a canonical tagovi sa svake strane vode na apex.
+  //
+  // ISKLJUČENO dok se u Cloudflare DNS-u ne obrišu postojeći `A zimdigital.rs`
+  // i `CNAME www` — dok oni postoje, API vraća 409 Conflict i deploy pukne.
+  // "routes": [
+  //   { "pattern": "zimdigital.rs", "custom_domain": true },
+  //   { "pattern": "www.zimdigital.rs", "custom_domain": true }
+  // ],
   "observability": {
     "enabled": true
   }

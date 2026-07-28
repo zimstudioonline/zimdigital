@@ -1,4 +1,4 @@
-import { serviceAreas, site } from "@/lib/site";
+import { serviceAreas, site, team } from "@/lib/site";
 
 /** Ubacuje schema.org podatke. Sadržaj je naš, ne dolazi od korisnika. */
 export function JsonLd({ data }: { data: object }) {
@@ -29,6 +29,12 @@ export function organizationSchema() {
       addressCountry: site.contact.address.countryCode,
     },
     areaServed: serviceAreas.map((area) => ({ "@type": "City", name: area })),
+    founder: team.map((person) => ({
+      "@type": "Person",
+      name: person.name,
+      jobTitle: person.role,
+    })),
+    numberOfEmployees: { "@type": "QuantitativeValue", value: team.length },
     sameAs: [site.social.facebook, site.social.instagram, site.social.linkedin],
   };
 }

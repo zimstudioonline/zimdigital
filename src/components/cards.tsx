@@ -91,23 +91,25 @@ export function ProjectCard({ project }: { project: Project }) {
           {project.summary}
         </p>
 
-        <dl className="mt-6 grid grid-cols-2 gap-4 border-t border-ink-100 pt-5 sm:grid-cols-3">
-          {project.results.map((result) => (
-            <div key={result.label}>
-              <dt className="sr-only">{result.label}</dt>
-              <dd>
-                <span className="block text-xl font-semibold tracking-tight text-ink-900">
-                  {result.value}
-                </span>
-                <span className="mt-0.5 block text-[0.75rem] leading-4 text-ink-400">
-                  {result.label}
-                </span>
-              </dd>
-            </div>
-          ))}
-        </dl>
+        {project.results && project.results.length > 0 ? (
+          <dl className="mt-6 grid grid-cols-2 gap-4 border-t border-ink-100 pt-5 sm:grid-cols-3">
+            {project.results.map((result) => (
+              <div key={result.label}>
+                <dt className="sr-only">{result.label}</dt>
+                <dd>
+                  <span className="block text-xl font-semibold tracking-tight text-ink-900">
+                    {result.value}
+                  </span>
+                  <span className="mt-0.5 block text-[0.75rem] leading-4 text-ink-400">
+                    {result.label}
+                  </span>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
 
-        <div className="mt-5 flex flex-wrap gap-1.5">
+        <div className="mt-6 flex flex-wrap gap-1.5 border-t border-ink-100 pt-5">
           {project.stack.map((tech) => (
             <Pill key={tech}>{tech}</Pill>
           ))}

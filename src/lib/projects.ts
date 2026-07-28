@@ -1,9 +1,13 @@
 /**
  * Portfolio projekti.
  *
- * TODO(Milan): dopuni stvarnim rezultatima i linkovima; `image` je putanja
- * u /public/portfolio/ (dodaj slike, ili ostavi prazno pa se prikazuje
- * generisani gradijentni poster).
+ * PRAVILO: `results` se popunjava SAMO kada brojku možemo da potkrepimo
+ * (Search Console, Analytics, izveštaj iz Ads-a). Projekat bez brojke je
+ * potpuno u redu — izmišljena brojka nije.
+ *
+ * TODO(Milan): za svaki projekat potvrdi `summary`, `services` i `stack`.
+ * Opisi ispod su napisani na osnovu naziva projekta i treba ih uskladiti sa
+ * onim što je zaista rađeno.
  */
 
 export type Project = {
@@ -17,8 +21,8 @@ export type Project = {
   services: string[];
   /** Tehnologije / platforma */
   stack: string[];
-  /** Merljivi rezultati — 1 do 3 stavke */
-  results: { value: string; label: string }[];
+  /** Merljivi rezultati — izostavi ako brojka nije proverljiva */
+  results?: { value: string; label: string }[];
   year: string;
   url?: string;
   image?: string;
@@ -29,38 +33,47 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "sasa-avakumovic",
+    name: "Saša Avakumović",
+    summary:
+      "Sajt za prodaju digitalnih proizvoda — dizajn, tekstovi, tehnički SEO i povezivanje sa platnim procesorom Raiffeisen banke, tako da kupac plati karticom i odmah dobije proizvod.",
+    industry: "Digitalni proizvodi",
+    services: [
+      "Izrada web sajta",
+      "SEO optimizacija",
+      "Dizajn",
+      "Integracija kartičnog plaćanja",
+    ],
+    stack: ["WordPress", "Elementor Pro", "Raiffeisen payment gateway"],
+    year: "2025", // TODO(Milan): potvrdi godinu
+    url: "https://sasaavakumovic.com/",
+    accent: ["#6366f1", "#06b6d4"],
+    featured: true,
+  },
+  {
     slug: "beograd-shop",
     name: "Beograd Shop",
     summary:
-      "Web prodavnica sa širokim katalogom, domaćim kartičnim plaćanjem i automatskim slanjem porudžbina kurirskoj službi.",
+      "Web prodavnica sa širokim katalogom — postavka proizvoda, korpe i naplate, uz optimizaciju stranica proizvoda za pretragu.",
     industry: "E-commerce",
-    services: ["Izrada web prodavnice", "SEO optimizacija", "Google Ads"],
+    services: ["Izrada web prodavnice", "SEO optimizacija"],
     stack: ["WordPress", "WooCommerce", "Elementor Pro"],
-    results: [
-      { value: "+186%", label: "rast organskog saobraćaja" },
-      { value: "2.4×", label: "više porudžbina" },
-      { value: "1.4s", label: "vreme učitavanja" },
-    ],
     year: "2025",
-    accent: ["#6366f1", "#06b6d4"],
+    accent: ["#0ea5e9", "#6366f1"],
     featured: true,
   },
   {
     slug: "zdrav-ritual",
     name: "Zdrav Ritual",
     summary:
-      "Brend zdrave hrane — prodavnica, email automatizacije i Meta kampanje za ponovljene kupovine.",
+      "Brend zdrave ishrane — prodavnica, vizuelni identitet na sajtu i priprema kataloga za oglašavanje na Facebook-u i Instagram-u.",
     industry: "Zdrava ishrana",
     services: [
       "Izrada web prodavnice",
       "Facebook i Instagram Ads",
       "Email marketing",
     ],
-    stack: ["WordPress", "WooCommerce", "Bricks Builder"],
-    results: [
-      { value: "4.1×", label: "povraćaj na uloženo u oglase" },
-      { value: "+38%", label: "prihod iz email kanala" },
-    ],
+    stack: ["WordPress", "WooCommerce"],
     year: "2025",
     accent: ["#22c55e", "#84cc16"],
     featured: true,
@@ -69,30 +82,21 @@ export const projects: Project[] = [
     slug: "zdravlje-iz-semena",
     name: "Zdravlje iz Semena",
     summary:
-      "Sadržajni sajt sa blogom kao glavnim kanalom akvizicije — plan tema, pisanje i tehnički SEO.",
+      "Sajt sa blogom kao glavnim kanalom dolaska posetilaca — struktura sadržaja, plan tema i optimizacija tekstova za pretragu.",
     industry: "Prirodni proizvodi",
     services: ["Izrada web sajta", "SEO optimizacija", "Blog strategija"],
-    stack: ["WordPress", "Bricks Builder"],
-    results: [
-      { value: "12k", label: "organskih poseta mesečno" },
-      { value: "48", label: "ključnih reči u prvih 10" },
-    ],
+    stack: ["WordPress", "Elementor Pro"],
     year: "2024",
     accent: ["#f59e0b", "#ef4444"],
-    featured: true,
   },
   {
     slug: "mini-bager-iskop",
     name: "Mini Bager Iskop",
     summary:
-      "Lokalni SEO i Google Ads za građevinske radove — pozivi umesto formulara, jer klijent traži majstora odmah.",
+      "Sajt za građevinske radove sa naglaskom na lokalnu pretragu — kupac traži majstora u svom kraju i mora da te nađe i pozove u dva klika.",
     industry: "Građevinarstvo",
-    services: ["Lokalni SEO", "Google Ads", "Izrada web sajta"],
+    services: ["Izrada web sajta", "Lokalni SEO", "Google Ads"],
     stack: ["WordPress", "Elementor Pro"],
-    results: [
-      { value: "top 3", label: "u Google mapama za ključne pretrage" },
-      { value: "+64%", label: "poziva mesečno" },
-    ],
     year: "2024",
     accent: ["#f97316", "#eab308"],
   },
@@ -100,31 +104,12 @@ export const projects: Project[] = [
     slug: "slep-sluzba",
     name: "Šlep služba",
     summary:
-      "Sajt za hitne intervencije 24/7 — jednostavna stranica, poziv u jednom kliku, prisutnost u lokalnim pretragama.",
+      "Sajt za hitne intervencije 24/7 — jednostavna struktura, poziv u jednom kliku sa telefona i prisutnost u lokalnim pretragama.",
     industry: "Auto usluge",
-    services: ["Izrada web sajta", "Lokalni SEO", "Google Ads"],
+    services: ["Izrada web sajta", "Lokalni SEO"],
     stack: ["WordPress", "Elementor Pro"],
-    results: [
-      { value: "0.9s", label: "učitavanje na mobilnom" },
-      { value: "+91%", label: "poziva sa mobilnih uređaja" },
-    ],
     year: "2024",
-    accent: ["#0ea5e9", "#6366f1"],
-  },
-  {
-    slug: "ai-chatbot-podrska",
-    name: "AI podrška za web prodavnicu",
-    summary:
-      "Chatbot obučen na katalogu i uslovima isporuke — preuzima najčešća pitanja i prosleđuje ozbiljne upite prodaji.",
-    industry: "E-commerce",
-    services: ["AI automatizacija", "CRM integracija"],
-    stack: ["Cloudflare Workers", "WooCommerce API"],
-    results: [
-      { value: "−62%", label: "manje ponavljajućih upita" },
-      { value: "24/7", label: "dostupnost podrške" },
-    ],
-    year: "2026",
-    accent: ["#8b5cf6", "#ec4899"],
+    accent: ["#64748b", "#0ea5e9"],
   },
 ];
 

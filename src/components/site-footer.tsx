@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Icon } from "@/components/icons";
-import { Logo } from "@/components/logo";
+import { LogoWordmark } from "@/components/logo";
 import { Container } from "@/components/ui";
 import { categories } from "@/lib/categories";
 import { getAllServices } from "@/lib/services";
@@ -17,16 +17,16 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-12">
           {/* Brend */}
           <div className="md:col-span-4">
-            <Link href="/" className="inline-flex items-center gap-2.5">
-              <Logo className="size-8" />
-              <span className="text-[1.0625rem] font-semibold tracking-[-0.01em] text-ink-900">
-                ZIM<span className="text-brand-600"> Digital</span>
-              </span>
+            <Link href="/" className="inline-flex items-center">
+              <LogoWordmark />
             </Link>
 
             <p className="mt-5 max-w-xs text-pretty text-[0.9375rem] leading-7 text-ink-500">
-              {site.tagline} SEO, izrada sajtova, oglašavanje i AI
-              automatizacija — sa fokusom na merljive rezultate.
+              Iza ZIM Digital-a smo <strong className="font-medium text-ink-700">Z</strong>vezdana{" "}
+              <strong className="font-medium text-ink-700">i</strong>{" "}
+              <strong className="font-medium text-ink-700">M</strong>ilan. Pravimo
+              sajtove, radimo SEO i vodimo kampanje — nas dvoje, od početka do
+              kraja.
             </p>
 
             <div className="mt-6 flex gap-2">

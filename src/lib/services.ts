@@ -28,6 +28,101 @@ export type Service = {
 
 export const services: Service[] = [
   {
+    slug: "sajt-za-jedan-dan",
+    title: "Sajt za jedan dan",
+    navTitle: "Sajt za 1 dan",
+    icon: "bolt",
+    tagline:
+      "Prezentacioni sajt gotov i na internetu istog dana — uz AI koji ubrzava rad, ne zamenjuje ga.",
+    metaDescription:
+      "Izrada prezentacionog sajta za jedan dan uz AI vibe kodiranje. Brz, lagan i optimizovan sajt sa domenom, hostingom i kontakt formom — bez šablona i bez čekanja.",
+    highlights: [
+      "Gotovo za 24 sata",
+      "AI vibe kodiranje",
+      "Prezentacioni sajtovi",
+      "Fiksna cena",
+      "Domen i hosting",
+      "Bez mesečne pretplate na platformu",
+    ],
+    intro: [
+      "Najveći deo vremena kod izrade sajta ne odlazi na rad, nego na čekanje — na tekstove, na odobrenja, na treću rundu ispravki boje dugmeta. Ako ti treba prezentacioni sajt koji jednostavno mora da postoji, to čekanje je čist gubitak.",
+      "Zato radimo drugačije: rezervišemo jedan dan, sednemo sa tobom ujutru na kratak razgovor, i uveče imaš sajt na svom domenu. AI koristimo da ubrzamo pisanje koda i prve verzije tekstova, ali svaku stranicu pregleda i dovrši čovek. Alat skraćuje sate, ne zamenjuje odluke.",
+    ],
+    deliverables: [
+      {
+        title: "Sajt do pet stranica",
+        body: "Početna, o nama, usluge, kontakt i po potrebi još jedna. Dovoljno za ozbiljno prisustvo male firme ili samostalnog preduzetnika.",
+      },
+      {
+        title: "Tekstovi napisani istog dana",
+        body: "Na osnovu jutarnjeg razgovora pišemo prve verzije, ti ih pregledaš i korigujemo odmah. Ne čekamo da nam pošalješ sadržaj — to je obično razlog zašto sajtovi kasne mesecima.",
+      },
+      {
+        title: "Brz i lagan sajt",
+        body: "Bez teških builder-a i gomile dodataka. Sajt se učitava za sekundu i prolazi Core Web Vitals bez naknadne optimizacije.",
+      },
+      {
+        title: "Kontakt forma i klik-na-poziv",
+        body: "Forma sa zaštitom od spama, broj telefona i WhatsApp dugme — da poseta može odmah da postane upit.",
+      },
+      {
+        title: "Osnovni SEO i Google prijava",
+        body: "Naslovi, meta opisi, sitemap i prijava na Google Search Console, plus Google Business Profile ako ga nemaš.",
+      },
+      {
+        title: "Domen, hosting i predaja",
+        body: "Postavljanje na tvoj domen, SSL sertifikat i svi pristupi na tvoje ime. Nema zaključavanja u tuđu platformu.",
+      },
+    ],
+    forWhom: [
+      "Zanatlije i samostalni preduzetnici kojima treba sajt „da postoji“",
+      "Firme koje su tek registrovane i kreću od nule",
+      "Landing stranica za kampanju koja počinje sutra",
+      "Svako ko je pokušao sam i odustao na pola",
+    ],
+    process: [
+      {
+        title: "Kratak razgovor ujutru",
+        body: "Trideset do šezdeset minuta: šta radiš, kome prodaješ, šta posetilac treba da uradi. To je sve što nam treba.",
+      },
+      {
+        title: "Prva verzija do podneva",
+        body: "Dobijaš link i gledaš pravi sajt, ne skicu.",
+      },
+      {
+        title: "Ispravke popodne",
+        body: "Prolazimo tvoje primedbe u jednom krugu i doterujemo.",
+      },
+      {
+        title: "Lansiranje do kraja dana",
+        body: "Sajt ide na tvoj domen, prijavljujemo ga Google-u i predajemo ti pristupe.",
+      },
+    ],
+    faq: [
+      {
+        q: "Šta znači „AI vibe kodiranje“?",
+        a: "Da deo koda i prvih verzija teksta pišemo uz pomoć AI alata, umesto ručno od nule. To skraćuje posao od nedelju dana na jedan dan. Ono što se ne menja: strukturu, poruke i finalni kvalitet i dalje određuje čovek, i svaka stranica se pregleda pre nego što ode uživo.",
+      },
+      {
+        q: "Da li je takav sajt lošijeg kvaliteta?",
+        a: "Ne po brzini, kodu ni SEO-u — po tim stavkama je često bolji od sajtova sklepanih na gomili dodataka. Razlika je u obimu: ovo je prezentacioni sajt do pet stranica, ne prodavnica i ne sajt sa složenom logikom.",
+      },
+      {
+        q: "Šta ako mi treba više od pet stranica ili prodavnica?",
+        a: "Onda ovo nije prava usluga za tebe i reći ćemo ti to odmah. Za to idu izrada web sajtova ili izrada web prodavnica, gde je rok 2–4 nedelje.",
+      },
+      {
+        q: "Mogu li kasnije da ga proširim?",
+        a: "Da. Sajt je tvoj i nije zaključan ni u kakvu platformu, pa se nadograđuje kad zatreba.",
+      },
+      {
+        q: "Šta treba da pripremim?",
+        a: "Logo ako ga imaš, fotografije radova i podatke o firmi. Ako nemaš ništa od toga, i to rešavamo u toku dana — samo reci unapred.",
+      },
+    ],
+    blogCategory: "ai",
+  },
+  {
     slug: "seo-optimizacija",
     title: "SEO optimizacija",
     navTitle: "SEO optimizacija",

@@ -19,6 +19,7 @@ export const mainNav: NavItem[] = [
     })),
   },
   { label: "Portfolio", href: "/portfolio" },
+  { label: "O nama", href: "/o-nama" },
   { label: "Blog", href: "/blog" },
   { label: "Kontakt", href: "/kontakt" },
 ];

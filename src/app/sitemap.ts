@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: site.url, lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: `${site.url}/usluge`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${site.url}/portfolio`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${site.url}/o-nama`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${site.url}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${site.url}/kontakt`, lastModified: now, changeFrequency: "yearly", priority: 0.7 },
     { url: `${site.url}/politika-privatnosti`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },

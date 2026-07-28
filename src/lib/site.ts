@@ -10,11 +10,23 @@ export const site = {
   legalName: "ZIM Digital",
   // Koristi se za apsolutne URL-ove (OG slike, sitemap, canonical).
   url: "https://zimdigital.rs",
-  tagline: "Digitalna agencija koja povećava prodaju, a ne samo broj poseta.",
+  // Ide u <title> — zato nosi ključne reči, a ne slogan.
+  tagline: "Izrada sajtova, SEO i digitalni marketing",
+  // Rečenica kojom se predstavljamo u tekstu, ne u naslovu.
+  claim: "Sajtove pravimo nas dvoje, od prve skice do prvog kupca.",
   description:
-    "Digitalna agencija iz Srbije: SEO optimizacija, izrada sajtova i web prodavnica, Google Ads, Facebook i Instagram oglašavanje i AI automatizacija. Fokus na merljive rezultate.",
+    "Zvezdana i Milan: izrada sajtova i web prodavnica, SEO optimizacija, Google i Meta oglašavanje, AI automatizacija. Deset godina iskustva i preko 100 izrađenih sajtova.",
   locale: "sr_RS",
-  founded: "2018", // PLACEHOLDER
+  founded: "2016", // PLACEHOLDER — godina kada je Milan počeo
+
+  /**
+   * Prekidač za indeksiranje. Dok je `false`, sajt šalje noindex i robots.txt
+   * zabranjuje sve — da Google ne pokupi placeholder podatke iz portfolija.
+   *
+   * Kada sadržaj bude tačan: prebaci na `true`, `npm run deploy`, pa prijavi
+   * sitemap u Google Search Console.
+   */
+  indexable: false,
 
   contact: {
     email: "zimstudioonline@gmail.com",
@@ -30,8 +42,7 @@ export const site = {
       countryCode: "RS",
     },
     // Embed URL Google mape — zameni svojim (Google Maps → Share → Embed a map)
-    mapEmbedUrl:
-      "https://www.google.com/maps?q=Beograd,Srbija&output=embed", // PLACEHOLDER
+    mapEmbedUrl: "https://www.google.com/maps?q=Beograd,Srbija&output=embed", // PLACEHOLDER
     workingHours: "Ponedeljak – Petak, 09:00 – 17:00",
   },
 
@@ -41,14 +52,43 @@ export const site = {
     linkedin: "https://linkedin.com/", // PLACEHOLDER
   },
 
-  /** Brojke koje se prikazuju na početnoj. PLACEHOLDER — uskladi sa stvarnim. */
+  /**
+   * Brojke na početnoj. Svaka mora biti proverljiva — ovo je prvo što
+   * klijent pomene na sastanku.
+   */
   stats: [
-    { value: "120+", label: "izrađenih sajtova" },
-    { value: "7", label: "godina iskustva u SEO-u" },
-    { value: "3.4×", label: "prosečan rast organskog saobraćaja" },
-    { value: "14", label: "dana do lansiranja sajta" },
+    { value: "10", label: "godina rada u digitalu" },
+    { value: "100+", label: "izrađenih sajtova" },
+    { value: "2", label: "osobe koje rade tvoj projekat" },
+    { value: "2–4", label: "nedelje do lansiranja" },
   ],
 } as const;
+
+/**
+ * Ko stoji iza sajta. ZIM = **Z**vezdana **i** **M**ilan.
+ * Koristi se na početnoj, na /o-nama i u schema.org kao `founder`.
+ */
+export const team = [
+  {
+    slug: "milan",
+    name: "Milan Stanić",
+    role: "Sajtovi, SEO i oglašavanje",
+    /** Putanja do fotografije u /public. Dok je prazno, prikazuju se inicijali. */
+    photo: "", // TODO(Milan): dodaj fotografiju u /public/tim/milan.jpg
+    initials: "MS",
+    bio: "Digitalom se bavim deset godina. Prošao sam kroz preko sto sajtova — od blogova i prezentacija za male preduzetnike do prodavnica digitalnih proizvoda sa povezanim platnim procesorom. Radim ceo lanac: dizajn u Elementoru i Bricks-u, tehnički SEO, kampanje i integracije koje treba da rade i kada niko ne gleda.",
+    accent: ["#6366f1", "#06b6d4"] as [string, string],
+  },
+  {
+    slug: "zvezdana",
+    name: "Zvezdana Dunić",
+    role: "Sadržaj, komunikacija i projekti",
+    photo: "", // TODO(Milan): dodaj fotografiju u /public/tim/zvezdana.jpg
+    initials: "ZD",
+    bio: "Priključila sam se kasnije i preuzela ono što se najčešće zapostavi — da tekst na sajtu govori jezikom kupca, da projekat ne stoji i da klijent zna šta se dešava. Sa mnom komuniciraš kada ti treba odgovor, a ne kada nekome dođe na red.",
+    accent: ["#8b5cf6", "#ec4899"] as [string, string],
+  },
+];
 
 /** Gradovi/regioni za lokalni SEO — koristi se u schema.org i tekstovima. */
 export const serviceAreas = [

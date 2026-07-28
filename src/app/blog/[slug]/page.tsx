@@ -123,7 +123,7 @@ export default async function PostPage({ params }: Props) {
                   <span className="block text-ink-400">
                     {post.updated
                       ? `Ažurirano ${formatDate(post.updated)}`
-                      : "Digitalna agencija"}
+                      : "ZIM Digital"}
                   </span>
                 </div>
               </div>

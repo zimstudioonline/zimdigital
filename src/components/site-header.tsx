@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { Icon, type IconName } from "@/components/icons";
-import { Logo } from "@/components/logo";
+import { LogoWordmark } from "@/components/logo";
 import { Button } from "@/components/ui";
 import { mainNav } from "@/lib/navigation";
 import { site } from "@/lib/site";
@@ -82,13 +82,10 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-6 px-5 sm:h-18 sm:px-8">
         <Link
           href="/"
-          className="flex items-center gap-2.5"
+          className="flex items-center transition-opacity hover:opacity-70"
           aria-label={`${site.name} — početna`}
         >
-          <Logo className="size-8" />
-          <span className="text-[1.0625rem] font-semibold tracking-[-0.01em] text-ink-900">
-            ZIM<span className="text-brand-600"> Digital</span>
-          </span>
+          <LogoWordmark />
         </Link>
 
         {/* Desktop navigacija */}

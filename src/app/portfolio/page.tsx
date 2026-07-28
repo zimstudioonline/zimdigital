@@ -12,24 +12,18 @@ import { getAllProjects } from "@/lib/projects";
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
-    "Izabrani projekti ZIM Digital agencije — sajtovi, web prodavnice, SEO i kampanje, sa konkretnim rezultatima koje su doneli.",
+    "Izabrani projekti Zvezdane i Milana — sajtovi, web prodavnice, SEO i kampanje. Preko 100 izrađenih sajtova u deset godina rada.",
   alternates: { canonical: "/portfolio" },
 };
 
-const testimonials = [
-  {
-    quote:
-      "Prvi put imam osećaj da neko gleda moje brojke, a ne svoje fakture. Za pet meseci smo udvostručili broj upita sa sajta.",
-    author: "Vlasnik prodavnice", // PLACEHOLDER
-    company: "Beograd Shop", // PLACEHOLDER
-  },
-  {
-    quote:
-      "Rekli su mi šta mi se ne isplati pre nego što su mi rekli šta da kupim. To mi je bilo dovoljno da im poverim ceo marketing.",
-    author: "Direktor", // PLACEHOLDER
-    company: "Mini Bager Iskop", // PLACEHOLDER
-  },
-];
+/**
+ * Utisci klijenata.
+ *
+ * TODO(Milan): dodaj SAMO citate koje su ti klijenti stvarno dali, uz ime i
+ * firmu. Dok je niz prazan, sekcija se ne prikazuje — izmišljene preporuke
+ * nemaju šta da traže na sajtu.
+ */
+const testimonials: { quote: string; author: string; company: string }[] = [];
 
 export default function PortfolioPage() {
   const projects = getAllProjects();
@@ -65,7 +59,8 @@ export default function PortfolioPage() {
         </Container>
       </Section>
 
-      {/* Utisci */}
+      {/* Utisci — sekcija se prikazuje tek kada bude stvarnih citata */}
+      {testimonials.length > 0 ? (
       <Section className="bg-ink-50/50">
         <Container size="wide">
           <Reveal>
@@ -95,10 +90,11 @@ export default function PortfolioPage() {
           </div>
         </Container>
       </Section>
+      ) : null}
 
       <CtaSection
         title="Tvoj projekat je sledeći?"
-        description="Reci nam gde si sada i gde želiš da stigneš. Dobijaš iskren predlog šta prvo raditi — čak i ako to znači da ti za sada ne treba agencija."
+        description="Reci nam gde si sada i gde želiš da stigneš. Dobijaš iskren predlog šta prvo raditi — čak i ako to znači da ti za sada ne trebamo."
       />
 
       <JsonLd
