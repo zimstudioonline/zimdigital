@@ -32,8 +32,8 @@ export default function PortfolioPage() {
     <>
       <PageHero
         eyebrow="Portfolio"
-        title="Radovi koje merimo brojkama, ne screenshot-ovima"
-        description="Svaki projekat ima cilj koji smo dogovorili na početku i rezultat koji se može proveriti. Ovo je izbor onih o kojima smemo javno da pričamo."
+        title="Sajtovi od kojih i sami živimo"
+        description="Većina projekata ispod su naši sopstveni — sajtovi koje smo napravili, pa ih godinama održavamo, optimizujemo i od njih zarađujemo. Zato o tome šta radi u praksi ne govorimo iz kursa nego iz iskustva."
         breadcrumbs={[
           { name: "Početna", href: "/" },
           { name: "Portfolio", href: "/portfolio" },
@@ -51,9 +51,10 @@ export default function PortfolioPage() {
           </div>
 
           <Reveal delay={120}>
-            <p className="mt-10 text-center text-[0.9375rem] text-ink-400">
-              Deo projekata radimo pod ugovorom o poverljivosti i ne prikazujemo
-              ih javno. Na razgovoru možemo pokazati primere iz tvoje delatnosti.
+            <p className="mx-auto mt-10 max-w-2xl text-center text-[0.9375rem] leading-7 text-ink-400">
+              Ovo je izbor iz preko sto izrađenih sajtova — od lokalnih usluga i
+              prodavnica do oglasnika i sajtova sa kartičnim plaćanjem. Na
+              razgovoru možemo pokazati i primere iz tvoje delatnosti.
             </p>
           </Reveal>
         </Container>

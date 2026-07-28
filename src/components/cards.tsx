@@ -77,6 +77,11 @@ export function ProjectCard({ project }: { project: Project }) {
         <span className="absolute left-4 top-4 rounded-full bg-white/85 px-3 py-1 text-xs font-medium text-ink-700 backdrop-blur">
           {project.industry}
         </span>
+        {project.ownership === "client" ? (
+          <span className="absolute right-4 top-4 rounded-full bg-ink-900/80 px-3 py-1 text-xs font-medium text-white backdrop-blur">
+            Za klijenta
+          </span>
+        ) : null}
       </div>
 
       <div className="flex flex-1 flex-col p-7">
