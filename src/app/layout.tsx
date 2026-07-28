@@ -54,6 +54,10 @@ export const metadata: Metadata = {
       }
     : { index: false, follow: false, nocache: true },
   formatDetection: { telephone: true, address: true, email: true },
+  // Potvrda vlasništva za Google Search Console.
+  verification: {
+    google: "k6PtXR2xOEjhe-XMdtLIdN4P0wx48CH-7sF0df0QCD8",
+  },
 };
 
 export const viewport: Viewport = {
