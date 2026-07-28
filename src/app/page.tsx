@@ -231,7 +231,7 @@ export default function HomePage() {
             <SectionHeading
               eyebrow="Usluge"
               title="Sve što ti treba da te ljudi nađu i da kupe"
-              description="Deset usluga koje se nadovezuju jedna na drugu. Kreni od jedne ili uzmi ceo paket — savet dobijaš prema tome šta ti se u ovom trenutku najviše isplati."
+              description="Jedanaest usluga koje se nadovezuju jedna na drugu. Kreni od jedne ili uzmi ceo paket — savet dobijaš prema tome šta ti se u ovom trenutku najviše isplati."
             />
           </Reveal>
 

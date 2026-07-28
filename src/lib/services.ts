@@ -483,6 +483,97 @@ export const services: Service[] = [
     blogCategory: "e-commerce",
   },
   {
+    slug: "izrada-logotipa",
+    title: "Izrada logotipa i vizuelnog identiteta",
+    navTitle: "Logo i vizuelni identitet",
+    icon: "pen",
+    tagline:
+      "Znak koji dobro izgleda i na tabli i na favikonu od šesnaest piksela.",
+    metaDescription:
+      "Izrada logotipa i vizuelnog identiteta: znak, boje, tipografija, vektorski fajlovi za štampu i web, grafike za društvene mreže. Vektorizacija postojećeg logotipa.",
+    highlights: [
+      "Logotip",
+      "Vizuelni identitet",
+      "Vektorizacija postojećeg znaka",
+      "Boje i tipografija",
+      "Materijali za štampu",
+      "Grafike za mreže",
+    ],
+    intro: [
+      "Većina malih firmi ima logo koji je nastao jednom, u nekom programu, i od tada postoji samo kao slika u lošoj rezoluciji. Onda dođe trenutak da treba na majicu, na vozilo ili na tablu — i ispostavi se da se ne može uvećati bez da se raspadne.",
+      "Logo koji radi mora da bude čitljiv i kao znak od dva centimetra i kao natpis na haubi. To se ne postiže ukrasima nego jednostavnošću, pa idemo na geometriju i jasan oblik umesto na efekte koji se za dve godine vide kao zastareli.",
+    ],
+    deliverables: [
+      {
+        title: "Znak i logotip",
+        body: "Osnovna verzija, verzija za male dimenzije i verzija za tamnu pozadinu. Plus favicon za sajt i slika za profil na mrežama.",
+      },
+      {
+        title: "Vektorski fajlovi",
+        body: "SVG, PDF i EPS — ono što štamparija traži i što se uvećava do bilo koje veličine bez gubitka kvaliteta. Uz njih i PNG u više veličina za svakodnevnu upotrebu.",
+      },
+      {
+        title: "Vektorizacija postojećeg logotipa",
+        body: "Ako već imaš znak koji ti se sviđa ali postoji samo kao slika, prevešćemo ga u vektor i očistiti linije. Jeftinije je nego novi logo i zadržavaš prepoznatljivost.",
+      },
+      {
+        title: "Boje i tipografija",
+        body: "Paleta sa tačnim kodovima za web i štampu i izbor pisma. Da svaki tvoj materijal izgleda kao da pripada istoj firmi.",
+      },
+      {
+        title: "Kratko uputstvo za upotrebu",
+        body: "Nekoliko strana: šta sme, šta ne sme, koliko prostora oko znaka. Dovoljno da štampar ili neko treći ne pogreši.",
+      },
+      {
+        title: "Primena na materijale",
+        body: "Vizit karta, memorandum, nalepnica za vozilo, naslovne grafike za Facebook i Instagram — po dogovoru.",
+      },
+    ],
+    forWhom: [
+      "Firme koje kreću i nemaju nikakav znak",
+      "Vlasnici logotipa koji postoji samo kao slika niske rezolucije",
+      "Biznisi kojima znak izgleda zastarelo u odnosu na konkurenciju",
+      "Svako kome treba isti vizuelni identitet na sajtu, mrežama i u štampi",
+    ],
+    process: [
+      {
+        title: "Razgovor",
+        body: "Čime se baviš, ko su ti kupci i šta ti se sviđa kod konkurencije, a šta ne.",
+      },
+      {
+        title: "Predlozi",
+        body: "Dobijaš nekoliko različitih pravaca, ne varijacije jedne ideje.",
+      },
+      {
+        title: "Doterivanje",
+        body: "Biramo jedan pravac i radimo na njemu dok ne bude kako treba.",
+      },
+      {
+        title: "Predaja",
+        body: "Svi fajlovi, sve verzije i uputstvo — na tvoj disk, u tvoje vlasništvo.",
+      },
+    ],
+    faq: [
+      {
+        q: "Imam logo, ali samo kao sliku. Može li da se prevede u vektor?",
+        a: "Može, i to je čest posao. Znak se iscrtava iznova kao vektor, uz čišćenje neravnih linija. Zadržavaš prepoznatljivost, a dobijaš fajlove koje traži svaka štamparija.",
+      },
+      {
+        q: "Koliko traje izrada logotipa?",
+        a: "Obično nedelju do dve, zavisno od toga koliko brzo se dogovorimo oko pravca. Vektorizacija postojećeg znaka ide za dan-dva.",
+      },
+      {
+        q: "Da li dobijam autorska prava?",
+        a: "Da. Nakon isplate logo je tvoj, sa svim izvornim fajlovima. Ne zadržavamo nikakva prava i ne koristimo ga nigde bez tvoje saglasnosti osim u našem portfoliju, i to samo ako se složiš.",
+      },
+      {
+        q: "Da li radite i kompletan brend, ne samo znak?",
+        a: "Radimo znak, boje, tipografiju i osnovne materijale. Za obimniju strategiju brenda povezaćemo te sa nekim ko to radi kao osnovnu delatnost — bolje nego da se pravimo da je i to naše polje.",
+      },
+    ],
+    blogCategory: "digitalni-marketing",
+  },
+  {
     slug: "google-ads",
     title: "Google Ads",
     navTitle: "Google Ads",

@@ -60,6 +60,11 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Skok na sidro (#nesto) ne sme da završi ispod lepljivog zaglavlja */
+:target {
+  scroll-margin-top: 6.5rem;
+}
+
 ::selection {
   background-color: var(--color-brand-200);
   color: var(--color-brand-900);

@@ -42,7 +42,7 @@ export default function ServicesPage() {
     <>
       <PageHero
         eyebrow="Usluge"
-        title="Deset usluga, jedan cilj — da tvoj biznis raste"
+        title="Jedanaest usluga, jedan cilj — da tvoj biznis raste"
         description="Svaka usluga stoji sama za sebe, ali najbolje rade zajedno: sajt koji konvertuje, SEO koji dovodi ljude i oglasi koji ubrzavaju rezultat."
         breadcrumbs={[
           { name: "Početna", href: "/" },
