@@ -15,12 +15,12 @@
   // Kanonska adresa je apex; www postoji da ne pukne kome je u obeleživačima,
   // a canonical tagovi sa svake strane vode na apex.
   //
-  // ISKLJUČENO dok se u Cloudflare DNS-u ne obrišu postojeći `A zimdigital.rs`
-  // i `CNAME www` — dok oni postoje, API vraća 409 Conflict i deploy pukne.
-  // "routes": [
-  //   { "pattern": "zimdigital.rs", "custom_domain": true },
-  //   { "pattern": "www.zimdigital.rs", "custom_domain": true }
-  // ],
+  // Napomena: ako se ovde ikada pojavi `409 Conflict`, znači da u DNS-u
+  // postoji ručno napravljen zapis na istom imenu — obriši ga pa ponovi.
+  "routes": [
+    { "pattern": "zimdigital.rs", "custom_domain": true },
+    { "pattern": "www.zimdigital.rs", "custom_domain": true }
+  ],
   "observability": {
     "enabled": true
   }
