@@ -81,9 +81,10 @@ export default function PrivacyPage() {
 
       <h2>Kolačići</h2>
       <p>
-        Sajt koristi neophodne kolačiće za osnovno funkcionisanje. Ako se uključe
-        analitički ili marketinški kolačići, o tome ćeš biti obavešten i tražiće
-        se tvoja saglasnost pre postavljanja.
+        Sajt koristi neophodne kolačiće za osnovno funkcionisanje. Analitički i
+        marketinški se postavljaju isključivo uz tvoju saglasnost, koju možeš
+        povući u svakom trenutku. Detalji su u{" "}
+        <a href="/politika-kolacica">politici kolačića</a>.
       </p>
 
       <h2>Tvoja prava</h2>

@@ -49,9 +49,9 @@ export const site = {
   },
 
   social: {
-    facebook: "https://facebook.com/", // PLACEHOLDER
-    instagram: "https://instagram.com/", // PLACEHOLDER
-    linkedin: "https://linkedin.com/", // PLACEHOLDER
+    facebook: "https://www.facebook.com/profile.php?id=61569676847167",
+    instagram: "", // TODO(Milan): dodaj link ili ostavi prazno da se ikonica ne prikaže
+    linkedin: "", // TODO(Milan): dodaj link ili ostavi prazno
   },
 
   /**

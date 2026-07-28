@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { CookieSettingsButton } from "@/components/cookie-settings-button";
 import { Icon } from "@/components/icons";
 import { LogoWordmark } from "@/components/logo";
 import { Container } from "@/components/ui";
@@ -34,7 +35,10 @@ export function SiteFooter() {
                 { href: site.social.facebook, label: "Facebook", d: "M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.25-1.5 1.5-1.5H16.6V4.4A20 20 0 0 0 14.3 4.3c-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1Z" },
                 { href: site.social.instagram, label: "Instagram", d: "M12 7.4a4.6 4.6 0 1 0 0 9.2 4.6 4.6 0 0 0 0-9.2Zm0 7.6a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm5.8-7.8a1.07 1.07 0 1 1-2.15 0 1.07 1.07 0 0 1 2.15 0ZM20.8 8.9c-.07-1.4-.4-2.65-1.42-3.67-1.03-1.03-2.27-1.35-3.68-1.43-1.45-.08-5.8-.08-7.25 0-1.4.07-2.64.4-3.67 1.42C3.75 6.25 3.43 7.5 3.35 8.9c-.08 1.45-.08 5.8 0 7.25.07 1.4.4 2.64 1.43 3.67 1.03 1.02 2.27 1.35 3.67 1.43 1.45.08 5.8.08 7.25 0 1.4-.08 2.65-.4 3.68-1.43 1.02-1.03 1.35-2.27 1.42-3.67.08-1.45.08-5.8 0-7.25Zm-1.9 8.8a3.04 3.04 0 0 1-1.71 1.71c-1.19.47-4 .36-5.3.36-1.32 0-4.13.1-5.31-.36a3.04 3.04 0 0 1-1.71-1.71c-.47-1.18-.36-4-.36-5.3 0-1.32-.1-4.13.36-5.31a3.04 3.04 0 0 1 1.71-1.71c1.18-.47 4-.36 5.3-.36 1.31 0 4.12-.1 5.3.36a3.04 3.04 0 0 1 1.72 1.71c.47 1.18.36 4 .36 5.3 0 1.31.11 4.12-.36 5.3Z" },
                 { href: site.social.linkedin, label: "LinkedIn", d: "M6.94 8.5H4.1V20h2.84V8.5ZM5.52 4a1.65 1.65 0 1 0 0 3.3 1.65 1.65 0 0 0 0-3.3ZM20 13.6c0-3.03-1.62-4.44-3.78-4.44-1.75 0-2.53.96-2.96 1.63V8.5H10.4V20h2.85v-6.28c0-1.34.25-2.63 1.9-2.63 1.63 0 1.65 1.52 1.65 2.72V20H20v-6.4Z" },
-              ].map((social) => (
+              ]
+                // Prazan link znači da profil još ne postoji — ne prikazujemo ga.
+                .filter((social) => social.href)
+                .map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
@@ -148,6 +152,10 @@ export function SiteFooter() {
             <Link href="/politika-privatnosti" className="hover:text-ink-700">
               Politika privatnosti
             </Link>
+            <Link href="/politika-kolacica" className="hover:text-ink-700">
+              Kolačići
+            </Link>
+            <CookieSettingsButton variant="link" />
             <Link href="/uslovi-koriscenja" className="hover:text-ink-700">
               Uslovi korišćenja
             </Link>

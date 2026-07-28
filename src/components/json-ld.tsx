@@ -35,7 +35,11 @@ export function organizationSchema() {
       jobTitle: person.role,
     })),
     numberOfEmployees: { "@type": "QuantitativeValue", value: team.length },
-    sameAs: [site.social.facebook, site.social.instagram, site.social.linkedin],
+    sameAs: [
+      site.social.facebook,
+      site.social.instagram,
+      site.social.linkedin,
+    ].filter(Boolean),
   };
 }
 
