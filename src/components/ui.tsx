@@ -115,7 +115,12 @@ export function SectionHeading({
 
 /* ----------------------------------------------------------------- Button */
 
-type ButtonVariant = "primary" | "secondary" | "ghost";
+/**
+ * `inverse` i `onDark` postoje da se boje ne bi prepisivale preko `className` —
+ * Tailwind klase iste specifičnosti se sudaraju i pobednik zavisi od redosleda
+ * u generisanom CSS-u, pa je tekst umeo da bude beo na beloj podlozi.
+ */
+type ButtonVariant = "primary" | "secondary" | "ghost" | "inverse" | "onDark";
 type ButtonSize = "sm" | "md" | "lg";
 
 const buttonBase =
@@ -127,6 +132,12 @@ const buttonVariants: Record<ButtonVariant, string> = {
   secondary:
     "border border-ink-200 bg-white text-ink-800 shadow-soft hover:-translate-y-0.5 hover:border-ink-300 hover:shadow-lift active:translate-y-0",
   ghost: "text-ink-700 hover:bg-ink-50 hover:text-ink-900",
+  // Glavno dugme na tamnoj pozadini
+  inverse:
+    "bg-white text-ink-900 shadow-lift hover:-translate-y-0.5 hover:bg-ink-50 active:translate-y-0",
+  // Sporedno dugme na tamnoj pozadini
+  onDark:
+    "border border-white/20 bg-white/10 text-white backdrop-blur hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/20 active:translate-y-0",
 };
 
 const buttonSizes: Record<ButtonSize, string> = {

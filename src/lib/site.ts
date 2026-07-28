@@ -35,14 +35,16 @@ export const site = {
     phoneRaw: "38163342380",
     whatsapp: "38163342380",
     address: {
-      street: "Ulica i broj", // PLACEHOLDER
-      city: "Beograd", // PLACEHOLDER
-      postalCode: "11000", // PLACEHOLDER
+      street: "Braće Deroko 8",
+      city: "Beograd",
+      postalCode: "11000",
       country: "Srbija",
       countryCode: "RS",
     },
-    // Embed URL Google mape — zameni svojim (Google Maps → Share → Embed a map)
-    mapEmbedUrl: "https://www.google.com/maps?q=Beograd,Srbija&output=embed", // PLACEHOLDER
+    // Mapa se centrira na adresu iznad. Ako želiš precizniji pin (npr. ulaz u
+    // zgradu), uzmi embed link sa Google Maps → Share → Embed a map i zameni ovaj.
+    mapEmbedUrl:
+      "https://www.google.com/maps?q=Bra%C4%87e%20Deroko%208,%20Beograd,%20Srbija&output=embed",
     workingHours: "Ponedeljak – Petak, 09:00 – 17:00",
   },
 

@@ -52,17 +52,19 @@ export function CtaSection({
               <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Button
                   href={primaryHref}
+                  variant="inverse"
                   size="lg"
                   arrow
-                  className="w-full bg-white text-ink-900 hover:bg-white sm:w-auto"
+                  className="w-full sm:w-auto"
                 >
                   {primaryLabel}
                 </Button>
                 <Button
                   href={`https://wa.me/${site.contact.whatsapp}`}
                   external
+                  variant="onDark"
                   size="lg"
-                  className="w-full border border-white/20 bg-white/10 text-white backdrop-blur hover:bg-white/15 sm:w-auto"
+                  className="w-full sm:w-auto"
                 >
                   <Icon name="whatsapp" className="size-4" />
                   Piši na WhatsApp

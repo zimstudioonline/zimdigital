@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { BackToTop } from "@/components/back-to-top";
 import { JsonLd, organizationSchema, websiteSchema } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -84,6 +85,7 @@ export default function RootLayout({
 
         <SiteFooter />
         <WhatsAppButton />
+        <BackToTop />
 
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />
