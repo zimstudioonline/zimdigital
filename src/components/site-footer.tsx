@@ -5,11 +5,12 @@ import { Icon } from "@/components/icons";
 import { LogoWordmark } from "@/components/logo";
 import { Container } from "@/components/ui";
 import { categories } from "@/lib/categories";
-import { getAllServices } from "@/lib/services";
+import { getCoreServices } from "@/lib/services";
 import { site } from "@/lib/site";
 
 export function SiteFooter() {
-  const services = getAllServices();
+  // Samo jezgro — pun spisak od 16 usluga bi napravio predugačak futer.
+  const services = getCoreServices();
   const year = new Date().getFullYear();
 
   return (
@@ -71,6 +72,15 @@ export function SiteFooter() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  href="/usluge"
+                  className="inline-flex items-center gap-1.5 text-[0.9375rem] font-medium text-brand-600 transition-colors hover:text-brand-700"
+                >
+                  Pogledaj sve usluge
+                  <Icon name="arrowRight" className="size-3.5" />
+                </Link>
+              </li>
             </ul>
           </div>
 

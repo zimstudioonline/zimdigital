@@ -15,7 +15,7 @@ import {
 } from "@/components/ui";
 import { getAllPosts } from "@/lib/posts";
 import { getFeaturedProjects } from "@/lib/projects";
-import { getAllServices } from "@/lib/services";
+import { getCoreServices } from "@/lib/services";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -96,7 +96,7 @@ const marqueeItems = [
 ];
 
 export default function HomePage() {
-  const services = getAllServices();
+  const services = getCoreServices();
   const projects = getFeaturedProjects();
   const posts = getAllPosts().slice(0, 3);
 
@@ -159,11 +159,11 @@ export default function HomePage() {
             <Reveal delay={320}>
               <p className="mt-6 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 text-sm text-ink-400">
                 {[
+                  "Izrada sajtova",
                   "SEO",
-                  "Web dizajn",
-                  "Google Ads",
-                  "Facebook & Instagram Ads",
-                  "AI automatizacija",
+                  "Google Biznis",
+                  "Vizuali",
+                  "AI video",
                 ].map((item, index) => (
                   <span key={item} className="inline-flex items-center gap-2.5">
                     {index > 0 ? (
@@ -231,7 +231,7 @@ export default function HomePage() {
             <SectionHeading
               eyebrow="Usluge"
               title="Sve što ti treba da te ljudi nađu i da kupe"
-              description="Jedanaest usluga koje se nadovezuju jedna na drugu. Kreni od jedne ili uzmi ceo paket — savet dobijaš prema tome šta ti se u ovom trenutku najviše isplati."
+              description="Ovo je ono čime se najviše bavimo. Kreni od jedne stavke ili uzmi ceo paket — savet dobijaš prema tome šta ti se u ovom trenutku najviše isplati."
             />
           </Reveal>
 
@@ -242,6 +242,26 @@ export default function HomePage() {
               </Reveal>
             ))}
           </div>
+
+          <Reveal delay={120}>
+            <div className="mt-12 text-center">
+              <p className="text-ink-500">
+                Radimo i lokalni SEO, logo i vizuelni identitet, web prodavnice,
+                Google i Facebook oglašavanje, merenje i analitiku, oglase na
+                oglasnicima, email marketing, AI automatizaciju i održavanje
+                sajtova.
+              </p>
+              <Button
+                href="/usluge"
+                variant="secondary"
+                size="lg"
+                arrow
+                className="mt-6"
+              >
+                Sve usluge
+              </Button>
+            </div>
+          </Reveal>
         </Container>
       </Section>
 

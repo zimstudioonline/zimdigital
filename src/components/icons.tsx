@@ -30,6 +30,34 @@ export const icons = {
       <circle cx="12" cy="10" r="2.6" />
     </svg>
   ),
+  image: (p: Props) => (
+    <svg {...base} {...p}>
+      <rect x="3" y="4" width="18" height="16" rx="3" />
+      <circle cx="8.5" cy="9.5" r="1.6" />
+      <path d="m4 17 4.5-4.5a2 2 0 0 1 2.8 0L16 17M14 14.5l1.6-1.6a2 2 0 0 1 2.8 0L20 14.5" />
+    </svg>
+  ),
+  store: (p: Props) => (
+    <svg {...base} {...p}>
+      <path d="M4 9.5V19a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9.5" />
+      <path d="M3 6.5 4.6 4h14.8L21 6.5a3 3 0 0 1-5.6 1.7 3 3 0 0 1-5.4 0A3 3 0 0 1 3 6.5Z" />
+      <path d="M9.5 20v-5h5v5" />
+    </svg>
+  ),
+  list: (p: Props) => (
+    <svg {...base} {...p}>
+      <path d="M9 6.5h11M9 12h11M9 17.5h11" />
+      <circle cx="4.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
+      <circle cx="4.5" cy="12" r="1.2" fill="currentColor" stroke="none" />
+      <circle cx="4.5" cy="17.5" r="1.2" fill="currentColor" stroke="none" />
+    </svg>
+  ),
+  video: (p: Props) => (
+    <svg {...base} {...p}>
+      <rect x="2.5" y="5.5" width="13" height="13" rx="3" />
+      <path d="m15.5 10.5 5-2.8v8.6l-5-2.8z" />
+    </svg>
+  ),
   layout: (p: Props) => (
     <svg {...base} {...p}>
       <rect x="3" y="4" width="18" height="16" rx="3" />

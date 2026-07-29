@@ -297,6 +297,98 @@ export const services: Service[] = [
     blogCategory: "seo",
   },
   {
+    slug: "google-biznis-profil",
+    title: "Otvaranje i pozicioniranje Google Biznis profila",
+    navTitle: "Otvaranje Biznis profila",
+    icon: "store",
+    tagline:
+      "Da tvoja firma postoji na Google mapama, sa tačnim podacima i pravim putem do vrata.",
+    metaDescription:
+      "Otvaranje i podešavanje Google Biznis profila: verifikacija firme, kategorije, radno vreme, fotografije i lokacija na mapama. Da te kupci iz okoline nađu i pozovu.",
+    highlights: [
+      "Otvaranje profila",
+      "Verifikacija firme",
+      "Kategorije i usluge",
+      "Radno vreme i lokacija",
+      "Fotografije",
+      "Uputstvo za dalje",
+    ],
+    intro: [
+      "Kada neko traži uslugu u svom kraju, Google prvo prikaže mapu sa firmama iz okoline. Ako tvoja firma tamo ne postoji, ne postoji ni za tog kupca — bez obzira na to koliko dugo radiš i koliko si dobar.",
+      "Google Biznis profil je besplatan, ali se retko postavi kako treba. Najčešće se otvori na brzinu, ostane neverifikovan ili sa pogrešnom kategorijom, pa firma stoji na mapi a niko je ne nalazi. Ovde se profil otvara, verifikuje i popuni do kraja, tako da bude spreman da radi.",
+      "Ovo je jednokratan posao — postavljanje temelja. Ako posle toga hoćeš da se boriš za prva tri mesta u mapama, to je već lokalni SEO i radi se kontinuirano.",
+    ],
+    deliverables: [
+      {
+        title: "Otvoren i verifikovan profil",
+        body: "Kreiranje naloga i prolazak kroz Google verifikaciju, koja je uslov da se profil uopšte prikazuje. Vlasništvo ostaje na tvom nalogu, ne našem.",
+      },
+      {
+        title: "Tačne kategorije i usluge",
+        body: "Glavna i dodatne kategorije biraju se prema tome kako ljudi zaista pretražuju. Pogrešna kategorija je najčešći razlog zašto se firma ne pojavljuje.",
+      },
+      {
+        title: "Podaci koji se poklapaju svuda",
+        body: "Naziv, adresa, telefon i radno vreme, usklađeni sa onim što piše na sajtu. Google poredi te podatke i nesklad ga koči.",
+      },
+      {
+        title: "Fotografije i opis",
+        body: "Postavljanje slika firme, prostora ili radova i pisanje opisa koji objašnjava šta radiš, jezikom kojim kupci traže.",
+      },
+      {
+        title: "Povezivanje sa sajtom i mapom",
+        body: "Link ka sajtu, dugme za poziv i tačan pin na mapi, uključujući servisno područje ako radiš na terenu a nemaš prodavnicu.",
+      },
+      {
+        title: "Kratko uputstvo",
+        body: "Šta i kako dalje sam da objavljuješ, kako da odgovaraš na recenzije i šta nikako ne treba menjati.",
+      },
+    ],
+    forWhom: [
+      "Firme koje nemaju profil na Google mapama",
+      "Vlasnici prodavnica, salona i ordinacija koji zavise od kupaca iz okoline",
+      "Majstori i servisi koji izlaze na teren, bez javne adrese",
+      "Svako ko ima profil koji je nikad verifikovan ili stoji poluprazan",
+    ],
+    process: [
+      {
+        title: "Podaci o firmi",
+        body: "Prikupljamo naziv, adresu, telefon, radno vreme i opis delatnosti — sve što Google traži.",
+      },
+      {
+        title: "Otvaranje i verifikacija",
+        body: "Kreira se profil i pokreće verifikacija. Ovaj korak zavisi od Google-a i zna da potraje nekoliko dana.",
+      },
+      {
+        title: "Popunjavanje",
+        body: "Kategorije, usluge, fotografije, opis i povezivanje sa sajtom.",
+      },
+      {
+        title: "Predaja",
+        body: "Profil ostaje na tvom nalogu, uz uputstvo za dalje vođenje.",
+      },
+    ],
+    faq: [
+      {
+        q: "Koliko traje?",
+        a: "Samo postavljanje je posao od jednog dana. Verifikacija zavisi od Google-a — nekada ide odmah, nekada čeka razglednicu na adresu firme, pa se ceo proces zna otegnuti na nedelju do dve. Na taj deo ne možemo da utičemo.",
+      },
+      {
+        q: "Nemam prodavnicu, radim na terenu. Mogu li da otvorim profil?",
+        a: "Možeš. Google podržava firme sa servisnim područjem, gde se prikazuje teritorija koju pokrivaš umesto adrese. To je čest slučaj kod majstora, servisa i prevoznika.",
+      },
+      {
+        q: "Čiji je profil kada se završi?",
+        a: "Tvoj. Otvara se na tvoj Google nalog i mi ostajemo samo kao pomoć dok traje posao. Nema zaključavanja i nema situacije da ti profil ostane kod nekog drugog.",
+      },
+      {
+        q: "Je l' mi ovo dovoljno da budem prvi u mapama?",
+        a: "Nije, i ne bismo to tvrdili. Ovo je uslov da uopšte konkurišeš. Borba za prva tri mesta traži recenzije, redovne objave i usklađene podatke na više mesta — to je lokalni SEO i radi se u kontinuitetu.",
+      },
+    ],
+    blogCategory: "seo",
+  },
+  {
     slug: "izrada-web-sajtova",
     title: "Izrada web sajtova",
     navTitle: "Izrada web sajtova",
@@ -574,6 +666,180 @@ export const services: Service[] = [
     blogCategory: "digitalni-marketing",
   },
   {
+    slug: "vizuali-canva",
+    title: "Vizuali za biznis putem Canve",
+    navTitle: "Vizuali za biznis",
+    icon: "image",
+    tagline:
+      "Fotografije tvojih proizvoda pretvorene u objave za sve mreže, u tvojim bojama.",
+    metaDescription:
+      "Izrada vizuala za društvene mreže u Canvi: objave sa fotografijama proizvoda za Instagram, Facebook i ostale mreže, u pravim formatima i u bojama tvoje firme.",
+    highlights: [
+      "Objave sa proizvodima",
+      "Instagram i Facebook",
+      "Priče i Reels naslovnice",
+      "Svi formati",
+      "Tvoje boje i pismo",
+      "Šabloni za dalje",
+    ],
+    intro: [
+      "Fotografija proizvoda sama po sebi retko prolazi na mrežama. Treba joj pozadina, cena, naziv i poziv da se javi — i to na način koji izgleda kao da pripada tvojoj firmi, a ne kao da je sklopljeno u žurbi.",
+      "Ovde od tvojih fotografija pravimo gotove objave u Canvi. Isti proizvod dobijaš u svim formatima koji ti trebaju: kvadratno za feed, uspravno za priče i Reels naslovnice. Kada se menja cena ili ide akcija, menja se tekst na postojećem šablonu umesto da se sve radi iz početka.",
+    ],
+    deliverables: [
+      {
+        title: "Objave sa proizvodima",
+        body: "Tvoje fotografije obrađene i složene u objavu — naziv, cena, kratak tekst i poziv na akciju, u bojama i pismu tvoje firme.",
+      },
+      {
+        title: "Svi formati odjednom",
+        body: "Kvadratno za feed, uspravno za priče i Reels, vodoravno gde zatreba. Jednom pripremljeno, spremno za svaku mrežu.",
+      },
+      {
+        title: "Šabloni koje sam menjaš",
+        body: "Ono što se ponavlja — nova cena, novi proizvod, akcija — dobijaš kao šablon u Canvi. Menjaš tekst i sliku sam, bez čekanja i bez dodatnog troška.",
+      },
+      {
+        title: "Doterivanje fotografija",
+        body: "Čišćenje pozadine, izjednačavanje osvetljenja i kadriranje, da katalog izgleda ujednačeno čak i kada su slike snimane u različito vreme.",
+      },
+    ],
+    forWhom: [
+      "Prodavnice sa katalogom koji se stalno menja",
+      "Firme koje objavljuju na mrežama ali svaka objava izgleda drugačije",
+      "Vlasnici koji imaju dobre fotografije proizvoda i ne znaju šta dalje s njima",
+      "Svako kome treba više objava mesečno, a nema stalnog dizajnera",
+    ],
+    process: [
+      {
+        title: "Materijal i boje",
+        body: "Šalješ fotografije proizvoda i logo. Ako nemaš definisane boje i pismo, biramo ih zajedno.",
+      },
+      {
+        title: "Prvi set",
+        body: "Radimo nekoliko objava na pregled, da se dogovorimo oko izgleda pre nego što se krene u količinu.",
+      },
+      {
+        title: "Ostatak i formati",
+        body: "Odobreni izgled primenjujemo na ceo set i izvozimo u svim potrebnim formatima.",
+      },
+      {
+        title: "Šabloni na tvoj nalog",
+        body: "Ono što ćeš sam menjati prebacujemo u tvoju Canvu, uz kratko uputstvo šta sme da se dira.",
+      },
+    ],
+    faq: [
+      {
+        q: "Zašto Canva, a ne Photoshop?",
+        a: "Zato što je za objave na mrežama brže i jeftinije, a rezultat je isti kada su boje i pismo jednom dobro postavljeni. Uz to dobijaš šablone koje i sam možeš da menjaš — kod klasičnog dizajnerskog fajla to nije slučaj. Za logo i materijale za štampu i dalje radimo vektorski, jer tu Canva nije dovoljna.",
+      },
+      {
+        q: "Moram li da imam nalog na Canvi?",
+        a: "Za gotove objave ne — dobijaš slike i koristiš ih. Nalog ti treba samo ako hoćeš da sam menjaš šablone, a besplatna verzija je za to najčešće dovoljna.",
+      },
+      {
+        q: "Ja fotografišem telefonom. Je l' to dovoljno?",
+        a: "Najčešće jeste, ako je svetlo pristojno. Telefoni danas snimaju sasvim dobro, a pozadinu i osvetljenje ionako doterujemo. Reći ćemo ti ako neka fotografija stvarno ne može da se spase.",
+      },
+      {
+        q: "Da li radite i tekstove za objave?",
+        a: "Kratke tekstove na samoj grafici radimo. Za opise ispod objave i vođenje profila dogovaramo se posebno — to je drugi posao i drugi obim.",
+      },
+    ],
+    blogCategory: "digitalni-marketing",
+  },
+  // TODO(Milan): pregledaj tekst ove usluge pre nego što je pustimo u opticaj.
+  // Napisan je po tvom opisu „video za reklame pomoću AI alata“, ali nisam znao
+  // konkretne alate, rokove ni cene, pa su tvrdnje namerno držane opšte.
+  {
+    slug: "video-reklame-ai",
+    title: "Video za reklame pomoću AI alata",
+    navTitle: "Video za reklame",
+    icon: "video",
+    tagline:
+      "Kratki video za Reels i oglase, bez snimatelja, glumaca i tri dana na terenu.",
+    metaDescription:
+      "Izrada kratkih video reklama pomoću AI alata: video za Instagram Reels, Facebook i TikTok oglase, animacije proizvoda i objave. Brže i jeftinije od klasičnog snimanja.",
+    highlights: [
+      "Video za Reels i TikTok",
+      "Kreative za oglase",
+      "Animacija proizvoda",
+      "Više verzija za test",
+      "Titlovi na srpskom",
+      "Vertikalni i kvadratni format",
+    ],
+    intro: [
+      "Na Facebook-u i Instagramu video odavno prolazi bolje od slike, a kod oglasa je razlika najveća. Problem je što klasično snimanje za malu firmu znači ekipu, opremu i dan-dva posla, pa se najčešće završi na tome da se video nikada i ne uradi.",
+      "AI alati su tu promenili račun. Kratke reklame se danas sklapaju od generisanih scena, tvojih fotografija proizvoda i snimaka koje već imaš na telefonu. Ne zamenjuje to svaki snimatelj — za emotivnu priču o firmi i dalje treba kamera — ali za oglas koji treba da zaustavi palac u skrolu sasvim je dovoljno.",
+      "Najveća korist nije ni cena ni brzina nego količina. Umesto jednog videa dobijaš nekoliko verzija sa različitim početkom i porukom, pa se u kampanji vidi koja stvarno radi umesto da se pogađa.",
+    ],
+    deliverables: [
+      {
+        title: "Video za oglase",
+        body: "Kratke reklame od par sekundi do pola minuta, u formatu koji Facebook i Instagram traže. Vertikalno za Reels i priče, kvadratno za feed.",
+      },
+      {
+        title: "Više verzija iste poruke",
+        body: "Isti proizvod sa različitim uvodom, tekstom i završnim pozivom. To je ono što omogućava da se u kampanji testira i zadrži verzija koja donosi rezultat.",
+      },
+      {
+        title: "Animacija proizvoda",
+        body: "Od tvojih fotografija pravimo pokret — okretanje, uvećanje, prikaz detalja. Korisno kada nemaš video materijal, a proizvod treba da se vidi sa svih strana.",
+      },
+      {
+        title: "Titlovi na srpskom",
+        body: "Većina ljudi gleda bez zvuka, pa video bez titla propada. Tekst ide urađen kako treba, ne automatskim prepisom koji lomi padeže.",
+      },
+      {
+        title: "Fajlovi u tvom vlasništvu",
+        body: "Gotove snimke dobijaš na svoj disk, u punom kvalitetu, i koristiš ih gde god hoćeš — na sajtu, mrežama ili u kampanjama.",
+      },
+    ],
+    forWhom: [
+      "Firme koje oglašavaju na Facebook-u i Instagramu i troše na slike koje niko ne gleda",
+      "Prodavnice sa proizvodima koje treba pokazati u pokretu",
+      "Biznisi kojima je klasično snimanje preskupo ili presporo",
+      "Svako ko hoće da testira više poruka umesto da se kladi na jednu",
+    ],
+    process: [
+      {
+        title: "Šta prodaješ i kome",
+        body: "Kratak razgovor o proizvodu, kupcu i tome šta hoćeš da se desi kada neko odgleda video.",
+      },
+      {
+        title: "Materijal",
+        body: "Šalješ šta imaš — fotografije, snimke sa telefona, logo. Ostalo se pravi.",
+      },
+      {
+        title: "Prvi predlog",
+        body: "Dobijaš verziju na pregled. Kaže se šta ne valja i menja se dok ne bude kako treba.",
+      },
+      {
+        title: "Varijante i predaja",
+        body: "Na odobrenu verziju pravimo alternative za test i predajemo sve fajlove.",
+      },
+    ],
+    faq: [
+      {
+        q: "Da li se vidi da je video pravljen veštačkom inteligencijom?",
+        a: "Ponekad da, ponekad ne — zavisi od scene. Zato AI koristimo tamo gde radi dobro, a tvoje prave fotografije i snimke tamo gde je autentičnost važnija. Ako proizvod mora da se vidi tačno onakav kakav jeste, on ide sa tvog materijala, ne generisan.",
+      },
+      {
+        q: "Zamenjuje li ovo snimatelja?",
+        a: "Ne za sve. Za oglase, prikaz proizvoda i objave na mrežama — najčešće da. Za priču o firmi, intervju ili nešto gde se vidi tvoje lice i prostor, kamera je i dalje bolji izbor i to ćemo ti reći otvoreno.",
+      },
+      {
+        q: "Mogu li da koristim video i van oglasa?",
+        a: "Možeš. Fajlovi su tvoji i idu i na sajt, i na YouTube, i na TikTok, bez dodatnih naknada.",
+      },
+      {
+        q: "Šta treba da pošaljem da bi se počelo?",
+        a: "Fotografije proizvoda ili usluge, logo ako ga imaš i rečenicu-dve o tome šta hoćeš da poručiš. Ako imaš i snimke sa telefona, još bolje — često se baš oni pokažu kao najuverljiviji deo.",
+      },
+    ],
+    blogCategory: "facebook-ads",
+  },
+  {
     slug: "google-ads",
     title: "Google Ads",
     navTitle: "Google Ads",
@@ -754,6 +1020,188 @@ export const services: Service[] = [
       },
     ],
     blogCategory: "facebook-ads",
+  },
+  // Napomena: GTM, GA4 i Facebook pixel su namerno jedna usluga, ne tri.
+  // Tri skoro identične stranice Google čita kao tanak, ponovljen sadržaj.
+  {
+    slug: "merenje-i-analitika",
+    title: "Postavljanje merenja: GTM, GA4 i Facebook pixel",
+    navTitle: "Merenje i analitika",
+    icon: "chart",
+    tagline:
+      "Da znaš odakle ti dolaze kupci, umesto da nagađaš gde odlazi budžet.",
+    metaDescription:
+      "Postavljanje Google Tag Managera, Google Analytics 4 i Facebook pixela na sajt. Praćenje konverzija, provera da merenje radi i izveštaji koji se razumeju.",
+    highlights: [
+      "Google Tag Manager",
+      "Google Analytics 4",
+      "Facebook pixel",
+      "Praćenje konverzija",
+      "Provera merenja",
+      "Saglasnost za kolačiće",
+    ],
+    intro: [
+      "Bez merenja se oglašavanje svodi na osećaj. Kampanja troši, upiti stižu, i niko ne zna koji je kanal doneo kupca a koji samo pravi klikove. Najgore je što se ta greška vidi tek posle nekoliko meseci potrošenog budžeta.",
+      "Postavljanje je posao od jednog dana i uradi se jednom. Google Tag Manager ide kao osnova, kroz njega se puštaju Analytics i Facebook pixel, i posle toga se novi kod dodaje bez diranja sajta. Najvažniji deo nije ugradnja nego to da se izmere prave stvari — poslata forma, poziv, kupovina — a ne samo broj poseta.",
+      "Na kraju proveravamo da merenje stvarno radi. To je korak koji se najčešće preskoči, pa firme mesecima gledaju u brojke koje ne znače ništa.",
+    ],
+    deliverables: [
+      {
+        title: "Google Tag Manager",
+        body: "Kontejner postavljen na sajt kako treba. Posle toga se svaki novi kod za praćenje dodaje kroz njega, bez ulaženja u sam sajt.",
+      },
+      {
+        title: "Google Analytics 4",
+        body: "Nalog, povezivanje sa sajtom i podešavanje da se prate radnje koje su tebi važne, ne samo poseta stranica.",
+      },
+      {
+        title: "Facebook pixel",
+        body: "Pixel i osnovni događaji za Facebook i Instagram kampanje, uključujući Conversions API tamo gde ima smisla, jer blokatori reklama sve više jedu obično merenje.",
+      },
+      {
+        title: "Konverzije koje ti nešto znače",
+        body: "Poslata kontakt forma, klik na telefon, poruka na WhatsApp, završena kupovina — ono po čemu se stvarno meri da li sajt radi.",
+      },
+      {
+        title: "Provera da sve radi",
+        body: "Prolazak kroz sajt i potvrda da se svaki događaj beleži tamo gde treba. Bez ovog koraka merenje ume da izgleda ispravno a da ne hvata ništa.",
+      },
+      {
+        title: "Usklađivanje sa kolačićima",
+        body: "Merenje se povezuje sa saglasnošću za kolačiće, tako da se ne skuplja ono za šta posetilac nije dao pristanak.",
+      },
+    ],
+    forWhom: [
+      "Firme koje već oglašavaju, a ne znaju šta se od toga isplati",
+      "Prodavnice kojima treba praćenje kupovina i vrednosti korpe",
+      "Sajtovi na kojima je merenje postavljeno davno i niko ne zna radi li",
+      "Svako ko planira kampanje i hoće da krene sa ispravnim brojkama",
+    ],
+    process: [
+      {
+        title: "Šta se meri",
+        body: "Kratak razgovor o tome šta je za tebe uspeh — poziv, upit, kupovina — jer se merenje postavlja prema tome.",
+      },
+      {
+        title: "Pristupi",
+        body: "Treba nam pristup sajtu i tvojim Google i Facebook nalozima. Ako ih nemaš, otvaramo ih na tvoje ime.",
+      },
+      {
+        title: "Postavljanje",
+        body: "Tag Manager, Analytics i pixel, uz podešavanje događaja i konverzija.",
+      },
+      {
+        title: "Provera i predaja",
+        body: "Testiramo svaki događaj, pa ti pokažemo gde se šta vidi i kako da čitaš izveštaj.",
+      },
+    ],
+    faq: [
+      {
+        q: "Imam već Analytics, treba li mi ovo?",
+        a: "Zavisi šta meri. Ako beleži samo posete, znaš koliko ljudi dolazi ali ne i koliko njih se javi — a to je jedina brojka koja plaća račune. Pogledamo postojeće stanje i kažemo ti da li treba doraditi ili je sve u redu.",
+      },
+      {
+        q: "Zašto je ovo jedna usluga, a ne tri odvojene?",
+        a: "Zato što se u praksi rade zajedno i dele iste pripreme. Tag Manager je osnova kroz koju idu i Analytics i pixel, pa je razdvajanje samo administrativno. Ako ti treba samo jedno od toga, naravno da može i tako.",
+      },
+      {
+        q: "Da li ovo usporava sajt?",
+        a: "Neznatno, i to se sređuje odlaganjem učitavanja. Tag Manager je zapravo bolji za brzinu od gomile pojedinačnih kodova ubačenih direktno u sajt.",
+      },
+      {
+        q: "Šta sa GDPR-om i kolačićima?",
+        a: "Merenje vezujemo za saglasnost, tako da se kolačići za analitiku i oglašavanje puštaju tek kada posetilac pristane. Traka za saglasnost mora da postoji na sajtu — ako je nemaš, postavljamo je.",
+      },
+    ],
+    blogCategory: "digitalni-marketing",
+  },
+  {
+    slug: "oglasi-na-oglasnicima",
+    title: "Postavljanje oglasa na 50 oglasnika",
+    navTitle: "Oglasi na oglasnicima",
+    icon: "list",
+    tagline:
+      "Tvoja ponuda na najmanje pedeset oglasnika i pet Facebook grupa, ručno postavljena.",
+    metaDescription:
+      "Postavljanje kratkih oglasa na minimum 50 oglasnika i 5 Facebook grupa. Ručno pisani oglasi sa linkom ka sajtu, za dodatne upite i vidljivost bez budžeta za reklame.",
+    highlights: [
+      "Minimum 50 oglasnika",
+      "5 Facebook grupa",
+      "Ručno postavljanje",
+      "Tekst oglasa",
+      "Link ka sajtu",
+      "Spisak objava",
+    ],
+    intro: [
+      "Oglasnici su u Srbiji i dalje mesto gde ljudi traže majstora, prevoz, mašinu ili uslugu — često pre nego što odu na Google. Za mnoge delatnosti odatle stiže više poziva nego sa plaćenih reklama, a ne košta ništa osim vremena.",
+      "Vreme je i jedini problem. Pedeset oglasnika znači pedeset registracija, pedeset formulara i pedeset puta isti tekst prilagođen pravilima svakog sajta. To niko ne stigne uz posao, pa se najčešće završi na tri-četiri najpoznatija i tu stane.",
+      "Zato ovo radimo umesto tebe, ručno. Ne postoji alat koji to uradi kako treba — automatski postavljeni oglasi se brišu ili ne prolaze moderaciju.",
+    ],
+    deliverables: [
+      {
+        title: "Oglasi na najmanje 50 oglasnika",
+        body: "Ručno postavljeno na domaće oglasnike, u kategoriju koja odgovara tvojoj delatnosti, sa slikama i kontakt podacima.",
+      },
+      {
+        title: "Objave u 5 Facebook grupa",
+        body: "Grupe biramo prema tvom gradu i delatnosti, uz poštovanje pravila svake — objava koja prekrši pravila ionako biva obrisana.",
+      },
+      {
+        title: "Tekst oglasa",
+        body: "Kratak i jasan tekst pisan tako da ga čovek pročita do kraja, sa nekoliko varijanti da se ista objava ne ponavlja svuda doslovno.",
+      },
+      {
+        title: "Link ka sajtu",
+        body: "Tamo gde oglasnik dozvoljava, oglas vodi na tvoj sajt — dodatni upiti i poneki koristan link uz to.",
+      },
+      {
+        title: "Spisak svega objavljenog",
+        body: "Dobijaš tabelu sa svakim oglasnikom, linkom ka objavi i podacima za prijavu, da kasnije možeš sam da obnavljaš.",
+      },
+    ],
+    forWhom: [
+      "Majstori, servisi i prevoznici koji žive od poziva",
+      "Prodaja mašina, vozila i opreme",
+      "Firme koje kreću bez budžeta za plaćene reklame",
+      "Svako kome treba brza vidljivost dok SEO ne uhvati maha",
+    ],
+    process: [
+      {
+        title: "Ponuda i podaci",
+        body: "Šta oglašavaš, u kom gradu, po kojoj ceni i na koji broj da te zovu.",
+      },
+      {
+        title: "Tekst i slike",
+        body: "Pišemo oglas u nekoliko varijanti i pripremamo slike u formatu koji oglasnici traže.",
+      },
+      {
+        title: "Postavljanje",
+        body: "Ručno prolazimo kroz oglasnike i grupe. Ovo je deo koji traje i obično se završi za nekoliko dana.",
+      },
+      {
+        title: "Spisak i predaja",
+        body: "Dobijaš tabelu sa svim objavama i pristupnim podacima.",
+      },
+    ],
+    faq: [
+      {
+        q: "Koliko oglasa stvarno bude?",
+        a: "Najmanje pedeset oglasnika i pet grupa. Ponekad i više, zavisno od delatnosti — nemaju sve branše isti broj oglasnika koji ima smisla.",
+      },
+      {
+        q: "Koliko dugo oglasi ostaju?",
+        a: "Zavisi od oglasnika. Neki traju neograničeno, neki ističu za trideset dana i traže obnavljanje. Zato i dobijaš spisak sa pristupnim podacima, da možeš sam da ih obnoviš. Obnavljanje po dogovoru radimo i mi.",
+      },
+      {
+        q: "Da li ovo pomaže SEO-u?",
+        a: "Delimično. Neki oglasnici daju link koji se računa, većina ne. Glavna korist su direktni pozivi sa oglasnika, a ne pozicija na Google-u — ne bismo to prodavali kao SEO uslugu.",
+      },
+      {
+        q: "Može li se ovo automatizovati?",
+        a: "Ne kako treba. Oglasnici prepoznaju masovno postavljanje i takve oglase brišu ili blokiraju nalog. Zato se radi ručno, i zato traje.",
+      },
+    ],
+    blogCategory: "digitalni-marketing",
   },
   {
     slug: "email-marketing",
@@ -1028,6 +1476,33 @@ export const services: Service[] = [
 
 export function getAllServices(): Service[] {
   return services;
+}
+
+/**
+ * Jezgro ponude — jedino što se prikazuje na početnoj strani. Ostale usluge
+ * nisu ukinute, samo žive na /usluge i u mega meniju, za one koji traže dublje.
+ *
+ * Redosled ovog niza je redosled kartica na početnoj, nezavisno od redosleda
+ * u `services` gore. Menjaj ovde da promeniš početnu.
+ */
+const coreServiceSlugs = [
+  "sajt-za-jedan-dan",
+  "izrada-web-sajtova",
+  "seo-optimizacija",
+  "google-biznis-profil",
+  "vizuali-canva",
+  "video-reklame-ai",
+] as const;
+
+export function getCoreServices(): Service[] {
+  return coreServiceSlugs.map((slug) => {
+    const service = getServiceBySlug(slug);
+    // Namerno ruši build: greška u slug-u bi inače tiho izbacila uslugu sa početne.
+    if (!service) {
+      throw new Error(`coreServiceSlugs: nepoznat slug „${slug}“ u services.ts`);
+    }
+    return service;
+  });
 }
 
 export function getServiceBySlug(slug: string): Service | undefined {
