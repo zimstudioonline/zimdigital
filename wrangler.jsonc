@@ -22,13 +22,13 @@
     { "pattern": "www.zimdigital.rs", "custom_domain": true }
   ],
   // Adrese za kontakt formu — nisu tajne, pa stoje ovde.
-  // Tajni RESEND_API_KEY se postavlja preko: npx wrangler secret put RESEND_API_KEY
+  // Tajne (RESEND_API_KEY, TURNSTILE_SECRET_KEY) idu preko: npx wrangler secret put <IME>
   //
-  // CONTACT_FROM_EMAIL je za sada Resend-ova test adresa, koja sme da šalje
-  // isključivo na email vlasnika Resend naloga. Kada verifikuješ domen na
-  // Resend-u, zameni je sa npr. "ZIM Digital <sajt@zimdigital.rs>".
+  // Domen send.zimdigital.rs je verifikovan na Resend-u, pa se šalje sa njega.
+  // Ova imena su `vars`, ne `secret` — `wrangler secret put` na njih vraća
+  // grešku 10053 („binding name already in use“). Menjaj ih ovde pa redeploy.
   "vars": {
-    "CONTACT_FROM_EMAIL": "ZIM Digital <onboarding@resend.dev>",
+    "CONTACT_FROM_EMAIL": "Zim Digital <kontakt@send.zimdigital.rs>",
     "CONTACT_TO_EMAIL": "zimstudioonline@gmail.com"
   },
   "observability": {

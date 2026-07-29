@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# Izuzetak: sadrži samo javni Turnstile site key, koji Next ugrađuje u
+# klijentski bundle pri buildu — mora biti u repou da build ne prođe bez njega.
+!.env.production
 
 # vercel
 .vercel

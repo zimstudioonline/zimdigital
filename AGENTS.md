@@ -68,6 +68,16 @@ Env vars: `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL`, `TURNSTILE
 
 Sending domain is `send.zimdigital.rs` (Resend, EU region), so `CONTACT_FROM_EMAIL` must be `…@send.zimdigital.rs`. Its DNS lives on the Cloudflare account that owns `zimdigital.rs`.
 
+Where each production value lives — they are not interchangeable:
+
+| Value | Home | Why |
+| --- | --- | --- |
+| `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY` | `wrangler secret put` | secret |
+| `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL` | `vars` in `wrangler.jsonc` | not secret; `secret put` on these fails with `10053 binding name already in use` |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | `.env.production`, **committed** | Next inlines `NEXT_PUBLIC_*` into the client bundle at build time, so `wrangler secret` cannot deliver it. `.gitignore` has an explicit `!.env.production` exception. Dropping it makes the widget silently not render while the server still rejects every tokenless submission — the form breaks with no error anywhere. |
+
+Turnstile widget is `zimdigital-kontakt` (managed, `no_clearance`), domains `zimdigital.rs`, `www.zimdigital.rs`, `localhost`, `127.0.0.1`. Subdomains are not implicit — a new hostname must be added to the widget.
+
 ## Conventions
 
 - Site language is Serbian (`lang="sr"`, `toLocaleDateString("sr-RS")`); code comments are in Serbian — match that.

@@ -14,6 +14,7 @@ declare global {
         el: HTMLElement,
         options: {
           sitekey: string;
+          action?: string;
           callback: (token: string) => void;
           "expired-callback"?: () => void;
           "error-callback"?: () => void;
@@ -51,6 +52,7 @@ export function ContactForm() {
 
     widgetIdRef.current = window.turnstile.render(widgetRef.current, {
       sitekey: SITE_KEY,
+      action: "turnstile-spin-v2",
       theme: "light",
       callback: (token) => {
         tokenRef.current = token;
