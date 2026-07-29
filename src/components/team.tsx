@@ -20,7 +20,9 @@ export function TeamCards({ withBio = true }: { withBio?: boolean }) {
                   src={person.photo}
                   alt={person.name}
                   loading="lazy"
-                  className="size-full object-cover"
+                  // object-cover + object-top: portreti su uspravni, pa slika
+                  // popunjava ceo okvir, a kadriranje od vrha čuva glavu
+                  className="size-full object-cover object-top"
                 />
               ) : (
                 <div className="flex size-full items-center justify-center">

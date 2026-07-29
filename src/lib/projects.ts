@@ -7,9 +7,8 @@
  *
  * `ownership` razdvaja sopstvene projekte od klijentskih, jer se drugačije
  * predstavljaju. Većina je "own" — sajtovi koje Milan vodi kao svoje.
- *
- * TODO(Milan): potvrdi `ownership` za slepsluzbarapaic.rs, rapaicprevoz.rs i
- * sasaavakumovic.com — postavio sam po logici naziva, može da promaši.
+ * Klijentski su slepsluzbarapaic.rs, rapaicprevoz.rs i sasaavakumovic.com
+ * (potvrdio Milan).
  */
 
 export type Project = {
@@ -49,9 +48,15 @@ export const projects: Project[] = [
       "SEO optimizacija",
       "Kartično plaćanje",
     ],
-    stack: ["WordPress", "Elementor Pro", "Raiffeisen payment gateway"],
+    stack: [
+      "WordPress",
+      "WooCommerce",
+      "Elementor Pro",
+      "Raiffeisen payment gateway",
+    ],
     year: "2025",
     url: "https://sasaavakumovic.com/",
+    image: "/sasa-avakumovic.webp",
     accent: ["#6366f1", "#06b6d4"],
     featured: true,
   },
@@ -66,8 +71,8 @@ export const projects: Project[] = [
     stack: ["WordPress", "Elementor Pro"],
     year: "2024",
     url: "https://slepsluzbarapaic.rs",
+    image: "/slep-sluzba-rapaic.webp",
     accent: ["#0ea5e9", "#6366f1"],
-    featured: true,
   },
   {
     slug: "mini-bager-iskop",
@@ -75,11 +80,12 @@ export const projects: Project[] = [
     summary:
       "Iskopi mini bagerom — sajt sa jasno razdvojenim vrstama radova i optimizacijom za pretrage tipa „mini bager Beograd cena“.",
     industry: "Građevinarstvo",
-    ownership: "own",
+    ownership: "client",
     services: ["Izrada web sajta", "Lokalni SEO"],
     stack: ["WordPress", "Elementor Pro"],
     year: "2024",
     url: "https://minibageriskop.rs",
+    image: "/mini-bager-iskop.webp",
     accent: ["#f97316", "#eab308"],
     featured: true,
   },
@@ -94,6 +100,7 @@ export const projects: Project[] = [
     stack: ["WordPress", "Elementor Pro"],
     year: "2024",
     url: "https://rapaicprevoz.rs",
+    image: "/rapaic-prevoz.webp",
     accent: ["#14b8a6", "#0ea5e9"],
   },
   {
@@ -112,6 +119,7 @@ export const projects: Project[] = [
     stack: ["Next.js", "AI vibe kodiranje", "GitHub Pages"],
     year: "2025",
     url: "https://zdravritual.com",
+    image: "/zdrav-ritual-hero.webp",
     accent: ["#10b981", "#84cc16"],
     featured: true,
   },
@@ -126,20 +134,23 @@ export const projects: Project[] = [
     stack: ["WordPress", "WooCommerce"],
     year: "2024",
     url: "https://beogradshop.com",
+    image: "/beograd-shop.webp",
     accent: ["#22c55e", "#84cc16"],
   },
   {
     slug: "esuplementi",
     name: "eSuplementi",
     summary:
-      "Prodavnica suplemenata sa širokim katalogom — struktura kategorija napravljena tako da se lako širi kako se dodaju novi proizvodi.",
+      "Web prodavnica za Phytoremedy proizvode — širok katalog suplemenata sa strukturom kategorija koja se lako širi kako se dodaju novi artikli.",
     industry: "E-commerce",
     ownership: "own",
     services: ["Izrada web prodavnice", "SEO optimizacija"],
     stack: ["WordPress", "WooCommerce"],
     year: "2024",
     url: "https://esuplementi.com",
+    image: "/esuplementi.webp",
     accent: ["#ef4444", "#f97316"],
+    featured: true,
   },
   {
     slug: "kombi-prevoz-cena",
@@ -147,12 +158,14 @@ export const projects: Project[] = [
     summary:
       "Prevoz putnika iz Niša — sajt ciljan na drugi grad, sa sadržajem pisanim za lokalne pretrage van Beograda.",
     industry: "Transport",
-    ownership: "own",
+    ownership: "client",
     services: ["Izrada web sajta", "Lokalni SEO"],
     stack: ["WordPress", "Elementor Pro"],
     year: "2023",
     url: "https://kombiprevozcena.com",
+    image: "/kombi-prevoz-cena.webp",
     accent: ["#8b5cf6", "#6366f1"],
+    featured: true,
   },
   {
     slug: "internet-oglasi",
@@ -165,20 +178,9 @@ export const projects: Project[] = [
     stack: ["WordPress"],
     year: "2023",
     url: "https://internet-oglasi.com",
+    image: "/internet-oglasi.webp",
     accent: ["#0f172a", "#334155"],
-  },
-  {
-    slug: "novi-grad",
-    name: "Selo Novi Grad",
-    summary:
-      "Sajt o selu Novi Grad — sadržaj, fotografije i lokalna priča. Projekat koji pokazuje da sve ne mora da bude prodaja.",
-    industry: "Turizam i lokalna zajednica",
-    ownership: "own",
-    services: ["Izrada web sajta", "Sadržaj"],
-    stack: ["WordPress"],
-    year: "2023",
-    url: "https://novigrad.in.rs",
-    accent: ["#65a30d", "#16a34a"],
+    featured: true,
   },
 ];
 

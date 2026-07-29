@@ -61,7 +61,10 @@ export function ProjectCard({ project }: { project: Project }) {
             src={project.image}
             alt={`${project.name} — prikaz projekta`}
             loading="lazy"
-            className="size-full object-cover transition-transform duration-700 group-hover:scale-105"
+            // object-contain: uklapamo ceo screenshot u okvir umesto da ga
+            // sečemo — meni i zaglavlje sajta ostaju vidljivi, a prazan prostor
+            // popunjava gradijent ispod slike
+            className="size-full object-contain object-center transition-transform duration-700 group-hover:scale-105"
           />
         ) : (
           <div className="flex size-full items-center justify-center">
