@@ -64,6 +64,10 @@ Posts are `.mdx` files in `content/blog/`. One file per post; the filename is th
 
 Env vars: `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`. When keys are absent the route degrades gracefully: in dev it logs and returns `{ok:true, dev:true}`; in production it returns a readable error. The form also has a honeypot field (`kompanija`).
 
+**The route reads `process.env`, so local values must be in `.env.local` — not only `.dev.vars`.** `next dev` runs on Node and populates `process.env` from `.env*` files only; `initOpenNextCloudflareForDev()` exposes Cloudflare *bindings*, not plain vars. `.dev.vars` is what workerd reads under `npm run preview`. Keep the same values in both files (both gitignored). A `{ok:true, dev:true}` response in dev means `.env.local` is missing or stale.
+
+Sending domain is `send.zimdigital.rs` (Resend, EU region), so `CONTACT_FROM_EMAIL` must be `…@send.zimdigital.rs`. Its DNS lives on the Cloudflare account that owns `zimdigital.rs`.
+
 ## Conventions
 
 - Site language is Serbian (`lang="sr"`, `toLocaleDateString("sr-RS")`); code comments are in Serbian — match that.
