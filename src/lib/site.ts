@@ -29,13 +29,12 @@ export const site = {
   indexable: false,
 
   /**
-   * Google Analytics 4 i Tag Manager. Obe skripte se učitavaju tek kada
-   * posetilac prihvati kolačiće — vidi src/components/analytics.tsx.
+   * Google Tag Manager. Skripta se učitava tek kada posetilac prihvati
+   * kolačiće — vidi src/components/analytics.tsx.
    *
-   * Pazi: ako u GTM kontejner dodaš GA4 tag sa istim `gaId`, merenje ide
-   * dvaput. Tada obriši `gaId` odavde i pusti da GA ide isključivo kroz GTM.
+   * GA4 (G-133J4BNK6K) je tag unutar ovog kontejnera, ne zasebna skripta.
+   * Ne dodaji ovde gtag.js — merenje bi išlo dvaput.
    */
-  gaId: "G-133J4BNK6K",
   gtmId: "GTM-TRJJ3S4V",
 
   contact: {
