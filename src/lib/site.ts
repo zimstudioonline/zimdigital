@@ -23,10 +23,10 @@ export const site = {
    * Prekidač za indeksiranje. Dok je `false`, sajt šalje noindex i robots.txt
    * zabranjuje sve — da Google ne pokupi placeholder podatke iz portfolija.
    *
-   * Kada sadržaj bude tačan: prebaci na `true`, `npm run deploy`, pa prijavi
-   * sitemap u Google Search Console.
+   * Uključeno 30.07.2026 — sajt je otvoren za pretraživače. Preostalo je da
+   * se sitemap prijavi u Google Search Console.
    */
-  indexable: false,
+  indexable: true,
 
   /**
    * Google Tag Manager. Skripta se učitava tek kada posetilac prihvati

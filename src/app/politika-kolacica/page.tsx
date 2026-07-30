@@ -11,13 +11,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "/politika-kolacica" },
 };
 
-// TODO(Milan): kada dodamo Google Analytics ili Meta Pixel, dopuni tabelu
-// konkretnim imenima kolačića i rokovima čuvanja.
+// TODO(Milan): kada u GTM kontejner dodaš nov tag (Google Ads, Meta Pixel...),
+// dopuni tabelu njegovim kolačićima — inače politika prestaje da bude tačna.
 export default function CookiePolicyPage() {
   return (
     <LegalPage
       title="Politika kolačića"
-      updated="28. jul 2026."
+      updated="30. jul 2026."
       breadcrumbs={[
         { name: "Početna", href: "/" },
         { name: "Politika kolačića", href: "/politika-kolacica" },
@@ -53,21 +53,87 @@ export default function CookiePolicyPage() {
       <p>
         Pokazuju nam koje stranice se čitaju, odakle posetioci dolaze i gde
         odustaju — da bismo sajt popravili. Podaci se posmatraju zbirno i ne
-        koriste se da bismo te lično prepoznali.
+        koriste se da bismo te lično prepoznali. Koristimo Google Analytics 4,
+        koji se učitava kroz Google Tag Manager.
       </p>
 
       <h3>Marketinški</h3>
       <p>
-        Omogućavaju merenje uspešnosti oglasa i prikazivanje relevantnijih
-        reklama na drugim sajtovima. Postavljaju ih Google i Meta kao pružaoci
-        oglasnih usluga.
+        Omogućavali bi merenje uspešnosti oglasa i prikazivanje relevantnijih
+        reklama na drugim sajtovima. <strong>Trenutno ne postavljamo nijedan
+        marketinški kolačić</strong> — kategorija postoji u banneru jer
+        planiramo oglašavanje, a kada ga uvedemo, dopunićemo tabelu ispod.
+      </p>
+
+      <h2>Spisak kolačića</h2>
+      <p>
+        Rokovi su onakvi kakve postavlja onaj ko kolačić kreira, pa se mogu
+        promeniti bez našeg uticaja.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Naziv</th>
+            <th>Postavlja</th>
+            <th>Kategorija</th>
+            <th>Traje</th>
+            <th>Čemu služi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <code>zim-consent</code>
+            </td>
+            <td>ZIM Digital</td>
+            <td>Neophodno</td>
+            <td>Do brisanja</td>
+            <td>
+              Pamti tvoj izbor kolačića. Tehnički nije kolačić nego zapis u
+              lokalnoj memoriji pregledača (localStorage) — ne šalje se nama.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>__cf_bm</code>
+            </td>
+            <td>Cloudflare</td>
+            <td>Neophodno</td>
+            <td>30 minuta</td>
+            <td>Razlikuje ljude od automatizovanih zahteva.</td>
+          </tr>
+          <tr>
+            <td>
+              <code>_ga</code>
+            </td>
+            <td>Google Analytics</td>
+            <td>Analitika</td>
+            <td>2 godine</td>
+            <td>Dodeljuje nasumičan broj kojim se posetioci razlikuju.</td>
+          </tr>
+          <tr>
+            <td>
+              <code>_ga_133J4BNK6K</code>
+            </td>
+            <td>Google Analytics</td>
+            <td>Analitika</td>
+            <td>2 godine</td>
+            <td>Čuva stanje posete za našu mernu šifru.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        Cloudflare Turnstile, koji čuva kontakt formu od zloupotrebe, podešen je
+        tako da ne postavlja kolačić za pristup sajtu.
       </p>
 
       <h2>Kolačići trećih strana</h2>
       <p>
         Pojedini kolačići dolaze od servisa koje koristimo: Cloudflare (zaštita
-        i isporuka sajta), Google (analitika i oglašavanje) i Meta (oglašavanje).
-        Na njihovu obradu primenjuju se i njihove politike privatnosti.
+        i isporuka sajta) i Google (Analytics i Tag Manager). Na njihovu obradu
+        primenjuju se i njihove politike privatnosti.
       </p>
       <p>
         Kontakt stranica prikazuje Google mapu, koja se učitava sa Google-ovih
