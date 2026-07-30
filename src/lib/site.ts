@@ -28,6 +28,16 @@ export const site = {
    */
   indexable: false,
 
+  /**
+   * Google Analytics 4 i Tag Manager. Obe skripte se učitavaju tek kada
+   * posetilac prihvati kolačiće — vidi src/components/analytics.tsx.
+   *
+   * Pazi: ako u GTM kontejner dodaš GA4 tag sa istim `gaId`, merenje ide
+   * dvaput. Tada obriši `gaId` odavde i pusti da GA ide isključivo kroz GTM.
+   */
+  gaId: "G-133J4BNK6K",
+  gtmId: "GTM-TRJJ3S4V",
+
   contact: {
     email: "zimstudioonline@gmail.com",
     phone: "+381 63 342 380",

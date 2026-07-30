@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { Analytics } from "@/components/analytics";
 import { BackToTop } from "@/components/back-to-top";
 import { CookieConsent } from "@/components/cookie-consent";
 import { JsonLd, organizationSchema, websiteSchema } from "@/components/json-ld";
@@ -93,6 +94,7 @@ export default function RootLayout({
         <WhatsAppButton />
         <BackToTop />
         <CookieConsent />
+        <Analytics />
 
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />
