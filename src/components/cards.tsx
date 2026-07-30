@@ -155,28 +155,38 @@ export function PostCard({
       className={
         featured
           ? "group relative overflow-hidden rounded-3xl border border-ink-100 bg-white shadow-soft transition-all duration-500 hover:shadow-lift sm:grid sm:grid-cols-2"
-          : "group relative flex flex-col overflow-hidden rounded-3xl border border-ink-100 bg-white p-7 shadow-soft transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-ink-200 hover:shadow-lift"
+          : "group relative flex flex-col overflow-hidden rounded-3xl border border-ink-100 bg-white shadow-soft transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-ink-200 hover:shadow-lift"
       }
     >
-      {featured ? (
-        <div className="relative aspect-16/10 bg-gradient-to-br from-brand-500 via-brand-600 to-accent-500 sm:aspect-auto">
-          {post.cover ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={post.cover}
-              alt=""
-              className="absolute inset-0 size-full object-cover"
-            />
-          ) : (
-            <div
-              aria-hidden
-              className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.35),transparent_55%)]"
-            />
-          )}
-        </div>
-      ) : null}
+      <div
+        className={
+          featured
+            ? "relative aspect-16/10 bg-gradient-to-br from-brand-500 via-brand-600 to-accent-500 sm:aspect-auto"
+            : // 1.91:1 je odnos naslovnih banera (i standardni OG format), pa
+              // object-cover ne seče ništa — slika staje cela i centrirana je
+              "relative aspect-[1.91/1] overflow-hidden bg-gradient-to-br from-brand-500 via-brand-600 to-accent-500"
+        }
+      >
+        {post.cover ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={post.cover}
+            alt=""
+            className="absolute inset-0 size-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
+          />
+        ) : (
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.35),transparent_55%)]"
+          />
+        )}
+      </div>
 
-      <div className={featured ? "flex flex-col p-8 sm:p-10" : "contents"}>
+      <div
+        className={
+          featured ? "flex flex-col p-8 sm:p-10" : "flex flex-1 flex-col p-7"
+        }
+      >
         <div className="flex items-center gap-3 text-[0.8125rem] text-ink-400">
           {category ? (
             <span className="rounded-full bg-brand-50 px-2.5 py-1 font-medium text-brand-700">

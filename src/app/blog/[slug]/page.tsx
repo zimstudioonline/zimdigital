@@ -131,6 +131,22 @@ export default async function PostPage({ params }: Props) {
           </Container>
         </header>
 
+        {/* Naslovna slika */}
+        {post.cover ? (
+          <Container size="narrow" className="pt-10 sm:pt-12">
+            <Reveal>
+              <div className="overflow-hidden rounded-3xl border border-ink-100 shadow-soft">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={post.cover}
+                  alt={post.title}
+                  className="block w-full"
+                />
+              </div>
+            </Reveal>
+          </Container>
+        ) : null}
+
         {/* Sadržaj */}
         <Container size="narrow" className="py-14 sm:py-16">
           <div className="[&>*:first-child]:mt-0">
