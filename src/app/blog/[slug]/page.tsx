@@ -17,6 +17,7 @@ import {
   getPostBySlug,
   getRelatedPosts,
 } from "@/lib/posts";
+import { getServicesByBlogCategory } from "@/lib/services";
 import { site } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -63,6 +64,8 @@ export default async function PostPage({ params }: Props) {
 
   const category = getCategory(post.category);
   const related = getRelatedPosts(post);
+  // Najviše tri, da blok ne preraste tekst koji čitalac zapravo čita
+  const relatedServices = getServicesByBlogCategory(post.category).slice(0, 3);
 
   const crumbs = [
     { name: "Početna", href: "/" },
@@ -159,6 +162,47 @@ export default async function PostPage({ params }: Props) {
                 <Pill key={keyword}>{keyword}</Pill>
               ))}
             </div>
+          ) : null}
+
+          {/* Tekst vodi ka usluzi, ne samo ka sledećem tekstu */}
+          {relatedServices.length > 0 ? (
+            <Reveal>
+              <aside className="mt-12 rounded-3xl border border-ink-100 bg-ink-50/60 p-7 sm:p-8">
+                <h2 className="text-lg font-semibold tracking-tight text-ink-900">
+                  Ovo radimo i za klijente
+                </h2>
+                <p className="mt-2 text-[0.9375rem] leading-7 text-ink-500">
+                  Ako ti je lakše da neko drugi odradi ovaj posao, evo usluga
+                  koje pokrivaju temu iz teksta.
+                </p>
+                <div className="mt-6 space-y-2">
+                  {relatedServices.map((service) => (
+                    <Link
+                      key={service.slug}
+                      href={`/usluge/${service.slug}`}
+                      className="group flex items-center gap-3 rounded-2xl border border-ink-100 bg-white px-4 py-3.5 transition-colors hover:border-brand-200 hover:bg-brand-50/40"
+                    >
+                      <Icon
+                        name={service.icon}
+                        className="size-[1.15rem] shrink-0 text-brand-500"
+                      />
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-[0.9375rem] font-medium text-ink-900">
+                          {service.title}
+                        </span>
+                        <span className="mt-0.5 block text-[0.8125rem] leading-5 text-ink-500">
+                          {service.tagline}
+                        </span>
+                      </span>
+                      <Icon
+                        name="arrowRight"
+                        className="size-4 shrink-0 text-ink-300 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-brand-500"
+                      />
+                    </Link>
+                  ))}
+                </div>
+              </aside>
+            </Reveal>
           ) : null}
 
           <div className="mt-10">

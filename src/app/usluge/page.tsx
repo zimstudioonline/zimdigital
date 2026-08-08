@@ -7,7 +7,7 @@ import { JsonLd, breadcrumbSchema, faqSchema } from "@/components/json-ld";
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { Container, Section, SectionHeading } from "@/components/ui";
-import { getAllServices } from "@/lib/services";
+import { getGroupedServices } from "@/lib/services";
 
 export const metadata: Metadata = {
   title: "Usluge",
@@ -36,14 +36,14 @@ const faq = [
 ];
 
 export default function ServicesPage() {
-  const services = getAllServices();
+  const groups = getGroupedServices();
 
   return (
     <>
       <PageHero
         eyebrow="Usluge"
-        title="Jedanaest usluga, jedan cilj — da tvoj biznis raste"
-        description="Svaka usluga stoji sama za sebe, ali najbolje rade zajedno: sajt koji konvertuje, SEO koji dovodi ljude i oglasi koji ubrzavaju rezultat."
+        title="Izgradi, privuci, rasti — tri faze, jedan cilj"
+        description="Svaka usluga stoji sama za sebe, ali najbolje rade zajedno: sajt koji konvertuje, SEO koji dovodi ljude i oglasi koji ubrzavaju rezultat. Kreni od faze u kojoj si sada."
         breadcrumbs={[
           { name: "Početna", href: "/" },
           { name: "Usluge", href: "/usluge" },
@@ -52,11 +52,27 @@ export default function ServicesPage() {
 
       <Section>
         <Container size="wide">
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((service, index) => (
-              <Reveal key={service.slug} delay={index * 60}>
-                <ServiceCard service={service} />
-              </Reveal>
+          <div className="space-y-20">
+            {groups.map((group) => (
+              <div key={group.slug} id={group.slug} className="scroll-mt-28">
+                <Reveal>
+                  <SectionHeading
+                    align="left"
+                    eyebrow={`Faza ${groups.indexOf(group) + 1}`}
+                    title={group.title}
+                    description={group.description}
+                    className="max-w-2xl"
+                  />
+                </Reveal>
+
+                <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {group.services.map((service, index) => (
+                    <Reveal key={service.slug} delay={index * 60}>
+                      <ServiceCard service={service} />
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </Container>

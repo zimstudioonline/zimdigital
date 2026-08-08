@@ -1,20 +1,80 @@
 import type { IconName } from "@/components/icons";
 import type { CategorySlug } from "@/lib/categories";
 
+/**
+ * Faza u kojoj se usluga koristi. Grupisanje postoji zato što je 16 usluga
+ * previše za jednu listu — posetilac bira fazu u kojoj je, pa tek onda uslugu.
+ * Redosled grupa u `serviceGroups` je i redosled prikaza.
+ */
+export type ServiceGroup = "izgradi" | "privuci" | "rasti";
+
+export const serviceGroups: {
+  slug: ServiceGroup;
+  title: string;
+  description: string;
+}[] = [
+  {
+    slug: "izgradi",
+    title: "Izgradi",
+    description:
+      "Sve što treba da postojiš na internetu: sajt, prodavnica i vizuelni identitet.",
+  },
+  {
+    slug: "privuci",
+    title: "Privuci",
+    description:
+      "Kanali kojima ljudi dolaze do tebe — pretraga, mape i plaćeni oglasi.",
+  },
+  {
+    slug: "rasti",
+    title: "Rasti",
+    description:
+      "Ono što se radi posle lansiranja: merenje, ponavljanje kontakta i održavanje.",
+  },
+];
+
 export type Service = {
   slug: string;
   /** Pun naziv — naslov stranice */
   title: string;
   /** Kraći naziv za navigaciju i breadcrumb */
   navTitle: string;
+  /**
+   * Naslov za <title> i OG, kada se razlikuje od `title`. Postoji da bi
+   * naslov u rezultatima pretrage nosio grad i ključnu frazu, a H1 na
+   * stranici ostao čist naziv usluge. Bez ovoga se koristi `title`.
+   */
+  seoTitle?: string;
+  /** Faza kojoj usluga pripada — određuje grupu na /usluge i u meniju */
+  group: ServiceGroup;
   icon: IconName;
   /** Jedna rečenica — kartica na /usluge i u mega meniju */
   tagline: string;
   metaDescription: string;
   /** Podusluge — čipovi ispod hero sekcije */
   highlights: string[];
+  /**
+   * Naslov (H1) na stranici usluge, kada treba da bude duži i prodajniji od
+   * naziva usluge. `title` ostaje kratak jer se koristi u FAQ naslovu i CTA.
+   */
+  h1?: string;
   /** Uvodni paragrafi na stranici usluge */
   intro: string[];
+  /**
+   * Slobodni H2 blokovi za dubinu — objašnjenja koja ne staju ni u
+   * `deliverables` ni u FAQ. Renderuju se između isporuka i procesa.
+   */
+  sections?: { title: string; body: string[] }[];
+  /**
+   * Sekcija o ceni. Namerno bez iznosa dok ih Milan ne potvrdi — objašnjava
+   * od čega cena zavisi, što je i pretraga koju ljudi kucaju.
+   */
+  pricing?: {
+    title: string;
+    intro: string;
+    factors: { title: string; body: string }[];
+    note?: string;
+  };
   /** Šta konkretno dobijaš */
   deliverables: { title: string; body: string }[];
   /** Kome je namenjeno */
@@ -31,6 +91,7 @@ export const services: Service[] = [
     slug: "sajt-za-jedan-dan",
     title: "Sajt za jedan dan",
     navTitle: "Sajt za 1 dan",
+    group: "izgradi",
     icon: "bolt",
     tagline:
       "Prezentacioni sajt gotov i na internetu istog dana — uz AI koji ubrzava rad, ne zamenjuje ga.",
@@ -124,8 +185,69 @@ export const services: Service[] = [
   },
   {
     slug: "seo-optimizacija",
+    h1: "SEO optimizacija u Beogradu — da te Google prikaže onima koji te traže",
+    sections: [
+      {
+        title: "Kako SEO dovodi klijente iz Google-a",
+        body: [
+          "Čovek koji u Google kuca „vodoinstalater Beograd“ ne pretražuje iz radoznalosti. On ima problem sada i traži nekoga da ga reši. SEO je posao kojim se postaraš da u tom trenutku bude prikazan tvoj sajt, a ne konkurentov.",
+          "Za razliku od oglasa, taj dolazak se ne plaća po kliku. Kada stranica jednom uđe u vrh rezultata, ona radi i dok spavaš, i ne prestaje čim ti se potroši budžet. Zato SEO i deluje sporo — plaća se unapred vremenom, a naplaćuje kasnije.",
+          "Ono što se u praksi meri nisu pozicije nego upiti: koliko ljudi je pozvalo, poslalo poruku ili poručilo. Poziciju gledamo da bismo razumeli zašto se broj upita menja.",
+        ],
+      },
+      {
+        title: "SEO za male firme u Beogradu",
+        body: [
+          "Mala firma ne može i ne treba da se bori za najširu moguću pretragu. Rezultat donose uže fraze sa jasnom namerom i vezane za mesto — „iskop mini bagerom Beograd“ pobeđuje „građevinski radovi“ svaki put, jer iza njih stoje različiti ljudi u različitim fazama odluke.",
+          "U Beogradu to znači i da lokalni paket sa mapama često stoji iznad svih organskih rezultata. Ako opslužuješ grad, borba za to mesto vredi više od borbe za prvu poziciju ispod njega.",
+          "Radimo i sa firmama van Beograda i van Srbije. Ali pristup je isti: prvo pretrage koje stvarno postoje u tvom kraju i tvojoj delatnosti, pa tek onda šire teme.",
+        ],
+      },
+      {
+        title: "Google Search Console i analitika",
+        body: [
+          "Bez merenja SEO postaje stvar mišljenja. Zato se Search Console i Google Analytics 4 postavljaju na početku, pre nego što se bilo šta menja — da postoji stanje sa kojim se kasnije poredi.",
+          "Iz Search Console-a se vidi za koje fraze te Google već prikazuje, koliko ljudi klikne i gde stojiš. To je jedini izvor koji pokazuje šta se stvarno dešava u pretrazi, i on je tvoj — ne naš izveštaj o nama samima.",
+          "Mesečno dobijaš pregled u kom piše šta je urađeno, šta se pomerilo i šta je sledeće. Ako se nešto ne pomera, i to piše, zajedno sa predlogom šta menjamo.",
+        ],
+      },
+    ],
+    pricing: {
+      title: "Šta utiče na cenu SEO-a",
+      intro:
+        "SEO se ne naplaćuje po pozicijama nego po obimu posla, a obim zavisi od stanja sajta i od toga koliko je konkurencija gusta. Evo šta pomera cenu u jednu ili drugu stranu.",
+      factors: [
+        {
+          title: "Stanje sajta na početku",
+          body: "Sajt sa tehničkim problemima i lošom strukturom traži više posla pre nego što bilo šta počne da se pomera.",
+        },
+        {
+          title: "Koliko je gusta konkurencija",
+          body: "Delatnost u kojoj svi rade SEO traži više sadržaja i više strpljenja od one u kojoj konkurencija ima samo Facebook stranicu.",
+        },
+        {
+          title: "Koliko se sadržaja piše mesečno",
+          body: "Pisanje je najveći pojedinačni deo posla. Dva teksta mesečno i osam nisu isti angažman.",
+        },
+        {
+          title: "Lokalno ili šire tržište",
+          body: "Jedan grad je uži posao od cele Srbije, a cela Srbija uži od regiona.",
+        },
+        {
+          title: "Da li ide link building",
+          body: "Rad na autoritetu je zaseban trošak i ne treba svakoj firmi — kod uskih lokalnih pretraga često se pobeđuje i bez njega.",
+        },
+        {
+          title: "Prodavnica ili prezentacioni sajt",
+          body: "Katalog sa stotinama artikala traži drugačiji pristup od sajta sa deset stranica usluga.",
+        },
+      ],
+      note: "Pošalji adresu sajta i dobijaš besplatnu analizu sa listom prioriteta za prva tri meseca — pa i procenu obima. Ne prodajemo mesečni paket firmi kojoj se u ovom trenutku više isplati nešto drugo.",
+    },
+    seoTitle: "SEO optimizacija Beograd — optimizacija sajta za Google",
     title: "SEO optimizacija",
     navTitle: "SEO optimizacija",
+    group: "privuci",
     icon: "search",
     tagline:
       "Dugoročan izvor klijenata koji ne prestaje kada isključiš oglase.",
@@ -195,28 +317,46 @@ export const services: Service[] = [
     ],
     faq: [
       {
-        q: "Za koliko vremena se vide rezultati SEO-a?",
-        a: "Prve pomake na tehničkoj strani vidiš za 2–4 nedelje. Ozbiljan rast organskog saobraćaja realno stiže između trećeg i šestog meseca, zavisno od konkurentnosti niše i stanja sajta na startu. Svako ko ti obeća prvo mesto za mesec dana ili ne zna posao ili ne govori istinu.",
+        q: "Koliko košta SEO optimizacija?",
+        a: "Zavisi od stanja sajta, konkurencije i koliko se sadržaja piše mesečno. Posle besplatne analize dobijaš predlog obima i cenu — i iskreno mišljenje ako ti se SEO u ovom trenutku ne isplati.",
       },
       {
-        q: "Koliko košta SEO optimizacija?",
-        a: "Zavisi od obima — jednokratna SEO analiza i mesečna saradnja nisu ista stvar. Nakon kratkog razgovora i pregleda sajta dobijaš konkretnu ponudu sa jasnim obimom posla, bez skrivenih stavki.",
+        q: "Za koliko vremena se vide rezultati?",
+        a: "Lokalni rezultati u mapama obično za 4–8 nedelja. Organske pozicije za stranice usluga 3–6 meseci. Blog kao stabilan izvor poseta 6–12 meseci. Sve brže od toga je ili sreća ili neko drugom prodaje priču.",
       },
       {
         q: "Da li garantujete prvu poziciju na Google-u?",
-        a: "Ne. Niko ozbiljan ne garantuje pozicije jer ne kontrolišemo Google-ov algoritam. Garantujemo obim posla, transparentan izveštaj i metodologiju koja je dokazano dovela do rasta na drugim projektima.",
+        a: "Ne. Niko ne može da garantuje poziciju jer o njoj ne odlučuje izvođač nego Google. Garantujemo posao koji se vidi u Search Console-u i izveštaj u kom piše šta je urađeno i šta se pomerilo.",
       },
       {
         q: "Radite li SEO za sajtove koje niste vi izradili?",
-        a: "Da. Radimo sa WordPress, WooCommerce, Shopify i custom sajtovima. Ako je platforma tehnički ograničavajuća, to ćemo ti reći odmah na analizi.",
+        a: "Da, to je čest slučaj. Prvo radimo analizu da vidimo da li postojeći sajt uopšte može da rangira — ako ne može, reći ćemo ti to pre nego što uzmemo mesečni angažman.",
+      },
+      {
+        q: "Da li SEO uključuje pisanje tekstova?",
+        a: "Da, i to je obično najveći deo posla. Bez novog sadržaja tehnička optimizacija brzo dođe do svog plafona.",
+      },
+      {
+        q: "Radite li lokalni SEO i Google Biznis profil?",
+        a: "Da, kao zasebne usluge koje se često rade paralelno. Za firmu koja opslužuje jedan grad lokalni deo najčešće donosi prve upite, pre nego što organske pozicije uhvate zalet.",
+      },
+      {
+        q: "Mogu li da otkažem saradnju?",
+        a: "Možeš. Ne vezujemo klijente dugim ugovorima — sve što je urađeno ostaje na tvom sajtu i u tvojim nalozima.",
+      },
+      {
+        q: "Šta dobijam svakog meseca?",
+        a: "Urađen posao po dogovorenom obimu i izveštaj u kom piše šta je odrađeno, šta se pomerilo u Search Console-u i šta je plan za sledeći mesec.",
       },
     ],
     blogCategory: "seo",
   },
   {
     slug: "lokalni-seo",
+    seoTitle: "Lokalni SEO Beograd — vidljivost u Google mapama",
     title: "Lokalni SEO",
     navTitle: "Lokalni SEO",
+    group: "privuci",
     icon: "pin",
     tagline:
       "Da te nađu ljudi iz tvog grada, u trenutku kada im usluga zaista treba.",
@@ -298,8 +438,10 @@ export const services: Service[] = [
   },
   {
     slug: "google-biznis-profil",
+    seoTitle: "Google Biznis profil — otvaranje i optimizacija profila",
     title: "Otvaranje i pozicioniranje Google Biznis profila",
     navTitle: "Otvaranje Biznis profila",
+    group: "privuci",
     icon: "store",
     tagline:
       "Da tvoja firma postoji na Google mapama, sa tačnim podacima i pravim putem do vrata.",
@@ -390,8 +532,69 @@ export const services: Service[] = [
   },
   {
     slug: "izrada-web-sajtova",
+    h1: "Izrada web sajtova koji pretvaraju posetioce u klijente",
+    sections: [
+      {
+        title: "WordPress sajtovi za male i srednje firme",
+        body: [
+          "WordPress biramo zato što ostaje tvoj. Sajt živi na tvom hostingu i tvom domenu, sadržaj menjaš sam, a ako sutra prestanemo da radimo zajedno — ništa se ne gasi i ništa se ne plaća da bi nastavilo da radi.",
+          "Za firmu koja tek treba da postoji na internetu to je razlika između alata i pretplate. Gotove platforme naplaćuju mesečno da bi sajt bio dostupan, i ono što si na njima napravio teško seliš dalje.",
+          "Radimo u Elementor Pro i Bricks Builder-u, a izbor zavisi od projekta: Elementor kada je važno da ti bude lako da sam menjaš sadržaj, Bricks kada je prioritet brzina i čist kod.",
+        ],
+      },
+      {
+        title: "Koliko traje izrada sajta",
+        body: [
+          "Prezentacioni sajt do pet stranica radimo za jedan dan, kroz zasebnu uslugu — kada sajt jednostavno mora da postoji do sutra.",
+          "Standardna izrada traje dve do četiri nedelje. Najveći deo tog vremena nije rad nego usaglašavanje: tekstovi, fotografije i odobrenja. Ako materijal stigne na vreme, rok je kraći kraj tog raspona.",
+          "Prodavnica sa većim katalogom i integracijama traje duže i to ti kažemo u ponudi, ne usput. Rok koji ne možemo da ispunimo ne obećavamo.",
+        ],
+      },
+      {
+        title: "SEO je uključen od početka, ne dodat kasnije",
+        body: [
+          "Naknadna SEO optimizacija gotovog sajta je uvek skuplja od iste stvari urađene na vreme, jer često znači prepravku strukture — a struktura je ono što se najteže menja kad sajt već postoji.",
+          "Zato svaki sajt dobija strukturu stranica pravljenu prema tome kako ljudi pretražuju, naslove i meta opise, brzinu i Core Web Vitals, sitemap i prijavu na Search Console. To je temelj, ne kampanja.",
+          "Ono što dalje donosi pozicije — sadržaj, lokalni signali i autoritet — radi se kroz SEO optimizaciju, ali kreće sa sajta koji tome ne stoji na putu.",
+        ],
+      },
+    ],
+    pricing: {
+      title: "Šta utiče na cenu izrade sajta",
+      intro:
+        "Cena zavisi od obima, a obim se vidi tek posle kratkog razgovora. Umesto brojke koja ništa ne znači, evo od čega se ona sastavlja — da možeš i sam da proceniš gde spadaš.",
+      factors: [
+        {
+          title: "Broj stranica i količina sadržaja",
+          body: "Pet stranica i trideset stranica nisu isti posao — ni u izradi ni u pisanju tekstova.",
+        },
+        {
+          title: "Ko piše tekstove",
+          body: "Ako imaš gotove tekstove, posao je kraći. Ako ih pišemo mi, to je zaseban deo posla i najčešće ono što projekat najviše pomeri na bolje.",
+        },
+        {
+          title: "Dizajn po meri ili provereni obrazac",
+          body: "Prilagođen dizajn traži više vremena od strukture koju smo već dokazali na sličnim projektima.",
+        },
+        {
+          title: "Funkcionalnosti izvan prezentacije",
+          body: "Prodavnica, korisnički nalozi, rezervacije ili plaćanje karticom su zaseban sloj posla.",
+        },
+        {
+          title: "Integracije i migracija",
+          body: "Povezivanje sa postojećim sistemima ili prenos starog sajta sa zadržavanjem pozicija dodaju posao.",
+        },
+        {
+          title: "Fotografije i vizuelni identitet",
+          body: "Ako nema logotipa ni fotografija, i to se rešava — kroz zasebne usluge, da znaš šta plaćaš.",
+        },
+      ],
+      note: "Posle besplatne analize dobijaš pisanu ponudu sa fiksnom cenom i jasnim obimom. Ono što je dogovoreno ne doplaćuje se naknadno.",
+    },
+    seoTitle: "Izrada web sajtova Beograd — WordPress sajtovi za firme",
     title: "Izrada web sajtova",
     navTitle: "Izrada web sajtova",
+    group: "izgradi",
     icon: "layout",
     tagline:
       "Brz, lep i optimizovan sajt koji pretvara posetioce u upite — ne samo digitalna vizit karta.",
@@ -465,28 +668,46 @@ export const services: Service[] = [
     ],
     faq: [
       {
+        q: "Koliko košta izrada web sajta?",
+        a: "Zavisi od obima — broja stranica, toga ko piše tekstove i da li sajt ima funkcije izvan prezentacije. Posle kratkog razgovora dobijaš pisanu ponudu sa fiksnom cenom, a ne raspon koji se kasnije menja.",
+      },
+      {
         q: "Koliko traje izrada sajta?",
-        a: "Prezentacioni sajt srednje veličine obično 2–4 nedelje od trenutka kada imamo tekstove i materijale. Najveći uzrok kašnjenja skoro uvek je čekanje na sadržaj, zato pomažemo i sa tim.",
+        a: "Standardno dve do četiri nedelje. Prezentacioni sajt do pet stranica radimo i za jedan dan kroz zasebnu uslugu. Prodavnica sa većim katalogom traje duže i rok stoji u ponudi.",
       },
       {
         q: "Zašto WordPress, a ne neki „builder“ tipa Wix?",
-        a: "Zato što ostaješ vlasnik sajta i podataka, možeš ga preseliti kod bilo koga, imaš neuporedivo bolje SEO mogućnosti i nisi zaključan u mesečnu pretplatu platforme koja može promeniti pravila.",
+        a: "Zbog vlasništva i troška. WordPress sajt živi na tvom hostingu i može da se seli, prepravlja i nadograđuje. Kod zatvorenih platformi plaćaš mesečno da bi sajt uopšte radio, a ono što si napravio teško izvlačiš napolje.",
       },
       {
         q: "Elementor ili Bricks Builder?",
-        a: "Elementor Pro je zreliji i lakši za samostalno održavanje. Bricks daje čistiji kod i primetno bolju brzinu. Preporuka zavisi od toga koliko sam planiraš da menjaš sajt — o tome pričamo na početku.",
+        a: "Elementor kada je važno da sam lako menjaš sadržaj — rasprostranjeniji je i lakše nađeš pomoć. Bricks kada je prioritet brzina i čistiji kod. Preporuku dobijaš prema projektu, ne prema tome šta je nama zgodnije.",
+      },
+      {
+        q: "Da li je SEO uključen u izradu?",
+        a: "Tehnički temelj jeste: struktura, naslovi, meta opisi, brzina, sitemap i prijava na Search Console. Kontinuirani rad na pozicijama — sadržaj, lokalni signali, autoritet — je zasebna usluga.",
       },
       {
         q: "Da li dobijam sajt u vlasništvo?",
-        a: "Da, u potpunosti. Domen, hosting i sve pristupe vodimo na tvoje ime.",
+        a: "Da. Domen, hosting i svi nalozi glase na tebe, dobijaš pristupe i kratku obuku. Nisi zaključan kod nas.",
+      },
+      {
+        q: "Šta ako već imam sajt?",
+        a: "Onda prvo gledamo da li se isplati popraviti postojeći ili raditi novi. Ako je stari sajt zaradio pozicije, prenosimo ih — migracija bez pada u pretrazi je deo posla, ne dodatak.",
+      },
+      {
+        q: "Šta treba da pripremim pre početka?",
+        a: "Logo ako ga imaš, fotografije radova i osnovne podatke o firmi. Ako nemaš ništa od toga, reci odmah — i to se rešava, samo da ne bude iznenađenje na pola projekta.",
       },
     ],
     blogCategory: "wordpress",
   },
   {
     slug: "izrada-web-prodavnica",
+    seoTitle: "Izrada web prodavnica Beograd — WooCommerce i Shopify",
     title: "Izrada web prodavnica",
     navTitle: "Izrada web prodavnica",
+    group: "izgradi",
     icon: "cart",
     tagline:
       "WooCommerce i Shopify prodavnice napravljene oko jednog cilja — završene kupovine.",
@@ -578,6 +799,7 @@ export const services: Service[] = [
     slug: "izrada-logotipa",
     title: "Izrada logotipa i vizuelnog identiteta",
     navTitle: "Logo i vizuelni identitet",
+    group: "izgradi",
     icon: "pen",
     tagline:
       "Znak koji dobro izgleda i na tabli i na favikonu od šesnaest piksela.",
@@ -669,6 +891,7 @@ export const services: Service[] = [
     slug: "vizuali-canva",
     title: "Vizuali za biznis putem Canve",
     navTitle: "Vizuali za biznis",
+    group: "rasti",
     icon: "image",
     tagline:
       "Fotografije tvojih proizvoda pretvorene u objave za sve mreže, u tvojim bojama.",
@@ -755,6 +978,7 @@ export const services: Service[] = [
     slug: "video-reklame-ai",
     title: "Video za reklame pomoću AI alata",
     navTitle: "Video za reklame",
+    group: "rasti",
     icon: "video",
     tagline:
       "Kratki video za Reels i oglase, bez snimatelja, glumaca i tri dana na terenu.",
@@ -841,8 +1065,10 @@ export const services: Service[] = [
   },
   {
     slug: "google-ads",
+    seoTitle: "Google Ads Beograd — vođenje kampanja i optimizacija",
     title: "Google Ads",
     navTitle: "Google Ads",
+    group: "privuci",
     icon: "target",
     tagline:
       "Kupci koji već traže tvoj proizvod — na tvom sajtu već danas popodne.",
@@ -932,8 +1158,10 @@ export const services: Service[] = [
   },
   {
     slug: "facebook-instagram-oglasavanje",
+    seoTitle: "Facebook i Instagram oglašavanje — Meta Ads za firme",
     title: "Facebook i Instagram oglašavanje",
     navTitle: "Facebook i Instagram Ads",
+    group: "privuci",
     icon: "megaphone",
     tagline:
       "Dolazimo do kupaca pre nego što uopšte počnu da traže — i vraćamo one koji su otišli.",
@@ -1027,6 +1255,7 @@ export const services: Service[] = [
     slug: "merenje-i-analitika",
     title: "Postavljanje merenja: GTM, GA4 i Facebook pixel",
     navTitle: "Merenje i analitika",
+    group: "rasti",
     icon: "chart",
     tagline:
       "Da znaš odakle ti dolaze kupci, umesto da nagađaš gde odlazi budžet.",
@@ -1119,6 +1348,7 @@ export const services: Service[] = [
     slug: "oglasi-na-oglasnicima",
     title: "Postavljanje oglasa na 50 oglasnika",
     navTitle: "Oglasi na oglasnicima",
+    group: "privuci",
     icon: "list",
     tagline:
       "Tvoja ponuda na najmanje pedeset oglasnika i pet Facebook grupa, ručno postavljena.",
@@ -1207,6 +1437,7 @@ export const services: Service[] = [
     slug: "email-marketing",
     title: "Email marketing",
     navTitle: "Email marketing",
+    group: "rasti",
     icon: "mail",
     tagline:
       "Jedini kanal gde publika pripada tebi, a ne algoritmu koji se menja svakog kvartala.",
@@ -1298,6 +1529,7 @@ export const services: Service[] = [
     slug: "ai-automatizacija",
     title: "AI automatizacija",
     navTitle: "AI automatizacija",
+    group: "rasti",
     icon: "sparkles",
     tagline:
       "Poslovi koji ti danas jedu sate — chatbot, ponude, unos podataka — od sutra rade sami.",
@@ -1389,6 +1621,7 @@ export const services: Service[] = [
     slug: "odrzavanje-sajtova",
     title: "Održavanje i podrška",
     navTitle: "Održavanje sajtova",
+    group: "rasti",
     icon: "shield",
     tagline:
       "Ažuriranja, bekap, bezbednost i brzina — da sajt radi, a ti ne razmišljaš o njemu.",
@@ -1499,7 +1732,9 @@ export function getCoreServices(): Service[] {
     const service = getServiceBySlug(slug);
     // Namerno ruši build: greška u slug-u bi inače tiho izbacila uslugu sa početne.
     if (!service) {
-      throw new Error(`coreServiceSlugs: nepoznat slug „${slug}“ u services.ts`);
+      throw new Error(
+        `coreServiceSlugs: nepoznat slug „${slug}“ u services.ts`,
+      );
     }
     return service;
   });
@@ -1507,4 +1742,26 @@ export function getCoreServices(): Service[] {
 
 export function getServiceBySlug(slug: string): Service | undefined {
   return services.find((service) => service.slug === slug);
+}
+
+/**
+ * Usluge vezane za kategoriju bloga — čitalac teksta treba da ima gde da ode
+ * dalje osim na drugi tekst. Veza ide preko `blogCategory` na usluzi.
+ */
+export function getServicesByBlogCategory(category: CategorySlug): Service[] {
+  return services.filter((service) => service.blogCategory === category);
+}
+
+export function getServicesByGroup(group: ServiceGroup): Service[] {
+  return services.filter((service) => service.group === group);
+}
+
+/**
+ * Usluge poređane po grupama — koristi se na /usluge i u mega meniju.
+ * Prazne grupe se izbacuju da se ne renderuje prazan naslov.
+ */
+export function getGroupedServices() {
+  return serviceGroups
+    .map((group) => ({ ...group, services: getServicesByGroup(group.slug) }))
+    .filter((group) => group.services.length > 0);
 }

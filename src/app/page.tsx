@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { PostCard, ProjectCard, ServiceCard } from "@/components/cards";
+import { PostCard, ProjectCard } from "@/components/cards";
 import { CtaSection } from "@/components/cta-section";
+import { Faq } from "@/components/faq";
 import { Icon, type IconName } from "@/components/icons";
+import { JsonLd, faqSchema } from "@/components/json-ld";
 import { Reveal } from "@/components/reveal";
 import { TeamCards } from "@/components/team";
 import {
@@ -15,7 +17,7 @@ import {
 } from "@/components/ui";
 import { getAllPosts } from "@/lib/posts";
 import { getFeaturedProjects } from "@/lib/projects";
-import { getCoreServices } from "@/lib/services";
+import { getGroupedServices } from "@/lib/services";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -80,6 +82,75 @@ const processSteps: { icon: IconName; title: string; body: string }[] = [
   },
 ];
 
+/** Segmenti klijenata — posetilac treba da se prepozna pre nego što čita usluge. */
+const audiences: { icon: IconName; title: string; body: string }[] = [
+  {
+    icon: "pin",
+    title: "Lokalne firme",
+    body: "Da te ljudi u tvom gradu nađu u mapama onda kada traže baš tvoju uslugu.",
+  },
+  {
+    icon: "phone",
+    title: "Uslužne delatnosti",
+    body: "Majstori, prevoznici, servisi — sajt napravljen oko jednog poteza: poziva ili upita.",
+  },
+  {
+    icon: "cart",
+    title: "Online prodavnice",
+    body: "WooCommerce i Shopify prodavnice sa strukturom koja se širi kako raste katalog.",
+  },
+  {
+    icon: "users",
+    title: "Firme koje rade sa firmama",
+    body: "Ozbiljan sajt i SEO sistem koji donosi upite i kada niko ne gleda.",
+  },
+  {
+    icon: "bolt",
+    title: "Preduzetnici na početku",
+    body: "Od ideje do sajta na svom domenu — ponekad za jedan dan, kada mora brzo.",
+  },
+  {
+    icon: "search",
+    title: "Sajtovi koji ne donose ništa",
+    body: "Sajt postoji, ali nema upita. Prvo nađemo razlog, pa tek onda predlažemo posao.",
+  },
+];
+
+const homeFaq = [
+  {
+    q: "Koliko košta izrada sajta?",
+    a: "Zavisi od obima — broj stranica, da li ide prodavnica, koliko sadržaja treba napisati. Posle besplatne analize dobijaš pisanu ponudu sa jasnim obimom i fiksnom cenom, bez naknadnih doplata za ono što je dogovoreno.",
+  },
+  {
+    q: "Koliko traje izrada sajta?",
+    a: "Prezentacioni sajt do pet stranica radimo za jedan dan. Standardna izrada je 2–4 nedelje, a prodavnica sa većim katalogom duže — rok dobijaš u ponudi, ne usput.",
+  },
+  {
+    q: "Da li mogu da uzmem samo jednu uslugu?",
+    a: "Možeš. Ne prodajemo pakete po svaku cenu — na prvom razgovoru ćemo ti reći i šta ti se u ovom trenutku ne isplati.",
+  },
+  {
+    q: "Da li garantujete prvo mesto na Google-u?",
+    a: "Ne, i niko ozbiljan to ne radi. Garantujemo posao koji se vidi u Search Console-u: tehnički ispravan sajt, sadržaj za prave pretrage i merenje koje pokazuje šta se pomera.",
+  },
+  {
+    q: "Koliko treba da prođe do prvih rezultata?",
+    a: "Lokalni rezultati u mapama obično 4–8 nedelja. Organske pozicije za stranice usluga 3–6 meseci. Oglasi donose posetu odmah, ali ne popravljaju sajt koji ne konvertuje.",
+  },
+  {
+    q: "Čiji su domen, hosting i nalozi?",
+    a: "Tvoji. Sve glasi na tvoje ime, dobijaš pristupe i kratku obuku. Nisi zaključan kod nas i možeš otići kad hoćeš.",
+  },
+  {
+    q: "Radite li sa firmama van Beograda?",
+    a: "Da. Radimo sa klijentima iz cele Srbije, regiona i dijaspore — komunikacija ide online, a sastanci se zakazuju prema tvom rasporedu.",
+  },
+  {
+    q: "Šta dobijam besplatnom analizom?",
+    a: "Pošalji adresu sajta i u roku od 48 sati dobijaš pregled stanja i listu prioriteta za prva tri meseca. Bez obaveze i bez prodajnog pritiska.",
+  },
+];
+
 const marqueeItems = [
   "WordPress",
   "WooCommerce",
@@ -96,7 +167,7 @@ const marqueeItems = [
 ];
 
 export default function HomePage() {
-  const services = getCoreServices();
+  const groups = getGroupedServices();
   const projects = getFeaturedProjects();
   const posts = getAllPosts().slice(0, 3);
 
@@ -121,17 +192,17 @@ export default function HomePage() {
 
             <Reveal delay={80}>
               <h1 className="mt-7 text-balance text-4xl font-semibold leading-[1.08] tracking-[-0.03em] text-ink-900 sm:text-6xl md:text-[4.25rem]">
-                Sajtovi koji{" "}
-                <span className="text-gradient">povećavaju prodaju</span>, a ne
-                samo broj poseta.
+                Izrada sajtova, SEO i digitalni marketing koji{" "}
+                <span className="text-gradient">donose klijente</span>
               </h1>
             </Reveal>
 
             <Reveal delay={160}>
               <p className="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-8 text-ink-500 sm:text-xl sm:leading-9">
-                Nismo agencija sa tri odeljenja — dvoje smo ljudi sa deset
-                godina prakse i preko sto izrađenih sajtova. Radiš direktno sa
-                onima koji ti diraju sajt.
+                ZIM Digital je mali digitalni studio iz Beograda. Pravimo
+                WordPress i Shopify sajtove, radimo SEO, lokalni SEO i Google
+                Ads — da te firma nađe tamo gde te kupci već traže. Dvoje smo
+                ljudi, pa radiš direktno sa onima koji ti diraju sajt.
               </p>
             </Reveal>
 
@@ -146,12 +217,12 @@ export default function HomePage() {
                   Besplatna analiza sajta
                 </Button>
                 <Button
-                  href="/kontakt#zakazivanje"
+                  href="/portfolio"
                   variant="secondary"
                   size="lg"
                   className="w-full sm:w-auto"
                 >
-                  Zakaži konsultacije
+                  Pogledaj naše projekte
                 </Button>
               </div>
             </Reveal>
@@ -224,41 +295,93 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --------------------------------------------------------- USLUGE */}
-      <Section id="usluge">
+      {/* -------------------------------------------------- ZA KOGA RADIMO */}
+      <Section>
         <Container size="wide">
           <Reveal>
             <SectionHeading
-              eyebrow="Usluge"
-              title="Sve što ti treba da te ljudi nađu i da kupe"
-              description="Ovo je ono čime se najviše bavimo. Kreni od jedne stavke ili uzmi ceo paket — savet dobijaš prema tome šta ti se u ovom trenutku najviše isplati."
+              eyebrow="Za koga radimo"
+              title="Digitalna rešenja za firme koje žele više klijenata"
+              description="Ne radimo sa svima i ne pravimo sve. Ovo su situacije u kojima znamo tačno šta treba uraditi i kojim redosledom."
             />
           </Reveal>
 
           <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((service, index) => (
-              <Reveal key={service.slug} delay={index * 60}>
-                <ServiceCard service={service} />
+            {audiences.map((audience, index) => (
+              <Reveal key={audience.title} delay={index * 60}>
+                <div className="h-full rounded-3xl border border-ink-100 bg-white p-7 shadow-soft">
+                  <span className="inline-flex size-11 items-center justify-center rounded-2xl border border-brand-100 bg-brand-50/70 text-brand-600">
+                    <Icon name={audience.icon} className="size-5" />
+                  </span>
+                  <h3 className="mt-5 text-[1.0625rem] font-semibold tracking-tight text-ink-900">
+                    {audience.title}
+                  </h3>
+                  <p className="mt-2.5 text-pretty text-[0.9375rem] leading-7 text-ink-500">
+                    {audience.body}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* --------------------------------------------------------- USLUGE */}
+      <Section id="usluge" className="bg-ink-50/50">
+        <Container size="wide">
+          <Reveal>
+            <SectionHeading
+              eyebrow="Usluge"
+              title="Izgradi, privuci, rasti"
+              description="Šesnaest usluga, ali retko ti trebaju sve odjednom. Podeljene su po fazi u kojoj se biznis nalazi — kreni od one koja je tvoja."
+            />
+          </Reveal>
+
+          <div className="mt-14 grid gap-5 lg:grid-cols-3">
+            {groups.map((group, index) => (
+              <Reveal key={group.slug} delay={index * 80}>
+                <div className="flex h-full flex-col rounded-3xl border border-ink-100 bg-white p-7 shadow-soft">
+                  <span className="text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-brand-600">
+                    Faza {index + 1}
+                  </span>
+                  <h3 className="mt-3 text-2xl font-semibold tracking-[-0.02em] text-ink-900">
+                    {group.title}
+                  </h3>
+                  <p className="mt-2.5 text-pretty text-[0.9375rem] leading-7 text-ink-500">
+                    {group.description}
+                  </p>
+
+                  <ul className="mt-6 space-y-1 border-t border-ink-100 pt-5">
+                    {group.services.map((service) => (
+                      <li key={service.slug}>
+                        <Link
+                          href={`/usluge/${service.slug}`}
+                          className="group -mx-2 flex items-center gap-2.5 rounded-xl px-2 py-2 transition-colors hover:bg-ink-50"
+                        >
+                          <Icon
+                            name={service.icon}
+                            className="size-4 shrink-0 text-brand-500"
+                          />
+                          <span className="text-[0.9375rem] font-medium text-ink-800">
+                            {service.navTitle}
+                          </span>
+                          <Icon
+                            name="arrowRight"
+                            className="ml-auto size-4 shrink-0 text-ink-300 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-brand-500"
+                          />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </Reveal>
             ))}
           </div>
 
           <Reveal delay={120}>
             <div className="mt-12 text-center">
-              <p className="text-ink-500">
-                Radimo i lokalni SEO, logo i vizuelni identitet, web prodavnice,
-                Google i Facebook oglašavanje, merenje i analitiku, oglase na
-                oglasnicima, email marketing, AI automatizaciju i održavanje
-                sajtova.
-              </p>
-              <Button
-                href="/usluge"
-                variant="secondary"
-                size="lg"
-                arrow
-                className="mt-6"
-              >
-                Sve usluge
+              <Button href="/usluge" variant="secondary" size="lg" arrow>
+                Sve usluge sa detaljima
               </Button>
             </div>
           </Reveal>
@@ -451,7 +574,24 @@ export default function HomePage() {
         </Section>
       ) : null}
 
+      {/* ------------------------------------------------------------ FAQ */}
+      <Section className="bg-ink-50/50">
+        <Container size="narrow">
+          <Reveal>
+            <SectionHeading
+              eyebrow="Česta pitanja"
+              title="Ono što nas pitaju pre svake saradnje"
+            />
+          </Reveal>
+          <div className="mt-12">
+            <Faq items={homeFaq} />
+          </div>
+        </Container>
+      </Section>
+
       <CtaSection />
+
+      <JsonLd data={faqSchema(homeFaq)} />
     </>
   );
 }

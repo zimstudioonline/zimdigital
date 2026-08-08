@@ -94,7 +94,7 @@ export function SiteHeader() {
             {mainNav.map((item) => {
               const active = isActive(item.href);
 
-              if (!item.children) {
+              if (!item.groups) {
                 return (
                   <li key={item.href}>
                     <Link
@@ -146,35 +146,45 @@ export function SiteHeader() {
                   {/* Mega meni */}
                   <div
                     className={cn(
-                      "absolute left-1/2 top-full z-50 w-[46rem] -translate-x-1/2 pt-3 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                      // Fiksno i centrirano u odnosu na ekran, ne na dugme —
+                      // panel je širi od prostora levo od stavke „Usluge“, pa
+                      // bi centriran na dugme ispadao van levog ruba.
+                      "fixed left-1/2 top-16 z-50 w-[58rem] max-w-[calc(100vw-3rem)] -translate-x-1/2 pt-3 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] sm:top-18",
                       open
                         ? "pointer-events-auto translate-y-0 opacity-100"
                         : "pointer-events-none -translate-y-1 opacity-0",
                     )}
                   >
                     <div className="overflow-hidden rounded-3xl border border-ink-100 bg-white/95 shadow-lift backdrop-blur-xl">
-                      <div className="grid grid-cols-2 gap-1 p-3">
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.href}
-                            href={child.href}
-                            className="group flex gap-3 rounded-2xl p-3 transition-colors hover:bg-ink-50"
-                          >
-                            <span className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-xl border border-brand-100 bg-brand-50/70 text-brand-600 transition-colors group-hover:border-brand-200 group-hover:bg-brand-100/70">
-                              <Icon
-                                name={child.icon as IconName}
-                                className="size-[1.15rem]"
-                              />
-                            </span>
-                            <span className="min-w-0">
-                              <span className="block text-[0.9375rem] font-medium text-ink-900">
-                                {child.label}
-                              </span>
-                              <span className="mt-0.5 block text-[0.8125rem] leading-5 text-ink-500">
-                                {child.description}
-                              </span>
-                            </span>
-                          </Link>
+                      <div className="grid grid-cols-3 gap-x-2 p-3">
+                        {item.groups.map((group) => (
+                          <div key={group.label}>
+                            <Link
+                              href={group.href}
+                              className="block rounded-xl px-3 py-2 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-ink-400 transition-colors hover:text-brand-600"
+                            >
+                              {group.label}
+                            </Link>
+                            <div className="mt-0.5 space-y-0.5">
+                              {group.children.map((child) => (
+                                <Link
+                                  key={child.href}
+                                  href={child.href}
+                                  className="group flex items-center gap-2.5 rounded-2xl px-3 py-2 transition-colors hover:bg-ink-50"
+                                >
+                                  <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-xl border border-brand-100 bg-brand-50/70 text-brand-600 transition-colors group-hover:border-brand-200 group-hover:bg-brand-100/70">
+                                    <Icon
+                                      name={child.icon as IconName}
+                                      className="size-4"
+                                    />
+                                  </span>
+                                  <span className="min-w-0 text-[0.875rem] font-medium leading-5 text-ink-800">
+                                    {child.label}
+                                  </span>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
                         ))}
                       </div>
 
@@ -236,7 +246,7 @@ export function SiteHeader() {
         <nav className="px-5 pb-10 pt-4 sm:px-8" aria-label="Mobilna navigacija">
           <ul className="space-y-1">
             {mainNav.map((item) => {
-              if (!item.children) {
+              if (!item.groups) {
                 return (
                   <li key={item.href}>
                     <Link
@@ -293,22 +303,31 @@ export function SiteHeader() {
                     )}
                   >
                     <li className="min-h-0 overflow-hidden">
-                      <ul className="ml-4 space-y-0.5 border-l border-ink-100 py-1 pl-3">
-                        {item.children.map((child) => (
-                          <li key={child.href}>
-                            <Link
-                              href={child.href}
-                              className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-[0.9375rem] text-ink-600 transition-colors hover:bg-ink-50 hover:text-ink-900"
-                            >
-                              <Icon
-                                name={child.icon as IconName}
-                                className="size-[1.05rem] text-brand-500"
-                              />
-                              {child.label}
-                            </Link>
-                          </li>
+                      <div className="ml-4 border-l border-ink-100 py-1 pl-3">
+                        {item.groups.map((group) => (
+                          <div key={group.label} className="mb-2 last:mb-0">
+                            <span className="block px-3 py-1.5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-ink-400">
+                              {group.label}
+                            </span>
+                            <ul className="space-y-0.5">
+                              {group.children.map((child) => (
+                                <li key={child.href}>
+                                  <Link
+                                    href={child.href}
+                                    className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-[0.9375rem] text-ink-600 transition-colors hover:bg-ink-50 hover:text-ink-900"
+                                  >
+                                    <Icon
+                                      name={child.icon as IconName}
+                                      className="size-[1.05rem] text-brand-500"
+                                    />
+                                    {child.label}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         ))}
-                      </ul>
+                      </div>
                     </li>
                   </ul>
                 </li>

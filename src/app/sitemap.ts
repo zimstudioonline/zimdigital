@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { categories } from "@/lib/categories";
 import { getAllPosts } from "@/lib/posts";
+import { getCaseStudies } from "@/lib/projects";
 import { getAllServices } from "@/lib/services";
 import { site } from "@/lib/site";
 
@@ -27,6 +28,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }));
 
+  const caseStudyPages: MetadataRoute.Sitemap = getCaseStudies().map((project) => ({
+    url: `${site.url}/portfolio/${project.slug}`,
+    lastModified: now,
+    changeFrequency: "yearly",
+    priority: 0.7,
+  }));
+
   const categoryPages: MetadataRoute.Sitemap = categories.map((category) => ({
     url: `${site.url}/blog/kategorija/${category.slug}`,
     lastModified: now,
@@ -41,5 +49,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...servicePages, ...categoryPages, ...postPages];
+  return [
+    ...staticPages,
+    ...servicePages,
+    ...caseStudyPages,
+    ...categoryPages,
+    ...postPages,
+  ];
 }

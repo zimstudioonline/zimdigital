@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { PostCard } from "@/components/cards";
+import { PostCard, ProjectCard } from "@/components/cards";
 import { CtaSection } from "@/components/cta-section";
 import { Faq } from "@/components/faq";
 import { Icon } from "@/components/icons";
@@ -19,6 +19,7 @@ import {
 } from "@/components/ui";
 import { getCategory } from "@/lib/categories";
 import { getPostsByCategory } from "@/lib/posts";
+import { getProjectsByService } from "@/lib/projects";
 import { getAllServices, getServiceBySlug } from "@/lib/services";
 import { site } from "@/lib/site";
 
@@ -36,11 +37,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!service) return {};
 
   return {
-    title: service.title,
+    title: service.seoTitle ?? service.title,
     description: service.metaDescription,
     alternates: { canonical: `/usluge/${service.slug}` },
     openGraph: {
-      title: `${service.title} · ${site.name}`,
+      title: `${service.seoTitle ?? service.title} · ${site.name}`,
       description: service.metaDescription,
       url: `/usluge/${service.slug}`,
       type: "article",
@@ -54,6 +55,8 @@ export default async function ServicePage({ params }: Props) {
   if (!service) notFound();
 
   const others = getAllServices().filter((item) => item.slug !== service.slug);
+  // Najviše tri, da sekcija ostane dokaz a ne drugi portfolio
+  const relatedProjects = getProjectsByService(service.slug).slice(0, 3);
   const relatedPosts = service.blogCategory
     ? getPostsByCategory(service.blogCategory).slice(0, 3)
     : [];
@@ -71,7 +74,7 @@ export default async function ServicePage({ params }: Props) {
     <>
       <PageHero
         eyebrow="Usluga"
-        title={service.title}
+        title={service.h1 ?? service.title}
         description={service.tagline}
         breadcrumbs={crumbs}
       >
@@ -147,6 +150,74 @@ export default async function ServicePage({ params }: Props) {
         </Container>
       </Section>
 
+      {/* Dubinski blokovi — samo kod usluga koje ih imaju */}
+      {service.sections?.length ? (
+        <Section>
+          <Container size="narrow">
+            <div className="space-y-16">
+              {service.sections.map((section) => (
+                <Reveal key={section.title}>
+                  <div>
+                    <h2 className="text-balance text-2xl font-semibold tracking-[-0.02em] text-ink-900 sm:text-3xl">
+                      {section.title}
+                    </h2>
+                    <div className="mt-5 space-y-5">
+                      {section.body.map((paragraph) => (
+                        <p
+                          key={paragraph.slice(0, 32)}
+                          className="text-pretty text-[1.0625rem] leading-8 text-ink-600"
+                        >
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </Container>
+        </Section>
+      ) : null}
+
+      {/* Cena — iznosi ulaze tek kada budu potvrđeni, vidi services.ts */}
+      {service.pricing ? (
+        <Section className="bg-ink-50/50">
+          <Container size="narrow">
+            <Reveal>
+              <SectionHeading
+                align="left"
+                eyebrow="Cena"
+                title={service.pricing.title}
+                description={service.pricing.intro}
+              />
+            </Reveal>
+
+            <div className="mt-12 grid gap-4 sm:grid-cols-2">
+              {service.pricing.factors.map((factor, index) => (
+                <Reveal key={factor.title} delay={index * 60}>
+                  <div className="h-full rounded-3xl border border-ink-100 bg-white p-6 shadow-soft">
+                    <h3 className="text-[1rem] font-semibold tracking-tight text-ink-900">
+                      {factor.title}
+                    </h3>
+                    <p className="mt-2 text-pretty text-[0.9375rem] leading-7 text-ink-500">
+                      {factor.body}
+                    </p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+
+            {service.pricing.note ? (
+              <Reveal delay={120}>
+                <p className="mt-8 text-pretty text-[0.9375rem] leading-7 text-ink-500">
+                  {service.pricing.note}
+                </p>
+              </Reveal>
+            ) : null}
+          </Container>
+        </Section>
+      ) : null}
+
       {/* Kome je namenjeno + proces */}
       <Section>
         <Container size="wide">
@@ -207,6 +278,42 @@ export default async function ServicePage({ params }: Props) {
           </div>
         </Container>
       </Section>
+
+      {/* Projekti na kojima je ova usluga rađena */}
+      {relatedProjects.length > 0 ? (
+        <Section>
+          <Container size="wide">
+            <Reveal>
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+                <SectionHeading
+                  align="left"
+                  eyebrow="Naši projekti"
+                  title="Gde smo ovo već radili"
+                  className="max-w-xl"
+                />
+                <Link
+                  href="/portfolio"
+                  className="group inline-flex shrink-0 items-center gap-1.5 text-[0.9375rem] font-medium text-brand-600 hover:text-brand-700"
+                >
+                  Ceo portfolio
+                  <Icon
+                    name="arrowRight"
+                    className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </Link>
+              </div>
+            </Reveal>
+
+            <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {relatedProjects.map((project, index) => (
+                <Reveal key={project.slug} delay={index * 80}>
+                  <ProjectCard project={project} />
+                </Reveal>
+              ))}
+            </div>
+          </Container>
+        </Section>
+      ) : null}
 
       {/* FAQ */}
       <Section className="bg-ink-50/50">
@@ -283,7 +390,9 @@ export default async function ServicePage({ params }: Props) {
       </Section>
 
       <CtaSection
-        title={`Spreman za ${service.title.toLowerCase()}?`}
+        // Naziv usluge ostaje netaknut: menjanje veličine slova lomi se i na
+        // skraćenicama („SEO“) i na vlastitim imenima („Google Ads“).
+        title={`${service.title} — da krenemo?`}
         description="Pošalji nekoliko rečenica o svom biznisu i dobićeš konkretan predlog sa procenom cene i rokova — bez obaveze."
         primaryLabel="Zatraži ponudu"
       />

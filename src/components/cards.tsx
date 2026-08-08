@@ -123,17 +123,32 @@ export function ProjectCard({ project }: { project: Project }) {
           ))}
         </div>
 
-        {project.url ? (
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center gap-1.5 text-[0.9375rem] font-medium text-brand-600 hover:text-brand-700"
-          >
-            Poseti sajt
-            <Icon name="arrowUpRight" className="size-4" />
-          </a>
-        ) : null}
+        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
+          {project.caseStudy ? (
+            <Link
+              href={`/portfolio/${project.slug}`}
+              className="group/link inline-flex items-center gap-1.5 text-[0.9375rem] font-medium text-brand-600 hover:text-brand-700"
+            >
+              Pogledaj case study
+              <Icon
+                name="arrowRight"
+                className="size-4 transition-transform duration-300 group-hover/link:translate-x-1"
+              />
+            </Link>
+          ) : null}
+
+          {project.url ? (
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-[0.9375rem] font-medium text-ink-500 hover:text-ink-800"
+            >
+              Poseti sajt
+              <Icon name="arrowUpRight" className="size-4" />
+            </a>
+          ) : null}
+        </div>
       </div>
     </article>
   );
