@@ -9,7 +9,7 @@ export function TeamCards({ withBio = true }: { withBio?: boolean }) {
         <Reveal key={person.slug} delay={index * 90}>
           <article className="h-full overflow-hidden rounded-3xl border border-ink-100 bg-white shadow-soft">
             <div
-              className="relative aspect-4/3 overflow-hidden"
+              className="relative aspect-5/4 overflow-hidden"
               style={{
                 backgroundImage: `linear-gradient(135deg, ${person.accent[0]}, ${person.accent[1]})`,
               }}
@@ -20,8 +20,9 @@ export function TeamCards({ withBio = true }: { withBio?: boolean }) {
                   src={person.photo}
                   alt={person.name}
                   loading="lazy"
-                  // object-cover + object-top: portreti su uspravni, pa slika
-                  // popunjava ceo okvir, a kadriranje od vrha čuva glavu
+                  // Okvir je 5:4 jer su obe fotke 1402×1122 — tako se vide cele.
+                  // object-cover + object-top: ako neko kasnije doda uspravni
+                  // portret, popuniće okvir a kadriranje od vrha čuva glavu
                   className="size-full object-cover object-top"
                 />
               ) : (
