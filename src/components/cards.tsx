@@ -176,7 +176,9 @@ export function PostCard({
       <div
         className={
           featured
-            ? "relative aspect-16/10 bg-gradient-to-br from-brand-500 via-brand-600 to-accent-500 sm:aspect-auto"
+            ? // Na mobilnom isti 1.91:1 kao i ostale kartice — u dve kolone
+              // (sm+) visinu diktira tekst, pa tamo ide aspect-auto
+              "relative aspect-[1.91/1] overflow-hidden bg-gradient-to-br from-brand-500 via-brand-600 to-accent-500 sm:aspect-auto"
             : // 1.91:1 je odnos naslovnih banera (i standardni OG format), pa
               // object-cover ne seče ništa — slika staje cela i centrirana je
               "relative aspect-[1.91/1] overflow-hidden bg-gradient-to-br from-brand-500 via-brand-600 to-accent-500"
