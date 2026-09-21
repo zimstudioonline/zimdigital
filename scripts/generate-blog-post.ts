@@ -174,13 +174,12 @@ async function callClaude(prompt: string, system: string): Promise<GeneratedPost
     );
   }
 
-  if (!isGeneratedPost(publishCall.input)) {
-    throw new Error(
-      `Argumenti "${PUBLISH_TOOL_NAME}" ne odgovaraju očekivanom obliku: ${JSON.stringify(publishCall.input).slice(0, 500)}`,
-    );
+  const issues = describeGeneratedPostIssues(publishCall.input);
+  if (issues.length > 0) {
+    throw new Error(`Argumenti "${PUBLISH_TOOL_NAME}" ne odgovaraju očekivanom obliku:\n- ${issues.join("\n- ")}`);
   }
 
-  return publishCall.input;
+  return publishCall.input as GeneratedPost;
 }
 
 type GeneratedPost = {
@@ -190,17 +189,24 @@ type GeneratedPost = {
   body: string;
 };
 
-function isGeneratedPost(value: unknown): value is GeneratedPost {
-  if (!value || typeof value !== "object") return false;
+/** Vraća listu konkretnih problema (prazno = validno) — konkretnije od jednog bool-a za debug u CI logu. */
+function describeGeneratedPostIssues(value: unknown): string[] {
+  if (!value || typeof value !== "object") return ["input nije objekat"];
   const v = value as Record<string, unknown>;
-  return (
-    typeof v.title === "string" &&
-    typeof v.excerpt === "string" &&
-    typeof v.keywords === "string" &&
-    v.keywords.length > 0 &&
-    typeof v.body === "string" &&
-    v.body.length > 500
-  );
+  const issues: string[] = [];
+
+  for (const field of ["title", "excerpt", "keywords", "body"] as const) {
+    if (typeof v[field] !== "string") {
+      issues.push(`${field}: očekivan string, dobijeno ${typeof v[field]} (${JSON.stringify(v[field]).slice(0, 150)})`);
+    }
+  }
+  if (issues.length > 0) return issues;
+
+  if ((v.keywords as string).length === 0) issues.push("keywords: prazan string");
+  if ((v.body as string).length <= 500) {
+    issues.push(`body: predugačko/prekratko — ${(v.body as string).length} karaktera (očekivano > 500)`);
+  }
+  return issues;
 }
 
 async function main() {
