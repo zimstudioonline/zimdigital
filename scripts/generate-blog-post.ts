@@ -134,9 +134,9 @@ async function callClaude(prompt: string, system: string): Promise<GeneratedPost
                 description: "1-2 rečenice sa primarnom ključnom rečju, do ~160 karaktera.",
               },
               keywords: {
-                type: "array",
-                items: { type: "string" },
-                description: "Primarna ključna reč pa 3-5 sekundarnih.",
+                type: "string",
+                description:
+                  "Ključne reči odvojene zarezom, primarna prva: 'primarna ključna reč, sekundarna 1, sekundarna 2, ...'.",
               },
               body: {
                 type: "string",
@@ -186,7 +186,7 @@ async function callClaude(prompt: string, system: string): Promise<GeneratedPost
 type GeneratedPost = {
   title: string;
   excerpt: string;
-  keywords: string[];
+  keywords: string;
   body: string;
 };
 
@@ -196,8 +196,8 @@ function isGeneratedPost(value: unknown): value is GeneratedPost {
   return (
     typeof v.title === "string" &&
     typeof v.excerpt === "string" &&
-    Array.isArray(v.keywords) &&
-    v.keywords.every((k) => typeof k === "string") &&
+    typeof v.keywords === "string" &&
+    v.keywords.length > 0 &&
     typeof v.body === "string" &&
     v.body.length > 500
   );
@@ -266,6 +266,10 @@ Prođi kroz sve interne korake (izbor teme, pretraga konkurencije preko web_sear
   // pa mu se prelomi linije uklanjaju da ne pokvare oba formata.
   const title = parsed.title.replace(/\s*\r?\n\s*/g, " ").trim();
   const slug = uniqueSlug(slugify(title), existing);
+  const keywords = parsed.keywords
+    .split(",")
+    .map((k) => k.trim())
+    .filter(Boolean);
 
   console.log("Pravim cover sliku...");
   fs.mkdirSync(COVER_DIR, { recursive: true });
@@ -279,7 +283,7 @@ Prođi kroz sve interne korake (izbor teme, pretraga konkurencije preko web_sear
     category,
     author: AUTHOR,
     cover: `/blog/${slug}.webp`,
-    keywords: parsed.keywords,
+    keywords,
   };
 
   const file = matter.stringify(`\n${parsed.body.trim()}\n`, frontmatter);
