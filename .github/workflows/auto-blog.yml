@@ -44,12 +44,17 @@ jobs:
       - name: Commit i push
         env:
           POST_FILE: ${{ steps.generate.outputs.file }}
+          POST_COVER: ${{ steps.generate.outputs.cover }}
           POST_TITLE: ${{ steps.generate.outputs.title }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$POST_FILE"
+          git add "$POST_FILE" "$POST_COVER"
           git commit -m "Dodaj blog post: $POST_TITLE"
+          # main je mogao odmaći dok je job trajao (ručni push, drugi run) —
+          # rebase pa push, umesto da push padne na "fetch first".
+          git fetch origin main
+          git rebase origin/main
           git push
 
       - name: Deploy na Cloudflare
