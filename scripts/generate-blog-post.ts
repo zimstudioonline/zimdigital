@@ -80,14 +80,27 @@ function todayIso(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
-type AnthropicContentBlock = { type: string; text?: string };
+type AnthropicContentBlock = {
+  type: string;
+  text?: string;
+  name?: string;
+  input?: unknown;
+};
 type AnthropicResponse = {
   content: AnthropicContentBlock[];
   stop_reason?: string;
 };
 
-/** Vraća sve tekstualne blokove finalnog odgovora, po redosledu. */
-async function callClaude(prompt: string, system: string): Promise<string[]> {
+const PUBLISH_TOOL_NAME = "objavi_post";
+
+/**
+ * Traži strukturisan izlaz preko tool-use-a umesto da model sam formatira
+ * JSON kao tekst — API garantuje validnu strukturu (nema ručnog parsiranja
+ * slobodnog teksta, koje puca čim body sadrži npr. code-blok ili navodnik).
+ * web_search je server-side alat: Claude ga sam poziva po potrebi, rezultati
+ * se ugrađuju u isti odgovor, nema potrebe za petljom na klijentu.
+ */
+async function callClaude(prompt: string, system: string): Promise<GeneratedPost> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error("ANTHROPIC_API_KEY nije podešen.");
 
@@ -103,9 +116,37 @@ async function callClaude(prompt: string, system: string): Promise<string[]> {
       max_tokens: 16000,
       system,
       messages: [{ role: "user", content: prompt }],
-      // Server-side alat — Claude sam pretražuje i rezultate ugrađuje u
-      // odgovor, sve u okviru ovog jednog poziva (nema potrebe za petljom).
-      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 6 }],
+      tools: [
+        { type: "web_search_20250305", name: "web_search", max_uses: 6 },
+        {
+          name: PUBLISH_TOOL_NAME,
+          description:
+            "Objavi finalni blog post. Pozovi ovo TAČNO JEDNOM, tek kad su istraživanje, outline i pisanje potpuno završeni.",
+          input_schema: {
+            type: "object",
+            properties: {
+              title: {
+                type: "string",
+                description: "Naslov sa primarnom ključnom rečju, do ~70 karaktera.",
+              },
+              excerpt: {
+                type: "string",
+                description: "1-2 rečenice sa primarnom ključnom rečju, do ~160 karaktera.",
+              },
+              keywords: {
+                type: "array",
+                items: { type: "string" },
+                description: "Primarna ključna reč pa 3-5 sekundarnih.",
+              },
+              body: {
+                type: "string",
+                description: "Ceo tekst posta u Markdown formatu.",
+              },
+            },
+            required: ["title", "excerpt", "keywords", "body"],
+          },
+        },
+      ],
     }),
   });
 
@@ -120,45 +161,26 @@ async function callClaude(prompt: string, system: string): Promise<string[]> {
     throw new Error("Odgovor je odsečen na max_tokens — povećaj limit ili skrati zadatak.");
   }
 
-  const textBlocks = data.content
-    .filter((block) => block.type === "text" && block.text)
-    .map((block) => block.text!);
+  const publishCall = data.content.find(
+    (block) => block.type === "tool_use" && block.name === PUBLISH_TOOL_NAME,
+  );
 
-  if (textBlocks.length === 0) throw new Error("Odgovor nema tekstualni sadržaj.");
-  return textBlocks;
-}
-
-function tryParseJson(raw: string): unknown | null {
-  const candidates: string[] = [];
-
-  const fenced = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
-  if (fenced) candidates.push(fenced[1]);
-
-  candidates.push(raw.trim());
-
-  const firstBrace = raw.indexOf("{");
-  const lastBrace = raw.lastIndexOf("}");
-  if (firstBrace !== -1 && lastBrace > firstBrace) {
-    candidates.push(raw.slice(firstBrace, lastBrace + 1));
+  if (!publishCall) {
+    const summary = data.content
+      .map((block) => `[${block.type}] ${(block.text ?? "").slice(0, 300)}`)
+      .join("\n---\n");
+    throw new Error(
+      `Model nije pozvao "${PUBLISH_TOOL_NAME}" (stop_reason: ${data.stop_reason}).\n${summary}`,
+    );
   }
 
-  for (const candidate of candidates) {
-    try {
-      return JSON.parse(candidate.trim());
-    } catch {
-      // probaj sledećeg kandidata
-    }
+  if (!isGeneratedPost(publishCall.input)) {
+    throw new Error(
+      `Argumenti "${PUBLISH_TOOL_NAME}" ne odgovaraju očekivanom obliku: ${JSON.stringify(publishCall.input).slice(0, 500)}`,
+    );
   }
-  return null;
-}
 
-/** Model može poslati kratak komentar pre/posle JSON-a — proba se od poslednjeg bloka unazad. */
-function extractJson(textBlocks: string[]): unknown {
-  for (let i = textBlocks.length - 1; i >= 0; i--) {
-    const parsed = tryParseJson(textBlocks[i]);
-    if (parsed) return parsed;
-  }
-  throw new Error("Nijedan tekstualni blok nije sadržao validan JSON.");
+  return publishCall.input;
 }
 
 type GeneratedPost = {
@@ -228,29 +250,17 @@ Dozvoljeni interni linkovi za ovaj tekst:
 ${serviceLinks}
 - /kontakt — kontakt stranica
 
-Kad završiš ceo proces, tvoja POSLEDNJA poruka mora sadržati ISKLJUČIVO validan JSON (bez markdown ograde, bez ikakvog teksta pre ili posle), sa poljima:
-{
-  "title": "naslov teksta sa primarnom ključnom rečju, bez navodnika unutra, do ~70 karaktera",
-  "excerpt": "1-2 rečenice sa primarnom ključnom rečju, do ~160 karaktera, sažetak za listu postova",
-  "keywords": ["primarna ključna reč", "...3-5 sekundarnih ključnih fraza"],
-  "body": "ceo tekst u Markdown formatu, kao što je opisano gore"
-}`;
+Kad su istraživanje, outline i pisanje potpuno završeni, pozovi alat "${PUBLISH_TOOL_NAME}" TAČNO JEDNOM sa finalnim sadržajem. To je jedini način da završiš zadatak — ne piši finalni tekst kao običnu poruku.`;
 
   const prompt = `Napiši nov blog post za kategoriju "${categoryInfo.name}" (${categoryInfo.description}).
 
 Postojeći naslovi na blogu (izbegavaj ponavljanje teme):
 ${otherTitles || "(bloga još nema postova)"}
 
-Prođi kroz sve interne korake (izbor teme, pretraga konkurencije, outline, pisanje), a u poslednjoj poruci vrati samo JSON opisan u sistemskoj poruci.`;
+Prođi kroz sve interne korake (izbor teme, pretraga konkurencije preko web_search, outline, pisanje), pa pozovi "${PUBLISH_TOOL_NAME}" sa finalnim postom.`;
 
   console.log(`Generišem post za kategoriju "${category}"...`);
-  const textBlocks = await callClaude(prompt, system);
-  const parsed = extractJson(textBlocks);
-
-  if (!isGeneratedPost(parsed)) {
-    console.error("Neispravan odgovor modela:", textBlocks.at(-1)?.slice(0, 2000));
-    throw new Error("Model nije vratio očekivani JSON oblik posta.");
-  }
+  const parsed = await callClaude(prompt, system);
 
   // Naslov ide i u frontmatter i u GITHUB_OUTPUT (jedan red po vrednosti),
   // pa mu se prelomi linije uklanjaju da ne pokvare oba formata.
