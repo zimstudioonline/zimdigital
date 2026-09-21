@@ -1,0 +1,59 @@
+name: Automatski blog post
+
+on:
+  schedule:
+    # Ponedeljak, sreda, petak u 07:00 UTC (~09:00/10:00 po Beogradu)
+    - cron: "0 7 * * 1,3,5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-blog
+  cancel-in-progress: false
+
+jobs:
+  publish-post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generiši post
+        id: generate
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: npm run blog:generate
+
+      # Proverava da novi MDX zaista prođe build (nepoznata kategorija, slomljen
+      # frontmatter ili MDX/JSX sintaksa u telu teksta bi inače srušili CEO sajt
+      # tek na deploy-u). `next build` ne zahteva Cloudflare bindinge.
+      - name: Proveri da sajt i dalje builduje
+        run: npm run build
+
+      - name: Commit i push
+        env:
+          POST_FILE: ${{ steps.generate.outputs.file }}
+          POST_TITLE: ${{ steps.generate.outputs.title }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$POST_FILE"
+          git commit -m "Dodaj blog post: $POST_TITLE"
+          git push
+
+      - name: Deploy na Cloudflare
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npm run deploy
