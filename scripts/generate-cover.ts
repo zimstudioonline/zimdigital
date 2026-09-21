@@ -53,6 +53,73 @@ type CoverInput = {
   categoryName: string;
 };
 
+/** Isti znak kao src/components/logo.tsx (LogoMark) — rect + tačka + „z“. */
+function logoMarkSvg({
+  size,
+  squareFill,
+  markFill,
+}: {
+  size: number;
+  squareFill: string;
+  markFill: string;
+}) {
+  return {
+    type: "svg",
+    props: {
+      viewBox: "0 0 100 100",
+      width: size,
+      height: size,
+      style: { display: "flex" },
+      children: [
+        { type: "rect", props: { width: 100, height: 100, rx: 26, fill: squareFill } },
+        { type: "circle", props: { cx: 50, cy: 24, r: 7, fill: markFill } },
+        {
+          type: "path",
+          props: { d: "M26 36h48v14L47 68h27v14H26V68l27-18H26z", fill: markFill },
+        },
+      ],
+    },
+  };
+}
+
+/** Mek radijalni sjaj u uglu — isti princip kao bg-mesh utility na sajtu. */
+function glow({
+  top,
+  left,
+  right,
+  bottom,
+  size,
+  color,
+}: {
+  top?: number;
+  left?: number;
+  right?: number;
+  bottom?: number;
+  size: number;
+  color: string;
+}) {
+  const position: Record<string, number> = {};
+  if (top !== undefined) position.top = top;
+  if (left !== undefined) position.left = left;
+  if (right !== undefined) position.right = right;
+  if (bottom !== undefined) position.bottom = bottom;
+
+  return {
+    type: "div",
+    props: {
+      style: {
+        position: "absolute",
+        ...position,
+        width: size,
+        height: size,
+        display: "flex",
+        borderRadius: 9999,
+        background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
+      },
+    },
+  };
+}
+
 function buildTree({ title, categoryName }: CoverInput) {
   const titleFontSize = title.length > 60 ? 50 : title.length > 40 ? 58 : 68;
 
@@ -62,6 +129,7 @@ function buildTree({ title, categoryName }: CoverInput) {
       style: {
         width: WIDTH,
         height: HEIGHT,
+        position: "relative",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -70,6 +138,25 @@ function buildTree({ title, categoryName }: CoverInput) {
         fontFamily: "Inter",
       },
       children: [
+        // Pozadinski sloj — sjaj u uglovima + veliki bledi brand znak, sve
+        // ispod sadržaja (satori slaže decu po redosledu, kasniji je na vrhu).
+        glow({ top: -140, left: -100, size: 620, color: "rgba(129,140,248,0.35)" }),
+        glow({ bottom: -180, right: -120, size: 680, color: "rgba(56,189,248,0.3)" }),
+        {
+          type: "div",
+          props: {
+            style: {
+              position: "absolute",
+              display: "flex",
+              right: 40,
+              bottom: -60,
+              transform: "rotate(-10deg)",
+              opacity: 0.1,
+            },
+            children: logoMarkSvg({ size: 420, squareFill: "none", markFill: COLORS.white }),
+          },
+        },
+
         {
           type: "div",
           props: {
@@ -78,14 +165,27 @@ function buildTree({ title, categoryName }: CoverInput) {
               {
                 type: "div",
                 props: {
-                  style: {
-                    display: "flex",
-                    color: COLORS.white,
-                    fontSize: 30,
-                    fontWeight: 800,
-                    letterSpacing: -0.5,
-                  },
-                  children: "ZIM Digital",
+                  style: { display: "flex", alignItems: "center", gap: 14 },
+                  children: [
+                    logoMarkSvg({
+                      size: 40,
+                      squareFill: "rgba(255,255,255,0.18)",
+                      markFill: COLORS.white,
+                    }),
+                    {
+                      type: "div",
+                      props: {
+                        style: {
+                          display: "flex",
+                          color: COLORS.white,
+                          fontSize: 30,
+                          fontWeight: 800,
+                          letterSpacing: -0.5,
+                        },
+                        children: "ZIM Digital",
+                      },
+                    },
+                  ],
                 },
               },
               {
@@ -108,19 +208,42 @@ function buildTree({ title, categoryName }: CoverInput) {
             ],
           },
         },
+
         {
           type: "div",
           props: {
-            style: {
-              display: "flex",
-              color: COLORS.white,
-              fontSize: titleFontSize,
-              fontWeight: 800,
-              lineHeight: 1.15,
-              letterSpacing: -1,
-              maxWidth: 1320,
-            },
-            children: title,
+            style: { display: "flex", flexDirection: "column" },
+            children: [
+              {
+                type: "div",
+                props: {
+                  style: {
+                    display: "flex",
+                    width: 64,
+                    height: 5,
+                    borderRadius: 999,
+                    background: COLORS.white,
+                    opacity: 0.55,
+                    marginBottom: 28,
+                  },
+                },
+              },
+              {
+                type: "div",
+                props: {
+                  style: {
+                    display: "flex",
+                    color: COLORS.white,
+                    fontSize: titleFontSize,
+                    fontWeight: 800,
+                    lineHeight: 1.15,
+                    letterSpacing: -1,
+                    maxWidth: 1320,
+                  },
+                  children: title,
+                },
+              },
+            ],
           },
         },
       ],

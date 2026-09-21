@@ -2,9 +2,11 @@
  * Generiše jedan novi blog post preko Claude API-ja i upisuje ga u
  * content/blog/<slug>.mdx, u istom formatu kao ručno pisani postovi.
  *
- * Pokreće se iz .github/workflows/auto-blog.yml, 3x nedeljno. Kategorija se
- * bira rotacijom kroz categories.ts (ukupan broj postojećih postova % broj
- * kategorija), da se sadržaj ravnomerno rasporedi po svih 7 kategorija.
+ * Pokreće se iz .github/workflows/auto-blog.yml, 3x nedeljno. Tema se prvo
+ * uzima iz reda čekanja u topic-clusters.ts (kružno kroz klastere, redom
+ * unutar svakog) — napredak čuva scripts/topic-queue-state.json, commit-uje
+ * se uz svaki post. Kad je red čekanja prazan, vraća se na staro slobodno
+ * biranje teme uz rotaciju kroz sve kategorije (pickCategory).
  *
  * Model interno prolazi kroz istraživanje ključnih reči, pretragu 2 stvarna
  * konkurenta (web_search alat) i samoocenu outline-a pre pisanja — ali sve
@@ -18,12 +20,14 @@ import path from "node:path";
 import matter from "gray-matter";
 
 import { categories, type CategorySlug } from "../src/lib/categories";
-import { getServicesByBlogCategory } from "../src/lib/services";
+import { getServiceBySlug, getServicesByBlogCategory } from "../src/lib/services";
 import { site } from "../src/lib/site";
 import { generateCover } from "./generate-cover";
+import { clusters, type Cluster, type ClusterTopic } from "./topic-clusters";
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "blog");
 const COVER_DIR = path.join(process.cwd(), "public", "blog");
+const STATE_PATH = path.join(process.cwd(), "scripts", "topic-queue-state.json");
 const MODEL = "claude-sonnet-5";
 const AUTHOR = "ZIM Digital";
 
@@ -55,6 +59,43 @@ function readExistingPosts(): ExistingPost[] {
 function pickCategory(existing: ExistingPost[]): CategorySlug {
   const index = existing.length % categories.length;
   return categories[index].slug;
+}
+
+type QueueState = {
+  nextClusterIndex: number;
+  consumed: Record<string, number>;
+};
+
+function readQueueState(): QueueState {
+  if (!fs.existsSync(STATE_PATH)) return { nextClusterIndex: 0, consumed: {} };
+  try {
+    const raw = JSON.parse(fs.readFileSync(STATE_PATH, "utf8"));
+    return {
+      nextClusterIndex: Number(raw.nextClusterIndex) || 0,
+      consumed: typeof raw.consumed === "object" && raw.consumed ? raw.consumed : {},
+    };
+  } catch {
+    return { nextClusterIndex: 0, consumed: {} };
+  }
+}
+
+function writeQueueState(state: QueueState): void {
+  fs.writeFileSync(STATE_PATH, JSON.stringify(state, null, 2) + "\n", "utf8");
+}
+
+type QueuePick = { cluster: Cluster; clusterIndex: number; topic: ClusterTopic; topicIndex: number };
+
+/** Prva sledeća nepokrivena tema, tražena kružno kroz klastere od nextClusterIndex. Null kad je sve pokriveno. */
+function pickFromQueue(state: QueueState): QueuePick | null {
+  for (let i = 0; i < clusters.length; i++) {
+    const clusterIndex = (state.nextClusterIndex + i) % clusters.length;
+    const cluster = clusters[clusterIndex];
+    const consumedCount = state.consumed[cluster.id] ?? 0;
+    if (consumedCount < cluster.topics.length) {
+      return { cluster, clusterIndex, topic: cluster.topics[consumedCount], topicIndex: consumedCount };
+    }
+  }
+  return null;
 }
 
 function slugify(title: string): string {
@@ -211,14 +252,27 @@ function describeGeneratedPostIssues(value: unknown): string[] {
 
 async function main() {
   const existing = readExistingPosts();
-  const category = pickCategory(existing);
+  const state = readQueueState();
+  const queuePick = pickFromQueue(state);
+
+  const category: CategorySlug = queuePick ? queuePick.cluster.categorySlug : pickCategory(existing);
   const categoryInfo = categories.find((c) => c.slug === category)!;
-  const relatedServices = getServicesByBlogCategory(category);
+
+  const pillarSlugs = queuePick
+    ? [queuePick.topic.pillarServiceSlug ?? queuePick.cluster.pillarServiceSlug]
+    : getServicesByBlogCategory(category).map((s) => s.slug);
+  const relatedServices = pillarSlugs
+    .map((slug) => getServiceBySlug(slug))
+    .filter((s): s is NonNullable<typeof s> => Boolean(s));
 
   const otherTitles = existing.map((p) => `- (${p.category}) ${p.title}`).join("\n");
   const serviceLinks = relatedServices
     .map((s) => `- /usluge/${s.slug} — ${s.title}: ${s.tagline}`)
     .join("\n") || "- (nema direktno vezanih usluga za ovu kategoriju, koristi samo /kontakt)";
+
+  const topicInstruction = queuePick
+    ? `1. TEMA I KLJUČNE REČI — tema je ZADATA, ne biraj drugu: "${queuePick.topic.topic}". Na osnovu ove tačne fraze odredi prirodnu primarnu ključnu reč (može biti gotovo identična zadatoj temi) i 3-5 sekundarnih ključnih reči.`
+    : `1. IZBOR TEME I KLJUČNIH REČI — na osnovu kategorije i liste postojećih naslova (ispod), izaberi konkretnu podtemu koja još nije obrađena. Odredi JEDNU primarnu ključnu reč (frazu koju bi neko realno ukucao u Google) i 3-5 sekundarnih ključnih reči.`;
 
   const system = `Ti si Zvezdana iz ZIM Digital (${site.url}), digitalne agencije iz Beograda. Pišeš blog tekstove za sajt agencije, na srpskom jeziku, ekavicom, latinicom.
 
@@ -226,7 +280,7 @@ Ton: informativno-savetodavan, direktan, konkretan, bez marketinškog žargona i
 
 Pre pisanja, interno (ne prikazuj ovaj proces u odgovoru) prođi kroz sledeće korake:
 
-1. IZBOR TEME I KLJUČNIH REČI — na osnovu kategorije i liste postojećih naslova (ispod), izaberi konkretnu podtemu koja još nije obrađena. Odredi JEDNU primarnu ključnu reč (frazu koju bi neko realno ukucao u Google) i 3-5 sekundarnih ključnih reči.
+${topicInstruction}
 
 2. ISTRAŽIVANJE KONKURENCIJE — koristi web_search da pronađeš 2 stvarna članka/stranice koji se rangiraju za primarnu ključnu reč (po mogućstvu na srpskom tržištu). Za svaki zabeleži (samo interno) H2/H3 strukturu i oceni 1-10 po: 1) poklapanje sa search intentom, 2) pokrivenost podtema, 3) logički tok i dubina, 4) specifičnost za publiku malih firmi u Srbiji, 5) jasnoća naslova. Odluči šta preuzimaš kao inspiraciju za strukturu, a šta izbegavaš. NIKAD ne pominji, ne citiraj i ne linkuješ te konkurente u finalnom tekstu — ovo je samo tvoje interno istraživanje.
 
@@ -250,7 +304,7 @@ STROGA PRAVILA:
 - Linkuj SAMO interne putanje iz liste ispod, ili opšte poznate spoljne domene (npr. google.com, support.google.com) ako je zaista relevantno. NIKAD ne linkuj konkurente koje si pronašla pretragom.
 - NIKAD ne izmišljaj konkretne klijentske sajtove, imena firmi, brojke, cene ili testimonijale koje ne možeš da potvrdiš — piši opštu, tačnu stručnu perspektivu.
 - Naslov i excerpt MORAJU prirodno sadržati primarnu ključnu reč.
-- Ne ponavljaj temu koja je već obrađena u postojećim postovima.
+- Ako je zadata tema (ili tema koju sama biraš) bliska nekom postojećem postu, ne prepisuj ga — nađi uži, drugačiji fokus (drugo pitanje, drugi ugao) koji opravdava zaseban tekst.
 
 Dozvoljeni interni linkovi za ovaj tekst:
 ${serviceLinks}
@@ -258,14 +312,25 @@ ${serviceLinks}
 
 Kad su istraživanje, outline i pisanje potpuno završeni, pozovi alat "${PUBLISH_TOOL_NAME}" TAČNO JEDNOM sa finalnim sadržajem. To je jedini način da završiš zadatak — ne piši finalni tekst kao običnu poruku.`;
 
-  const prompt = `Napiši nov blog post za kategoriju "${categoryInfo.name}" (${categoryInfo.description}).
+  const prompt = queuePick
+    ? `Napiši nov blog post za kategoriju "${categoryInfo.name}" (${categoryInfo.description}) na zadatu temu: "${queuePick.topic.topic}" (deo klastera "${queuePick.cluster.name}").
+
+Postojeći naslovi na blogu (ako je neki blizak zadatoj temi, nađi drugačiji ugao — ne prepisuj):
+${otherTitles || "(bloga još nema postova)"}
+
+Prođi kroz sve interne korake (određivanje ključnih reči za ovu temu, pretraga konkurencije preko web_search, outline, pisanje), pa pozovi "${PUBLISH_TOOL_NAME}" sa finalnim postom.`
+    : `Napiši nov blog post za kategoriju "${categoryInfo.name}" (${categoryInfo.description}).
 
 Postojeći naslovi na blogu (izbegavaj ponavljanje teme):
 ${otherTitles || "(bloga još nema postova)"}
 
 Prođi kroz sve interne korake (izbor teme, pretraga konkurencije preko web_search, outline, pisanje), pa pozovi "${PUBLISH_TOOL_NAME}" sa finalnim postom.`;
 
-  console.log(`Generišem post za kategoriju "${category}"...`);
+  console.log(
+    queuePick
+      ? `Generišem post za klaster "${queuePick.cluster.name}", tema: "${queuePick.topic.topic}"...`
+      : `Generišem post za kategoriju "${category}" (slobodan izbor teme)...`,
+  );
   const parsed = await callClaude(prompt, system);
 
   // Naslov ide i u frontmatter i u GITHUB_OUTPUT (jedan red po vrednosti),
@@ -299,6 +364,17 @@ Prođi kroz sve interne korake (izbor teme, pretraga konkurencije preko web_sear
   console.log(`Napisano: content/blog/${slug}.mdx`);
   console.log(`Naslov: ${title}`);
 
+  // Pomeri red čekanja tek kad je post uspešno napisan — writeQueueState se
+  // uvek zove (i bez pomeraja) da fajl sigurno postoji za GITHUB_OUTPUT/commit.
+  if (queuePick) {
+    state.consumed[queuePick.cluster.id] = queuePick.topicIndex + 1;
+    state.nextClusterIndex = (queuePick.clusterIndex + 1) % clusters.length;
+    console.log(
+      `Red čekanja: klaster "${queuePick.cluster.name}" ${queuePick.topicIndex + 1}/${queuePick.cluster.topics.length}`,
+    );
+  }
+  writeQueueState(state);
+
   // Za GitHub Actions — sledeći koraci u workflow-u čitaju putanju odavde.
   const githubOutput = process.env.GITHUB_OUTPUT;
   if (githubOutput) {
@@ -306,6 +382,7 @@ Prođi kroz sve interne korake (izbor teme, pretraga konkurencije preko web_sear
     fs.appendFileSync(githubOutput, `title=${title}\n`);
     fs.appendFileSync(githubOutput, `file=content/blog/${slug}.mdx\n`);
     fs.appendFileSync(githubOutput, `cover=public/blog/${slug}.webp\n`);
+    fs.appendFileSync(githubOutput, `state=scripts/topic-queue-state.json\n`);
   }
 }
 

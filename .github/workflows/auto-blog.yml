@@ -45,11 +45,12 @@ jobs:
         env:
           POST_FILE: ${{ steps.generate.outputs.file }}
           POST_COVER: ${{ steps.generate.outputs.cover }}
+          POST_STATE: ${{ steps.generate.outputs.state }}
           POST_TITLE: ${{ steps.generate.outputs.title }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$POST_FILE" "$POST_COVER"
+          git add "$POST_FILE" "$POST_COVER" "$POST_STATE"
           git commit -m "Dodaj blog post: $POST_TITLE"
           # main je mogao odmaći dok je job trajao (ručni push, drugi run) —
           # rebase pa push, umesto da push padne na "fetch first".
