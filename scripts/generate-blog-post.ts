@@ -6,9 +6,11 @@
  * bira rotacijom kroz categories.ts (ukupan broj postojećih postova % broj
  * kategorija), da se sadržaj ravnomerno rasporedi po svih 7 kategorija.
  *
- * Traži se JSON odgovor (title, excerpt, keywords, body) da bi parsiranje
- * bilo pouzdano — frontmatter (datum, autor, kategorija) sastavlja skripta,
- * ne model.
+ * Model interno prolazi kroz istraživanje ključnih reči, pretragu 2 stvarna
+ * konkurenta (web_search alat) i samoocenu outline-a pre pisanja — ali sve
+ * to je interno rezonovanje; jedini vidljivi izlaz je JSON (title, excerpt,
+ * keywords, body), da bi parsiranje bilo pouzdano. Frontmatter (datum,
+ * autor, kategorija, cover) sastavlja skripta, ne model.
  */
 
 import fs from "node:fs";
@@ -18,8 +20,10 @@ import matter from "gray-matter";
 import { categories, type CategorySlug } from "../src/lib/categories";
 import { getServicesByBlogCategory } from "../src/lib/services";
 import { site } from "../src/lib/site";
+import { generateCover } from "./generate-cover";
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "blog");
+const COVER_DIR = path.join(process.cwd(), "public", "blog");
 const MODEL = "claude-sonnet-5";
 const AUTHOR = "ZIM Digital";
 
@@ -76,7 +80,14 @@ function todayIso(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
-async function callClaude(prompt: string, system: string): Promise<string> {
+type AnthropicContentBlock = { type: string; text?: string };
+type AnthropicResponse = {
+  content: AnthropicContentBlock[];
+  stop_reason?: string;
+};
+
+/** Vraća sve tekstualne blokove finalnog odgovora, po redosledu. */
+async function callClaude(prompt: string, system: string): Promise<string[]> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error("ANTHROPIC_API_KEY nije podešen.");
 
@@ -89,9 +100,12 @@ async function callClaude(prompt: string, system: string): Promise<string> {
     },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 8000,
+      max_tokens: 16000,
       system,
       messages: [{ role: "user", content: prompt }],
+      // Server-side alat — Claude sam pretražuje i rezultate ugrađuje u
+      // odgovor, sve u okviru ovog jednog poziva (nema potrebe za petljom).
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 6 }],
     }),
   });
 
@@ -100,16 +114,51 @@ async function callClaude(prompt: string, system: string): Promise<string> {
     throw new Error(`Anthropic API greška ${res.status}: ${text}`);
   }
 
-  const data = (await res.json()) as { content: { type: string; text?: string }[] };
-  const textBlock = data.content.find((block) => block.type === "text");
-  if (!textBlock?.text) throw new Error("Odgovor nema tekstualni sadržaj.");
-  return textBlock.text;
+  const data = (await res.json()) as AnthropicResponse;
+
+  if (data.stop_reason === "max_tokens") {
+    throw new Error("Odgovor je odsečen na max_tokens — povećaj limit ili skrati zadatak.");
+  }
+
+  const textBlocks = data.content
+    .filter((block) => block.type === "text" && block.text)
+    .map((block) => block.text!);
+
+  if (textBlocks.length === 0) throw new Error("Odgovor nema tekstualni sadržaj.");
+  return textBlocks;
 }
 
-function extractJson(raw: string): unknown {
+function tryParseJson(raw: string): unknown | null {
+  const candidates: string[] = [];
+
   const fenced = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
-  const jsonText = fenced ? fenced[1] : raw;
-  return JSON.parse(jsonText.trim());
+  if (fenced) candidates.push(fenced[1]);
+
+  candidates.push(raw.trim());
+
+  const firstBrace = raw.indexOf("{");
+  const lastBrace = raw.lastIndexOf("}");
+  if (firstBrace !== -1 && lastBrace > firstBrace) {
+    candidates.push(raw.slice(firstBrace, lastBrace + 1));
+  }
+
+  for (const candidate of candidates) {
+    try {
+      return JSON.parse(candidate.trim());
+    } catch {
+      // probaj sledećeg kandidata
+    }
+  }
+  return null;
+}
+
+/** Model može poslati kratak komentar pre/posle JSON-a — proba se od poslednjeg bloka unazad. */
+function extractJson(textBlocks: string[]): unknown {
+  for (let i = textBlocks.length - 1; i >= 0; i--) {
+    const parsed = tryParseJson(textBlocks[i]);
+    if (parsed) return parsed;
+  }
+  throw new Error("Nijedan tekstualni blok nije sadržao validan JSON.");
 }
 
 type GeneratedPost = {
@@ -143,34 +192,47 @@ async function main() {
     .map((s) => `- /usluge/${s.slug} — ${s.title}: ${s.tagline}`)
     .join("\n") || "- (nema direktno vezanih usluga za ovu kategoriju, koristi samo /kontakt)";
 
-  const system = `Ti si Zvezdana iz ZIM Digital (${site.url}), digitalne agencije iz Beograda. Pišeš blog tekstove za sajt agencije, na srpskom jeziku, latinicom.
+  const system = `Ti si Zvezdana iz ZIM Digital (${site.url}), digitalne agencije iz Beograda. Pišeš blog tekstove za sajt agencije, na srpskom jeziku, ekavicom, latinicom.
 
-Ton: direktan, konkretan, bez marketinškog žargona i praznih fraza. Piši kao da objašnjavaš vlasniku male firme koji nema vremena — svaki pasus mora nešto da nosi. Kratke rečenice. Bez emotikona, bez uzvičnika u nizu.
+Ton: informativno-savetodavan, direktan, konkretan, bez marketinškog žargona i praznih fraza. Piši kao da objašnjavaš vlasniku male firme koji nema vremena — svaki pasus mora nešto da nosi. Bez emotikona, bez uzvičnika u nizu.
 
-Struktura teksta (u "body" polju, kao Markdown):
-- Uvod od 2-4 rečenice BEZ naslova, koji uhvati pažnju konkretnim problemom ili situacijom.
-- 4-7 sekcija sa ## naslovima (## se broji kao H2, ne koristi H1).
-- Bar jedna lista (- ili numerisana).
-- Po potrebi ## podnaslov sa ### za pod-sekcije.
-- Poneki > blockquote sa jednom jakom, sažetom rečenicom (nije obavezno u svakom tekstu).
-- Poslednji pasus: kratak zaključak + poziv na akciju koji linkuje na 1-2 relevantne stranice usluga i na /kontakt, u formatu [tekst linka](/putanja).
+Pre pisanja, interno (ne prikazuj ovaj proces u odgovoru) prođi kroz sledeće korake:
 
-STROGA PRAVILA za "body":
+1. IZBOR TEME I KLJUČNIH REČI — na osnovu kategorije i liste postojećih naslova (ispod), izaberi konkretnu podtemu koja još nije obrađena. Odredi JEDNU primarnu ključnu reč (frazu koju bi neko realno ukucao u Google) i 3-5 sekundarnih ključnih reči.
+
+2. ISTRAŽIVANJE KONKURENCIJE — koristi web_search da pronađeš 2 stvarna članka/stranice koji se rangiraju za primarnu ključnu reč (po mogućstvu na srpskom tržištu). Za svaki zabeleži (samo interno) H2/H3 strukturu i oceni 1-10 po: 1) poklapanje sa search intentom, 2) pokrivenost podtema, 3) logički tok i dubina, 4) specifičnost za publiku malih firmi u Srbiji, 5) jasnoća naslova. Odluči šta preuzimaš kao inspiraciju za strukturu, a šta izbegavaš. NIKAD ne pominji, ne citiraj i ne linkuješ te konkurente u finalnom tekstu — ovo je samo tvoje interno istraživanje.
+
+3. OUTLINE — napravi sopstveni outline (H2/H3) na osnovu koraka 1-2, oceni ga istom rubrikom, popravi slabe tačke.
+
+4. PISANJE — napiši finalni tekst po pravilima ispod.
+
+PRAVILA STRUKTURE za "body" (Markdown):
+- Prva rečenica MORA direktno odgovoriti na search intent primarne ključne reči — nema H1 u telu teksta (naslov stranice se prikazuje odvojeno, iznad tela).
+- 4-7 sekcija sa ## naslovima (H2), po potrebi ### podnaslovi (H3). Numeracija u naslovima SAMO ako je heading zaista korak u nizu (npr. "1. Proveri...", "2. Podesi...") — nikad kao dekoracija.
+- Ispod SVAKOG naslova mora postojati sadržaj — nema praznih sekcija.
+- Svaki pasus je 2-5 rečenica, pravi pasus, ne jedna izolovana rečenica.
+- Liste (- ili numerisane) koristi štedljivo, samo kad nabrajanje ima više smisla od proze — daj prednost punim pasusima ispod podnaslova.
+- Poslednja sekcija pre zaključka: "## Najčešća pitanja" sa TAČNO 3 pitanja kao ### podnaslovi, svako sa jednim pasusom odgovora (2-4 rečenice).
+- Poslednji pasus posle FAQ-a: kratak zaključak + poziv na akciju koji linkuje na 1-2 relevantne stranice usluga i na /kontakt, u formatu [tekst linka](/putanja).
+- Dužina "body": 900-1400 reči.
+
+STROGA PRAVILA:
 - Samo čist Markdown: ##, ###, **bold**, - liste, 1. liste, > citat, [tekst](url). NIKAD sirovi HTML ili JSX tagovi (bez <div>, <span>, <br> i sl.).
 - Izbegavaj znakove < i { van code-blokova/linkova — tekst se parsira kao MDX i ti znakovi lome build ako nisu u ispravnom kontekstu.
-- Linkuj SAMO interne putanje iz liste ispod, ili opšte poznate spoljne domene (npr. google.com, support.google.com) ako je zaista relevantno. NIKAD ne izmišljaj konkretne klijentske sajtove, imena firmi, brojke, cene, ili testimonijale koje ne možeš da potvrdiš — piši opštu, tačnu stručnu perspektivu.
-- Ne ponavljaj temu koja je već obrađena u postojećim postovima (lista ispod) — nađi nov ugao ili podtemu.
-- Dužina "body": 800-1300 reči.
+- Linkuj SAMO interne putanje iz liste ispod, ili opšte poznate spoljne domene (npr. google.com, support.google.com) ako je zaista relevantno. NIKAD ne linkuj konkurente koje si pronašla pretragom.
+- NIKAD ne izmišljaj konkretne klijentske sajtove, imena firmi, brojke, cene ili testimonijale koje ne možeš da potvrdiš — piši opštu, tačnu stručnu perspektivu.
+- Naslov i excerpt MORAJU prirodno sadržati primarnu ključnu reč.
+- Ne ponavljaj temu koja je već obrađena u postojećim postovima.
 
 Dozvoljeni interni linkovi za ovaj tekst:
 ${serviceLinks}
 - /kontakt — kontakt stranica
 
-Vrati ISKLJUČIVO validan JSON (bez markdown ograde, bez komentara), sa poljima:
+Kad završiš ceo proces, tvoja POSLEDNJA poruka mora sadržati ISKLJUČIVO validan JSON (bez markdown ograde, bez ikakvog teksta pre ili posle), sa poljima:
 {
-  "title": "naslov teksta, bez navodnika unutra, do ~70 karaktera",
-  "excerpt": "1-2 rečenice, do ~160 karaktera, sažetak za listu postova",
-  "keywords": ["3 do 5 ključnih fraza na srpskom"],
+  "title": "naslov teksta sa primarnom ključnom rečju, bez navodnika unutra, do ~70 karaktera",
+  "excerpt": "1-2 rečenice sa primarnom ključnom rečju, do ~160 karaktera, sažetak za listu postova",
+  "keywords": ["primarna ključna reč", "...3-5 sekundarnih ključnih fraza"],
   "body": "ceo tekst u Markdown formatu, kao što je opisano gore"
 }`;
 
@@ -179,14 +241,14 @@ Vrati ISKLJUČIVO validan JSON (bez markdown ograde, bez komentara), sa poljima:
 Postojeći naslovi na blogu (izbegavaj ponavljanje teme):
 ${otherTitles || "(bloga još nema postova)"}
 
-Vrati samo JSON opisan u sistemskoj poruci.`;
+Prođi kroz sve interne korake (izbor teme, pretraga konkurencije, outline, pisanje), a u poslednjoj poruci vrati samo JSON opisan u sistemskoj poruci.`;
 
   console.log(`Generišem post za kategoriju "${category}"...`);
-  const raw = await callClaude(prompt, system);
-  const parsed = extractJson(raw);
+  const textBlocks = await callClaude(prompt, system);
+  const parsed = extractJson(textBlocks);
 
   if (!isGeneratedPost(parsed)) {
-    console.error("Neispravan odgovor modela:", raw.slice(0, 2000));
+    console.error("Neispravan odgovor modela:", textBlocks.at(-1)?.slice(0, 2000));
     throw new Error("Model nije vratio očekivani JSON oblik posta.");
   }
 
@@ -194,12 +256,19 @@ Vrati samo JSON opisan u sistemskoj poruci.`;
   // pa mu se prelomi linije uklanjaju da ne pokvare oba formata.
   const title = parsed.title.replace(/\s*\r?\n\s*/g, " ").trim();
   const slug = uniqueSlug(slugify(title), existing);
+
+  console.log("Pravim cover sliku...");
+  fs.mkdirSync(COVER_DIR, { recursive: true });
+  const coverBuffer = await generateCover({ title, categoryName: categoryInfo.name });
+  fs.writeFileSync(path.join(COVER_DIR, `${slug}.webp`), coverBuffer);
+
   const frontmatter = {
     title,
     excerpt: parsed.excerpt,
     date: todayIso(),
     category,
     author: AUTHOR,
+    cover: `/blog/${slug}.webp`,
     keywords: parsed.keywords,
   };
 
@@ -216,6 +285,7 @@ Vrati samo JSON opisan u sistemskoj poruci.`;
     fs.appendFileSync(githubOutput, `slug=${slug}\n`);
     fs.appendFileSync(githubOutput, `title=${title}\n`);
     fs.appendFileSync(githubOutput, `file=content/blog/${slug}.mdx\n`);
+    fs.appendFileSync(githubOutput, `cover=public/blog/${slug}.webp\n`);
   }
 }
 
