@@ -64,7 +64,7 @@ const koraci: { title: string; body: string }[] = [
 ];
 
 const zaTebe = [
-  "Imaš firmu ili uslužni biznis",
+  "Imaš firmu, uslužni biznis ili online prodavnicu",
   "Već imaš sajt, ali ne donosi dovoljno upita",
   "Nemaš sajt, a želiš da počneš",
   "Želiš više klijenata sa Google-a",
@@ -450,114 +450,35 @@ export default function PozivPage() {
               />
 
               <div className="relative mx-auto max-w-2xl">
-                <h2 className="text-balance text-3xl font-semibold tracking-[-0.02em] text-white sm:text-4xl md:text-[2.75rem] md:leading-[1.1]">
-                  Hajde da vidimo šta možemo da uradimo za tvoj biznis.
+                <span className="inline-flex items-center gap-3 text-sm font-medium tracking-[0.15em] text-white/40">
+                  <span className="h-px w-8 bg-white/20" aria-hidden />
+                  DA SKRATIM
+                  <span className="h-px w-8 bg-white/20" aria-hidden />
+                </span>
+
+                <h2 className="mt-5 text-balance text-3xl font-semibold tracking-[-0.02em] text-white sm:text-4xl md:text-[2.75rem] md:leading-[1.1]">
+                  Treba ti više klijenata sa interneta?
                 </h2>
                 <p className="mt-5 text-pretty text-lg leading-8 text-white/70">
-                  Bez obaveze, bez pritiska. Kažeš mi šta radiš i šta ti treba, ja kažem može li,
-                  koliko košta i za koliko je gotovo.
+                  <strong className="font-semibold text-white">Zakaži 30 minuta.</strong>{" "}
+                  Pogledaćemo gde si sada, šta bismo prvo rešili, koliko košta i koliko traje.
                 </p>
 
-                <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <div className="mt-9">
                   <BookingCta variant="inverse" />
-                  <Button
-                    href={`https://wa.me/${site.contact.whatsapp}`}
-                    external
-                    variant="onDark"
-                    size="lg"
-                    className="w-full sm:w-auto"
-                  >
-                    <Icon name="whatsapp" className="size-4" />
-                    Piši na WhatsApp
-                  </Button>
                 </div>
 
                 <p className="mt-6 text-sm text-white/45">
-                  Besplatno, bez obaveze, preko Google Meet-a · {site.contact.workingHours}
+                  30 min · Google Meet · besplatno · bez obaveze
+                </p>
+                <p className="mt-2 text-sm text-white/45">
+                  Potvrda i link za Google Meet stižu na mejl.
                 </p>
               </div>
             </div>
           </Reveal>
         </Container>
       </section>
-
-      {/* ------------------------------------------------------- DA SKRATIM */}
-      <Section>
-        <Container size="narrow">
-          <Reveal>
-            <div className="mx-auto max-w-xl text-center">
-              <div
-                className="mx-auto size-20 overflow-hidden rounded-full border-2 border-white shadow-lift"
-                style={{ backgroundImage: "linear-gradient(135deg, #6366f1, #06b6d4)" }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/milan-stanic.webp"
-                  alt="Milan Stanić"
-                  className="size-full object-cover object-top"
-                />
-              </div>
-
-              <span className="mt-5 inline-flex items-center gap-3 text-sm font-medium tracking-[0.15em] text-ink-400">
-                <span className="h-px w-8 bg-ink-300" aria-hidden />
-                DA SKRATIM
-                <span className="h-px w-8 bg-ink-300" aria-hidden />
-              </span>
-
-              <p className="mt-6 text-pretty text-lg leading-8 text-ink-500">
-                Sajt, SEO i oglasi za tvoju firmu. Radim ja, lično, uz Zvezdanu. Cenu i rok znaš
-                posle prvog razgovora. Ako se ne isplati, reći ću ti.
-              </p>
-
-              <h2 className="mt-6 text-balance text-3xl font-semibold tracking-[-0.02em] text-ink-900 sm:text-4xl">
-                Zakaži 30 minuta. Izađeš sa predlogom, cenom i rokom.
-              </h2>
-
-              <p className="mt-4 text-pretty text-ink-500">
-                Besplatno i bez obaveze — u terminu koji sam izabereš, preko Google Meet-a.
-              </p>
-
-              <ul className="mt-8 space-y-3 text-left text-[0.9375rem] leading-7 text-ink-600">
-                {[
-                  "Kažeš mi šta ti treba i šta te muči.",
-                  "Kažem ti šta može, koliko košta i do kad.",
-                  "Odlučiš kad ti odgovara. Niko te ne juri.",
-                ].map((line) => (
-                  <li key={line} className="flex items-start gap-2.5">
-                    <Icon name="check" className="mt-0.5 size-4 shrink-0 text-emerald-500" />
-                    {line}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-9">
-                <BookingCta />
-                <p className="mt-4 text-sm text-ink-400">
-                  Potvrda i link za Google Meet stižu na mejl.
-                </p>
-                <p className="mt-2 text-sm text-ink-400">
-                  Radije pišeš?{" "}
-                  <a
-                    href={`https://wa.me/${site.contact.whatsapp}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium text-brand-600 hover:text-brand-700"
-                  >
-                    Piši na WhatsApp
-                  </a>
-                  .
-                </p>
-              </div>
-
-              <p className="mt-12 text-pretty text-sm leading-7 text-ink-400">
-                P.S. Ako si stigao dovde, verovatno ti nešto od ovoga treba. Razgovor je 30
-                minuta. Posle njega znaš može li, koliko košta i do kad. A može i da ostane kako
-                je. Na tebi je.
-              </p>
-            </div>
-          </Reveal>
-        </Container>
-      </Section>
 
       <JsonLd
         data={breadcrumbSchema([
