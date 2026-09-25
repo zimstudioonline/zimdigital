@@ -18,8 +18,8 @@
   // Napomena: ako se ovde ikada pojavi `409 Conflict`, znači da u DNS-u
   // postoji ručno napravljen zapis na istom imenu — obriši ga pa ponovi.
   "routes": [
-    { "pattern": "zimdigital.rs", "custom_domain": true },
-    { "pattern": "www.zimdigital.rs", "custom_domain": true }
+    { "pattern": "zimdigital.rs", "custom_domain": true, "zone_name": "zimdigital.rs" },
+    { "pattern": "www.zimdigital.rs", "custom_domain": true, "zone_name": "zimdigital.rs" }
   ],
   // Adrese za kontakt formu — nisu tajne, pa stoje ovde.
   // Tajne (RESEND_API_KEY, TURNSTILE_SECRET_KEY) idu preko: npx wrangler secret put <IME>

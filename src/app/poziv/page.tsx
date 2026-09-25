@@ -255,6 +255,86 @@ export default function PozivPage() {
         </Container>
       </section>
 
+      {/* ------------------------------------------------------- DA SKRATIM */}
+      <Section>
+        <Container size="narrow">
+          <Reveal>
+            <div className="mx-auto max-w-xl text-center">
+              <div
+                className="mx-auto size-20 overflow-hidden rounded-full border-2 border-white shadow-lift"
+                style={{ backgroundImage: "linear-gradient(135deg, #6366f1, #06b6d4)" }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/milan-stanic.webp"
+                  alt="Milan Stanić"
+                  className="size-full object-cover object-top"
+                />
+              </div>
+
+              <span className="mt-5 inline-flex items-center gap-3 text-sm font-medium tracking-[0.15em] text-ink-400">
+                <span className="h-px w-8 bg-ink-300" aria-hidden />
+                DA SKRATIM
+                <span className="h-px w-8 bg-ink-300" aria-hidden />
+              </span>
+
+              <p className="mt-6 text-pretty text-lg leading-8 text-ink-500">
+                Sajt za tvoj zanat ili uslugu. Radim ja, lično, uz Zvezdanu. Cenu i rok znaš
+                posle prvog razgovora. Ako se ne isplati, reći ću ti.
+              </p>
+
+              <h2 className="mt-6 text-balance text-3xl font-semibold tracking-[-0.02em] text-ink-900 sm:text-4xl">
+                Zakaži 30 minuta. Izađeš sa predlogom, cenom i rokom.
+              </h2>
+
+              <p className="mt-4 text-pretty text-ink-500">
+                Besplatno i bez obaveze — u terminu koji sam izabereš, preko Google Meet-a.
+              </p>
+
+              <ul className="mt-8 space-y-3 text-left text-[0.9375rem] leading-7 text-ink-600">
+                {[
+                  "Kažeš mi šta ti treba i šta te muči.",
+                  "Kažem ti šta može, koliko košta i do kad.",
+                  "Odlučiš kad ti odgovara. Niko te ne juri.",
+                ].map((line) => (
+                  <li key={line} className="flex items-start gap-2.5">
+                    <Icon name="check" className="mt-0.5 size-4 shrink-0 text-emerald-500" />
+                    {line}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-9">
+                <Button href={BOOKING_URL} external size="lg" arrow>
+                  Hoću predlog, cenu i rok
+                </Button>
+                <p className="mt-4 text-sm text-ink-400">
+                  Potvrda i link za Google Meet stižu na mejl.
+                </p>
+                <p className="mt-2 text-sm text-ink-400">
+                  Radije pišeš?{" "}
+                  <a
+                    href={`https://wa.me/${site.contact.whatsapp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-brand-600 hover:text-brand-700"
+                  >
+                    Piši na WhatsApp
+                  </a>
+                  .
+                </p>
+              </div>
+
+              <p className="mt-12 text-pretty text-sm leading-7 text-ink-400">
+                P.S. Ako si stigao dovde, verovatno ti nešto od ovoga treba. Razgovor je 30
+                minuta. Posle njega znaš može li, koliko košta i do kad. A može i da ostane kako
+                je. Na tebi je.
+              </p>
+            </div>
+          </Reveal>
+        </Container>
+      </Section>
+
       <JsonLd
         data={breadcrumbSchema([
           { name: "Početna", url: "/" },

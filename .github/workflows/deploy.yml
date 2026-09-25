@@ -1,0 +1,33 @@
+name: Rucni deploy
+
+# Samo build + deploy, bez generisanja bloga — za slucajeve kad treba
+# objaviti izmene odmah, bez cekanja na sledeci auto-blog termin, ili kad
+# lokalni `wrangler login` nema pristup zoni (koristi CLOUDFLARE_API_TOKEN
+# koji je vec proveren da radi za ceo sajt, ukljucujuci custom domain).
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Deploy na Cloudflare
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npm run deploy
