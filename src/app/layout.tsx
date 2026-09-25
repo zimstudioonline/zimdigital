@@ -2,12 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { Analytics } from "@/components/analytics";
-import { BackToTop } from "@/components/back-to-top";
 import { CookieConsent } from "@/components/cookie-consent";
 import { JsonLd, organizationSchema, websiteSchema } from "@/components/json-ld";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
-import { WhatsAppButton } from "@/components/whatsapp-button";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -84,15 +80,8 @@ export default function RootLayout({
           Preskoči na sadržaj
         </a>
 
-        <SiteHeader />
+        {children}
 
-        <main id="sadrzaj" className="flex-1">
-          {children}
-        </main>
-
-        <SiteFooter />
-        <WhatsAppButton />
-        <BackToTop />
         <CookieConsent />
         <Analytics />
 

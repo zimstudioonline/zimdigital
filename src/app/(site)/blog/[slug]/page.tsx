@@ -59,7 +59,7 @@ export default async function PostPage({ params }: Props) {
 
   // MDX se uvozi kao komponenta; bundler pravi context modul za ceo folder.
   const { default: Content } = await import(
-    `../../../../content/blog/${slug}.mdx`
+    `../../../../../content/blog/${slug}.mdx`
   );
 
   const category = getCategory(post.category);
